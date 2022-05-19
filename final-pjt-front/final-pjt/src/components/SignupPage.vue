@@ -1,88 +1,99 @@
 <template>
-<div @click="signupClose" id="all-box">
-  <div id="signup-box">
-  <h2 style="margin-top: 50px;">SignUp</h2>
-    <div class="user-box">
-      <input type="text" name="" required="">
-      <label>Username</label>
-    </div>
-    <div class="user-box">
-      <input type="password" name="" required="">
-      <label>Password</label>
-    </div>
-    <div class="user-box">
-      <input type="password" name="" required="">
-      <label>Password Confirm</label>
-    </div>
-    <div class="user-box">
-      <input type="text" name="" required="">
-      <label>Phone Number</label>
-    </div>
-    <div id="genre-box">
-      <h6 class="choose-text">Choose your favorite genres</h6>
-      <div class="genre-buttons">
-        <button @click="onSelectGenre" class="raise" data-id="878">SF</button>
-        <button @click="onSelectGenre" class="raise" data-id="10770">TV영화</button>
-        <button @click="onSelectGenre" class="raise" data-id="10751">가족</button>
-        <button @click="onSelectGenre" class="raise" data-id="27">공포</button>
-        <button @click="onSelectGenre" class="raise" data-id="99">다큐멘터리</button>
-        <button @click="onSelectGenre" class="raise" data-id="18">드라마</button>
-        <button @click="onSelectGenre" class="raise" data-id="10749">로맨스</button>
-        <button @click="onSelectGenre" class="raise" data-id="12">모험</button>
-        <button @click="onSelectGenre" class="raise" data-id="9648">미스터리</button>
-        <button @click="onSelectGenre" class="raise" data-id="80">범죄</button>
-        <button @click="onSelectGenre" class="raise" data-id="37">서부</button>
-        <button @click="onSelectGenre" class="raise" data-id="53">스릴러</button>
-        <button @click="onSelectGenre" class="raise" data-id="16">애니메이션</button>
-        <button @click="onSelectGenre" class="raise" data-id="28">액션</button>
-        <button @click="onSelectGenre" class="raise" data-id="36">역사</button>
-        <button @click="onSelectGenre" class="raise" data-id="10402">음악</button>
-        <button @click="onSelectGenre" class="raise" data-id="10752">전쟁</button>
-        <button @click="onSelectGenre" class="raise" data-id="35">코미디</button>
-        <button @click="onSelectGenre" class="raise" data-id="14">판타지</button>
+  <div @click="signupClose" id="all-box">
+    <div id="signup-box">
+      <h2 style="margin-top: 50px;">SignUp</h2>
+      <div class="user-box">
+        <input v-model="credentials.username" type="text" name="" required />
+        <label>Username</label>
+      </div>
+      <div class="user-box">
+        <input v-model="credentials.password1" type="password" name="" required />
+        <label>Password</label>
+      </div>
+      <div class="user-box">
+        <input v-model="credentials.password2" type="password" name="" required />
+        <label>Password Confirm</label>
+      </div>
+      <div class="user-box">
+        <input type="text" name="" required />
+        <label>Phone Number</label>
+      </div>
+      <div id="genre-box">
+        <h6 class="choose-text">Choose your favorite genres</h6>
+        <div class="genre-buttons">
+          <button @click="onSelectGenre" class="raise" data-id="878">SF</button>
+          <button @click="onSelectGenre" class="raise" data-id="10770">TV영화</button>
+          <button @click="onSelectGenre" class="raise" data-id="10751">가족</button>
+          <button @click="onSelectGenre" class="raise" data-id="27">공포</button>
+          <button @click="onSelectGenre" class="raise" data-id="99">다큐멘터리</button>
+          <button @click="onSelectGenre" class="raise" data-id="18">드라마</button>
+          <button @click="onSelectGenre" class="raise" data-id="10749">로맨스</button>
+          <button @click="onSelectGenre" class="raise" data-id="12">모험</button>
+          <button @click="onSelectGenre" class="raise" data-id="9648">미스터리</button>
+          <button @click="onSelectGenre" class="raise" data-id="80">범죄</button>
+          <button @click="onSelectGenre" class="raise" data-id="37">서부</button>
+          <button @click="onSelectGenre" class="raise" data-id="53">스릴러</button>
+          <button @click="onSelectGenre" class="raise" data-id="16">애니메이션</button>
+          <button @click="onSelectGenre" class="raise" data-id="28">액션</button>
+          <button @click="onSelectGenre" class="raise" data-id="36">역사</button>
+          <button @click="onSelectGenre" class="raise" data-id="10402">음악</button>
+          <button @click="onSelectGenre" class="raise" data-id="10752">전쟁</button>
+          <button @click="onSelectGenre" class="raise" data-id="35">코미디</button>
+          <button @click="onSelectGenre" class="raise" data-id="14">판타지</button>
+        </div>
+      </div>
+      <div class="signup-buttons">
+        <button @click.prevent="signup(credentials)" class="btn authenticate-btn">Submit</button>
+        <button @click="onSignupClose" class="btn authenticate-btn">Back</button>
       </div>
     </div>
-    <div class="signup-buttons">
-      <button class="btn authenticate-btn">Submit</button>
-      <button @click="onSignupClose" class="btn authenticate-btn">Back</button>
-    </div>
   </div>
-</div>
 </template>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script>
-export default {
-  name: 'SignupPage',
-  data: function () {
-    return {
-      genres: [],
-    }
-  },
-  methods: {
-    onSignupClose: function () {
-      this.$emit('signup-close')
+  import { mapActions, mapGetters } from 'vuex'
+
+  export default {
+    name: 'SignupPage',
+    data: function () {
+      return {
+        genres: [],
+        credentials: {
+          username: '',
+          password1: '',
+          password2: '',
+        },
+      }
     },
-    signupClose: function (event) {
-      if (event.target.id === 'all-box') {
+    computed: {
+      ...mapGetters(['authError'])
+    },
+    methods: {
+      ...mapActions(['signup']),
+      onSignupClose: function () {
         this.$emit('signup-close')
+      },
+      signupClose: function (event) {
+        if (event.target.id === 'all-box') {
+          this.$emit('signup-close')
+        }
+      },
+      onSelectGenre: function (event) {
+        const genreId = event.target.dataset.id
+        const genreBtn = document.querySelector(`button[data-id="${genreId}"]`)
+        if (!genreBtn.classList.contains('raise-focus')) {
+          genreBtn.classList.add('raise-focus')
+          this.genres.push(genreId)
+        } else {
+          genreBtn.classList.remove('raise-focus')
+          const idx = this.genres.indexOf(genreId)
+          this.genres.splice(idx, 1)
+        }
+        console.log(this.genres)
       }
-    },
-    onSelectGenre: function (event) {
-      const genreId = event.target.dataset.id
-      const genreBtn = document.querySelector(`button[data-id="${genreId}"]`)
-      if (!genreBtn.classList.contains('raise-focus')) {
-        genreBtn.classList.add('raise-focus')
-        this.genres.push(genreId)
-      } else {
-        genreBtn.classList.remove('raise-focus')
-        const idx = this.genres.indexOf(genreId)
-        this.genres.splice(idx, 1)
-      }
-      console.log(this.genres)
     }
   }
-}
 </script>
 
 <style>

@@ -5,7 +5,7 @@
         <div id="authenticate-box">
           <transition name="fade">
             <!-- <account-error-list v-if="authError"></account-error-list> -->
-            <form @submit.prevent="login(credentials)" v-if="isLoginOpen" class="login-box">
+            <div v-if="isLoginOpen" class="login-box">
               <div class="user-box">
                 <input v-model="credentials.username" type="text" name="" required />
                 <label>Username</label>
@@ -15,10 +15,10 @@
                 <label>Password</label>
               </div>
               <div class="login-buttons">
-                <button class="btn authenticate-btn submit">Submit</button>
+                <button @click.prevent="login(credentials)" class="btn authenticate-btn">Submit</button>
                 <button @click="onLoginOpen" class="btn authenticate-btn">Back</button>
               </div>
-            </form>
+            </div>
           </transition>
           <transition name="fade">
               <div v-if="!isLoginOpen" class="not-login-Box">
