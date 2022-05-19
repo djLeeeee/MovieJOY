@@ -19,7 +19,8 @@
                 <button @click="onLoginOpen" class="btn authenticate-btn">Back</button>
               </div>
             </form>
-            <transition name="fade">
+          </transition>
+          <transition name="fade">
               <div v-if="!isLoginOpen" class="not-login-Box">
                 <div class="wrapper">
                   <h1 class="typing-message">Find the movie you want.</h1>
@@ -29,15 +30,14 @@
                   <button @click="onSignupOpen" class="btn authenticate-btn">Signup</button>
                 </div>
               </div>
-            </transition>  
-          </transition>    
+            </transition>      
         </div>
       </div>
-      <transition name="fade">
-        <div v-if="isSignupOpen" id="signup-box-flex">
-          <SignupPage @signup-close="onSignupOpen" />
-        </div>
-      </transition>
+    </transition>
+    <transition name="fade">
+      <div v-if="isSignupOpen" id="signup-box-flex">
+        <SignupPage @signup-close="onSignupOpen" />
+      </div>
     </transition>
   </div>
 </template>
