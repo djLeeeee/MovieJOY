@@ -51,7 +51,7 @@
       </div>
       <div class="signup-buttons">
         <button @click="signup(credentials), moveToTop()" class="btn authenticate-btn">Submit</button>
-        <button @click="onSignupClose(), clearErrorList()" class="btn authenticate-btn">Back</button>
+        <button @click="onSignupClose()" class="btn authenticate-btn">Back</button>
       </div>
     </div>
   </div>
@@ -77,7 +77,7 @@
       ...mapGetters(['signupAuthError'])
     },
     methods: {
-      ...mapActions(['signup', 'clearErrorList']),
+      ...mapActions(['signup']),
       onSignupClose: function () {
         this.$emit('signup-close')
       },

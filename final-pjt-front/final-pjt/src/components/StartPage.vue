@@ -10,7 +10,7 @@
                 <label>Username</label>
               </div>
               <div class="user-box">
-                <input v-model="credentials.password" type="password" name="" required />
+                <input @keypress.enter="login(credentials)" v-model="credentials.password" type="password" name="" required />
                 <label>Password</label>
               </div>
               <div class="login-buttons">
@@ -42,7 +42,7 @@
     </transition>
     <transition name="fade">
       <div v-if="isSignupOpen" id="signup-box-flex">
-        <SignupPage @signup-close="onSignupOpen" />
+        <SignupPage @signup-close="onSignupOpen(), clearErrorList()" />
       </div>
     </transition>
   </div>
