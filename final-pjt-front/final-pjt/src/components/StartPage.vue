@@ -1,5 +1,4 @@
 <template>
-  
   <div id="main-box">
     <transition name="fade">
     <div v-if="!isSignupOpen" id="authenticate-box-flex">
@@ -39,187 +38,192 @@
         </div>
       </transition>
     </transition>
-
-    </div>
-  
+  </div>
 </template>
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
-import SignupPage from "./SignupPage.vue"
+  import SignupPage from "./SignupPage.vue"
+  import { mapActions, mapGetters } from 'vuex'
 
-export default {
-  name: 'StartPage',
-  components: {
-    SignupPage,
-  },
-  data: function () {
-    return {
-      isLoginOpen: false,
-      isSignupOpen: false,
-    }
-  },
-  methods: {
-    onLoginOpen: function () {
-      this.isLoginOpen = !this.isLoginOpen
+  export default {
+    name: 'StartPage',
+    components: {
+      SignupPage,
     },
-    onSignupOpen: function () {
-      this.isSignupOpen = !this.isSignupOpen
+    data: function () {
+      return {
+        isLoginOpen: false,
+        isSignupOpen: false,
+        credentials: {
+          username: '',
+          password: '',
+        },
+      }
+    },
+    computed: {
+      ...mapGetters(['authError'])
+    },
+    methods: {
+      ...mapActions(['login']),
+      onLoginOpen: function () {
+        this.isLoginOpen = !this.isLoginOpen
+      },
+      onSignupOpen: function () {
+        this.isSignupOpen = !this.isSignupOpen
+      }
     }
   }
-}
-
-
 </script>
 
 <style>
-#main-box {
-  background-image: url('@/assets/main_dark.jpg');
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  width: 100%;
-  object-fit: fill;
-  height: 55rem;
-  position: absolute;
-  font-family: monospace;
-}
-
-#authenticate-box-flex {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  color: white;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  position: absolute;
-}
-
-#signup-box-flex {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-items: center;
-  position: relative;
-}
-
-#authenticate-box {
-  width: 100%;
-  display: flex;
-  height: 20rem;
-  flex-direction: column;
-  align-items: flex-start;
-  background-color: rgba(0, 0, 0, 0.459);
-  justify-content: center;
-}
-
-.ahthenticate-btn-box {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.authenticate-btn {
-  text-decoration: none;
-  color: white;
-  font-size: 1.5rem;
-  border: none;
-}
-
-.authenticate-btn:hover {
-  transform: scale(1.1);
-  /* background-color: rgba(255, 255, 255, 0.329); */
-  color: #00d8e4;
-}
-
-.authenticate-btn:active {
-  color: #00d8e4;
-}
-
-.wrapper {
-  /*This part is important for centering*/
-  display: grid;
-  place-items: left;
-  margin-left: 2rem;
-}
-
-.typing-message {
-  width: 100%;
-  animation: typing 2s steps(22), blink .5s step-end infinite alternate;
-  white-space: nowrap;
-  overflow: hidden;
-  border-right: 3px solid;
-  font-family: monospace;
-  font-size: 2.5em;
-}
-
-@keyframes typing {
-  from {
-    width: 0;
+  #main-box {
+    background-image: url('@/assets/main_dark.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    width: 100%;
+    object-fit: fill;
+    height: 55rem;
+    position: absolute;
+    font-family: monospace;
   }
-}
-    
-@keyframes blink {
-  50% {
-    border-color: transparent;
+
+  #authenticate-box-flex {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    color: white;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: absolute;
   }
-}
 
-.login-box {
-  position: absolute;
-}
+  #signup-box-flex {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-items: center;
+    position: relative;
+  }
 
-.login-box .user-box {
-  position: relative;
-  margin-left: 2rem;
-}
+  #authenticate-box {
+    width: 100%;
+    display: flex;
+    height: 20rem;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.459);
+    justify-content: center;
+  }
 
-.login-box .user-box input {
-  width: 100%;
-  padding: 10px 0;
-  font-size: 1.5rem;
-  color: #fff;
-  margin-bottom: 30px;
-  border: none;
-  border-bottom: 1px solid #fff;
-  outline: none;
-  background: transparent;
-}
+  .ahthenticate-btn-box {
+    display: flex;
+    justify-content: flex-start;
+  }
 
-.login-box .user-box label {
-  position: absolute;
-  top:0;
-  left: 0;
-  padding: 10px 0;
-  font-size: 1.5rem;
-  color: #fff;
-  pointer-events: none;
-  transition: .5s;
-}
+  .authenticate-btn {
+    text-decoration: none;
+    color: white;
+    font-size: 1.5rem;
+    border: none;
+  }
 
-.login-box .user-box input:focus ~ label,
-.login-box .user-box input:valid ~ label {
-  top: -20px;
-  left: 0;
-  color: #00d8e4;
-  font-size: 1rem;
-}
+  .authenticate-btn:hover {
+    transform: scale(1.1);
+    /* background-color: rgba(255, 255, 255, 0.329); */
+    color: #00d8e4;
+  }
 
-.login-buttons {
-  display: flex;
-  justify-content: flex-start;
-  margin-left: 1rem;
-  font-size: 1.5rem;
-}
+  .authenticate-btn:active {
+    color: #00d8e4;
+  }
 
-.fade-enter-active {
-  transition: opacity .5s;
-  transition-delay: .5s;
-}
-.fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
+  .wrapper {
+    /*This part is important for centering*/
+    display: grid;
+    place-items: left;
+    margin-left: 2rem;
+  }
+
+  .typing-message {
+    width: 100%;
+    animation: typing 2s steps(22), blink .5s step-end infinite alternate;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid;
+    font-family: monospace;
+    font-size: 2.5em;
+  }
+
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+  }
+      
+  @keyframes blink {
+    50% {
+      border-color: transparent;
+    }
+  }
+
+  .login-box {
+    position: absolute;
+  }
+
+  .login-box .user-box {
+    position: relative;
+    margin-left: 2rem;
+  }
+
+  .login-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.5rem;
+    color: #fff;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+  }
+
+  .login-box .user-box label {
+    position: absolute;
+    top:0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 1.5rem;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+  }
+
+  .login-box .user-box input:focus ~ label,
+  .login-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #00d8e4;
+    font-size: 1rem;
+  }
+
+  .login-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .fade-enter-active {
+    transition: opacity .5s;
+    transition-delay: .5s;
+  }
+  .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
 </style>

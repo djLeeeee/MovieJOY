@@ -48,7 +48,7 @@ export default {
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
-          console.log(state.currentUser)
+          console.log('Login Successed!')
           // router.push({ name: 'articles' })
         })
         .catch(err => {
