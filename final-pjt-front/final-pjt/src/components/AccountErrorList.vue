@@ -1,6 +1,6 @@
 <template>
   <div class="account-error-list">
-    <p v-for="(errors, field) in authError" :key="field">
+    <p v-for="(errors, field) in loginAuthError" :key="field">
       {{ field }}
       <ul>
         <li v-for="(error, idx) in errors" :key="idx">
@@ -18,7 +18,7 @@
   export default {
     name: 'AccountErrorList',
     computed: {
-      ...mapGetters(['authError'])
+      ...mapGetters(['loginAuthError'])
     },
   }
 </script>

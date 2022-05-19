@@ -1,6 +1,5 @@
 <template>
   <div id="main-box">
-    <account-error-list v-if="authError"></account-error-list>
     <transition name="fade">
       <div v-if="!isSignupOpen" id="authenticate-box-flex">
         <div id="authenticate-box">
@@ -16,14 +15,21 @@
               </div>
               <div class="login-buttons">
                 <button @click.prevent="login(credentials)" class="btn authenticate-btn">Submit</button>
-                <button @click="onLoginOpen" class="btn authenticate-btn">Back</button>
+                <button @click="onLoginOpen(), clearErrorList()" class="btn authenticate-btn">Back</button>
+              </div>
+              <div class="login-error-box" v-if="loginAuthError">
+                <div v-for="(errors, field) in loginAuthError" :key="field">
+                  <p v-for="(error, idx) in errors" :key="idx">
+                    {{ error }}
+                  </p>
+                </div>
               </div>
             </div>
           </transition>
           <transition name="fade">
               <div v-if="!isLoginOpen" class="not-login-Box">
                 <div class="wrapper">
-                  <h1 class="typing-message">Find the movie you want.</h1>
+                  <h1 class="typing-message">Find the movie U want.</h1>
                 </div>
                 <div class="ahthenticate-btn-box">
                   <button @click="onLoginOpen" class="btn authenticate-btn" style="margin-left: 1.5rem">Login</button>
@@ -65,12 +71,14 @@
       }
     },
     computed: {
-      ...mapGetters(['authError'])
+      ...mapGetters(['loginAuthError'])
     },
     methods: {
-      ...mapActions(['login']),
+      ...mapActions(['login', 'clearErrorList']),
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
+        this.credentials.username = ''
+        this.credentials.password = ''
       },
       onSignupOpen: function () {
         this.isSignupOpen = !this.isSignupOpen
@@ -80,6 +88,13 @@
 </script>
 
 <style>
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
   #main-box {
     background-image: url('@/assets/main_dark.jpg');
     background-size: 100% 100%;
@@ -88,7 +103,7 @@
     object-fit: fill;
     height: 55rem;
     position: absolute;
-    font-family: monospace;
+    font-family: 'GmarketSansMedium'
   }
 
   #authenticate-box-flex {
@@ -128,7 +143,7 @@
   .authenticate-btn {
     text-decoration: none;
     color: white;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     border: none;
   }
 
@@ -155,8 +170,7 @@
     white-space: nowrap;
     overflow: hidden;
     border-right: 3px solid;
-    font-family: monospace;
-    font-size: 2.5em;
+    font-size: 2.3em;
   }
 
   @keyframes typing {
@@ -215,6 +229,7 @@
     display: flex;
     justify-content: flex-start;
     margin-left: 1rem;
+    margin-top: 2rem;
     font-size: 1.5rem;
   }
 
@@ -228,5 +243,13 @@
   .fade-enter,
   .fade-leave-to {
     opacity: 0;
+  }
+
+  .login-error-box {
+    margin-left: 2rem;
+    text-align: start;
+    width: 30rem;
+    position: absolute;
+    top: 170px
   }
 </style>
