@@ -1,10 +1,10 @@
 <template>
   <div id="main-box">
+    <account-error-list v-if="authError"></account-error-list>
     <transition name="fade">
-    <div v-if="!isSignupOpen" id="authenticate-box-flex">
+      <div v-if="!isSignupOpen" id="authenticate-box-flex">
         <div id="authenticate-box">
           <transition name="fade">
-            <!-- <account-error-list v-if="authError"></account-error-list> -->
             <div v-if="isLoginOpen" class="login-box">
               <div class="user-box">
                 <input v-model="credentials.username" type="text" name="" required />
@@ -30,7 +30,7 @@
                   <button @click="onSignupOpen" class="btn authenticate-btn">Signup</button>
                 </div>
               </div>
-            </transition>      
+          </transition>      
         </div>
       </div>
     </transition>
@@ -46,11 +46,13 @@
 <script>
   import SignupPage from "./SignupPage.vue"
   import { mapActions, mapGetters } from 'vuex'
+  import AccountErrorList from '@/components/AccountErrorList.vue'
 
   export default {
     name: 'StartPage',
     components: {
       SignupPage,
+      AccountErrorList,
     },
     data: function () {
       return {
