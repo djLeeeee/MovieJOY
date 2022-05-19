@@ -2,6 +2,13 @@
   <div @click="signupClose" id="all-box">
     <div id="signup-box">
       <h2 style="margin-top: 50px;">SignUp</h2>
+       <div class="signup-error-box" v-if="signupAuthError">
+        <div v-for="(errors, field) in signupAuthError" :key="field">
+          <p v-for="(error, idx) in errors" :key="idx">
+            {{ error }}
+          </p>
+        </div>
+      </div>
       <div class="user-box">
         <input v-model="credentials.username" type="text" name="" required />
         <label>Username</label>
@@ -43,8 +50,8 @@
         </div>
       </div>
       <div class="signup-buttons">
-        <button @click.prevent="signup(credentials)" class="btn authenticate-btn">Submit</button>
-        <button @click="onSignupClose" class="btn authenticate-btn">Back</button>
+        <button @click="signup(credentials), moveToTop()" class="btn authenticate-btn">Submit</button>
+        <button @click="onSignupClose(), clearErrorList()" class="btn authenticate-btn">Back</button>
       </div>
     </div>
   </div>
@@ -67,10 +74,10 @@
       }
     },
     computed: {
-      ...mapGetters(['authError'])
+      ...mapGetters(['signupAuthError'])
     },
     methods: {
-      ...mapActions(['signup']),
+      ...mapActions(['signup', 'clearErrorList']),
       onSignupClose: function () {
         this.$emit('signup-close')
       },
@@ -78,6 +85,10 @@
         if (event.target.id === 'all-box') {
           this.$emit('signup-close')
         }
+      },
+      moveToTop: function () {
+        const signupDiv = document.querySelector('#signup-box')
+        signupDiv.scrollTo({top: 0, behavior: 'smooth'})
       },
       onSelectGenre: function (event) {
         const genreId = event.target.dataset.id
@@ -90,7 +101,6 @@
           const idx = this.genres.indexOf(genreId)
           this.genres.splice(idx, 1)
         }
-        console.log(this.genres)
       }
     }
   }
@@ -138,6 +148,7 @@
 
 #signup-box .user-box {
   position: relative;
+  margin-top: 0.5rem;
 }
 
 #signup-box .user-box input {
@@ -186,6 +197,10 @@
   transition: all .5s;
 }
 
+.signup-buttons {
+  margin-top: 0.5rem;
+}
+
 .genre-buttons button {
   width: 6rem;
   background: none;
@@ -194,17 +209,17 @@
   line-height: 1;
   margin: 0.5em;
   padding: 0.5em;
-  font-family: 'RIDIBatang';
   color: white;
   font-size: 0.9rem;
   transition: all .5s;
 }
 
-@font-face {
-    font-family: 'RIDIBatang';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+.signup-error-box {
+  text-align: start;
+  /* position: absolute;
+  top: 170px; */
+  color: white;
+  font-size: 0.8rem;
 }
 
 </style>

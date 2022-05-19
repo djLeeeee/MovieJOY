@@ -9,22 +9,29 @@ export default {
     token: localStorage.getItem('token') || '' ,
     currentUser: {},
     profile: {},
-    authError: null,
+    loginAuthError: null,
+    signupAuthError: null,
   },
   
   getters: {
     isLoggedIn: state => !!state.token,
     currentUser: state => state.currentUser,
     profile: state => state.profile,
-    authError: state => state.authError,
-    authHeader: state => ({ Authorization: `Token ${state.token}`})
+    loginAuthError: state => state.loginAuthError,
+    signupAuthError: state => state.signupAuthError,
+    authHeader: state => ({ Authorization: `Token ${state.token}`}),
   },
 
   mutations: {
     SET_TOKEN: (state, token) => state.token = token,
     SET_CURRENT_USER: (state, user) => state.currentUser = user,
     SET_PROFILE: (state, profile) => state.profile = profile,
-    SET_AUTH_ERROR: (state, error) => state.authError = error
+    SET_LOGIN_AUTH_ERROR: (state, error) => state.loginAuthError = error,
+    SET_SIGNUP_AUTH_ERROR: (state, error) => state.signupAuthError = error,
+    CLEAR_ERROR_LIST: (state) => { 
+      state.loginAuthError = null  
+      state.signupAuthError = null
+    }
   },
 
   actions: {
@@ -85,6 +92,10 @@ export default {
         .error(err => {
           console.error(err.response)
         })
+    },
+
+    clearErrorList ({ commit }) {
+      commit('CLEAR_ERROR_LIST')
     },
 
     fetchCurrentUser({ commit, getters, dispatch }) {
