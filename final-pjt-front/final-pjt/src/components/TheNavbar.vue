@@ -1,0 +1,114 @@
+<template>
+  <div>
+    <nav class="navbar navbar-expand-md bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Project</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" style="text-align:center;">
+            <div class="nav-link">
+              <transition name="slide-fade">
+                <input v-if="onSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
+              </transition>
+                <button @click="searchStatus" class="btn btn-link search-btn">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Recommend</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Genre</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link">MyPage</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  
+</template>
+
+<script>
+export default {
+  name: 'TheNavbar',
+  data: function () {
+    return {
+      onSearch: false,
+      windowWidth: window.innerWidth,
+    }
+  },
+  mounted() {
+        window.addEventListener('resize', this.handleResize);
+	},
+  beforeDestroy() {
+        window.removeEventListener('resize', this.handleResize);
+  },
+  methods: {
+    searchStatus: function () {
+      if (this.windowWidth >= 768) {
+        this.onSearch = !this.onSearch}
+    },
+    handleResize: function () {
+      this.windowWidth = window.innerWidth;
+      if (this.windowWidth < 768) {
+        this.onSearch = true
+      }
+    }
+  }
+}
+</script>
+
+<style>
+.navbar {
+  position: sticky;
+}
+
+.navbar-nav {
+  margin-right: 2rem;
+  word-break : nowrap;
+}
+
+.form-control {
+  width: 10rem;
+  height: 1.5rem;
+}
+
+.nav-link {
+  display: flex;
+  justify-content: center;
+}
+
+.search-btn {
+  padding: 0px;
+  margin-left: 0.5rem;
+  transition: 1s;
+}
+
+.fa-magnifying-glass {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(3px);
+  opacity: 0;
+}
+
+</style>
