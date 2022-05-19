@@ -87,18 +87,26 @@ export default {
     },
 
     logout({ getters, dispatch }) {
-      axios({
-        url: drf.accounts.logout(),
-        method: 'post',
-        headers: getters.authHeader,
-      })
-        .then(() => {
-          dispatch('removeToken')
-          router.push({ name: 'home' })
+      console.log('카카오개샛키')
+      // window.Kakao.init('e5ff1659f2da5db0ab6fc8f99cd0733d')
+      // window.Kakao.isInitialized()
+      window.Kakao.Auth.logout()
+      if (!window.Kakao.Auth.getAccessToken()) {
+        axios({
+          url: drf.accounts.logout(),
+          method: 'post',
+          headers: getters.authHeader,
         })
-        .error(err => {
-          console.error(err.response)
-        })
+          .then(() => {
+            dispatch('removeToken')
+            router.push({ name: 'home' })
+          })
+          .error(err => {
+            console.error(err.response)
+          })
+      }
+      router.push({ name: 'home' })
+
     },
 
     clearErrorList ({ commit }) {

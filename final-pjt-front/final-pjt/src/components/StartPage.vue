@@ -16,6 +16,7 @@
               <div class="login-buttons">
                 <button @click.prevent="login(credentials)" class="btn authenticate-btn">Submit</button>
                 <button @click="onLoginOpen(), clearErrorList()" class="btn authenticate-btn">Back</button>
+                <button @click="kakaoLogin()" class="btn authenticate-btn">Kakao</button>
               </div>
               <div class="login-error-box" v-if="loginAuthError">
                 <div v-for="(errors, field) in loginAuthError" :key="field">
@@ -53,6 +54,7 @@
   import SignupPage from "./SignupPage.vue"
   import { mapActions, mapGetters } from 'vuex'
   import AccountErrorList from '@/components/AccountErrorList.vue'
+  import router from '@/router'
 
   export default {
     name: 'StartPage',
@@ -75,13 +77,37 @@
     },
     methods: {
       ...mapActions(['login', 'clearErrorList']),
+
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
         this.credentials.username = ''
         this.credentials.password = ''
       },
+
       onSignupOpen: function () {
         this.isSignupOpen = !this.isSignupOpen
+      },
+
+      kakaoLogin: function () {
+        console.log(window.Kakao)
+        window.Kakao.Auth.login({
+          scope: 'profile_nickname',
+          success: this.getKakaoAccount,
+        })
+      },
+
+      getKakaoAccount: function () {
+        window.Kakao.API.request({
+          url: '/v2/user/me',
+          success: res => {
+            const kakao_account = res.kakao_account;
+            const nickname = kakao_account.nickname
+            router.push({ name: 'mainrecommend' })
+          },
+          fail: error => {
+            console.log(error)
+          }
+        })
       }
     }
   }
