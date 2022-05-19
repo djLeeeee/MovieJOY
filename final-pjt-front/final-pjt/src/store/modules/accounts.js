@@ -62,7 +62,7 @@ export default {
         })
     },
 
-    signup({ commit, dispatch }, credentials) {
+    signup({ getters, commit, dispatch }, {credentials, genres}) {
       axios({
         url: drf.accounts.signup(),
         method: 'post',
@@ -72,6 +72,13 @@ export default {
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
+          genres.map(genreId => {
+            axios({
+              url: drf.movies.likeGenre(genreId),
+              method: 'post',
+              headers: getters.authHeader
+            })
+          })
           router.push({ name: 'mainrecommend' })
         })
         .catch(err => {

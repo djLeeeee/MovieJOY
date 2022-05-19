@@ -1,7 +1,7 @@
 const HOST = 'http://localhost:8000/api/v1/'
 
 const ACCOUNTS = 'accounts/'
-const MOVIES = 'MOVIES/'
+const MOVIES = 'movies/'
 
 export default {
   accounts: {
