@@ -58,7 +58,7 @@ export default {
           router.push({ name: 'mainrecommend' })
         })
         .catch(err => {
-          commit('SET_AUTH_ERROR', err.response.data)
+          commit('SET_LOGIN_AUTH_ERROR', err.response.data)
         })
     },
 
@@ -75,7 +75,7 @@ export default {
           router.push({ name: 'mainrecommend' })
         })
         .catch(err => {
-          commit('SET_AUTH_ERROR', err.response.data)
+          commit('SET_SIGNUP_AUTH_ERROR', err.response.data)
         })
     },
 
