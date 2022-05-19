@@ -48,12 +48,9 @@ export default {
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
-          console.log('Login Successed!')
-          // router.push({ name: 'articles' })
+          router.push({ name: 'mainrecommend' })
         })
         .catch(err => {
-          console.log('Login Failed!')
-          console.error(err.response.data)
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
@@ -68,10 +65,9 @@ export default {
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
-          console.log('SignUp Successed!')
+          router.push({ name: 'mainrecommend' })
         })
         .catch(err => {
-          console.error(err.response.data)
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },

@@ -31,6 +31,11 @@
           <li class="nav-item">
             <a class="nav-link">MyPage</a>
           </li>
+          
+          <!-- 로그아웃 버튼 -->
+          <li>
+            <button @click="logout()">Logout</button>
+          </li>
         </ul>
       </div>
     </nav>
@@ -39,33 +44,36 @@
 </template>
 
 <script>
-export default {
-  name: 'TheNavbar',
-  data: function () {
-    return {
-      onSearch: false,
-      windowWidth: window.innerWidth,
-    }
-  },
-  mounted() {
-        window.addEventListener('resize', this.handleResize);
-	},
-  beforeDestroy() {
-        window.removeEventListener('resize', this.handleResize);
-  },
-  methods: {
-    searchStatus: function () {
-      if (this.windowWidth >= 768) {
-        this.onSearch = !this.onSearch}
+  import { mapActions } from 'vuex'
+
+  export default {
+    name: 'TheNavbar',
+    data: function () {
+      return {
+        onSearch: false,
+        windowWidth: window.innerWidth,
+      }
     },
-    handleResize: function () {
-      this.windowWidth = window.innerWidth;
-      if (this.windowWidth < 768) {
-        this.onSearch = true
+    mounted() {
+          window.addEventListener('resize', this.handleResize);
+    },
+    beforeDestroy() {
+          window.removeEventListener('resize', this.handleResize);
+    },
+    methods: {
+      ...mapActions(['logout']),
+      searchStatus: function () {
+        if (this.windowWidth >= 768) {
+          this.onSearch = !this.onSearch}
+      },
+      handleResize: function () {
+        this.windowWidth = window.innerWidth;
+        if (this.windowWidth < 768) {
+          this.onSearch = true
+        }
       }
     }
   }
-}
 </script>
 
 <style>
