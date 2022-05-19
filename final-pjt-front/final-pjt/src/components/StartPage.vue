@@ -4,20 +4,21 @@
     <div v-if="!isSignupOpen" id="authenticate-box-flex">
         <div id="authenticate-box">
           <transition name="fade">
-            <div v-if="isLoginOpen" class="login-box">
+            <!-- <account-error-list v-if="authError"></account-error-list> -->
+            <form @submit.prevent="login(credentials)" v-if="isLoginOpen" class="login-box">
               <div class="user-box">
-                <input type="text" name="" required="">
+                <input v-model="credentials.username" type="text" name="" required />
                 <label>Username</label>
               </div>
               <div class="user-box">
-                <input type="password" name="" required="">
+                <input v-model="credentials.password" type="password" name="" required />
                 <label>Password</label>
               </div>
               <div class="login-buttons">
-                <button class="btn authenticate-btn">Submit</button>
+                <button class="btn authenticate-btn submit">Submit</button>
                 <button @click="onLoginOpen" class="btn authenticate-btn">Back</button>
               </div>
-            </div>
+            </form>
             <transition name="fade">
               <div v-if="!isLoginOpen" class="not-login-Box">
                 <div class="wrapper">
