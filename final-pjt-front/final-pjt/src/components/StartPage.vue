@@ -15,8 +15,10 @@
               </div>
               <div class="login-buttons">
                 <button @click.prevent="login(credentials)" class="btn authenticate-btn">Submit</button>
-                <button @click="onLoginOpen(), clearErrorList()" class="btn authenticate-btn">Back</button>
-                <button @click="kakaoLogin()" class="btn authenticate-btn">Kakao</button>
+                 <button @click="onLoginOpen(), clearErrorList()" class="btn authenticate-btn">Back</button>
+                <button @click="kakaoLogin()" class="btn authenticate-btn">
+                  <img src="@/assets/kakao-icon.png" class="kakao-icon" alt="kakao-icon">
+                </button>                
               </div>
               <div class="login-error-box" v-if="loginAuthError">
                 <div v-for="(errors, field) in loginAuthError" :key="field">
@@ -277,5 +279,13 @@
     width: 30rem;
     position: absolute;
     top: 170px
+  }
+
+  .kakao-icon {
+    height: 2.5rem;
+  }
+
+  .kakao-icon:hover {
+    content: url('@/assets/kakao-icon-hover.png');
   }
 </style>
