@@ -10,15 +10,15 @@
         </div>
       </div>
       <div class="user-box">
-        <input v-model="credentials.username" type="text" name="" required />
+        <input v-model="payload.credentials.username" type="text" name="" required />
         <label>Username</label>
       </div>
       <div class="user-box">
-        <input v-model="credentials.password1" type="password" name="" required />
+        <input v-model="payload.credentials.password1" type="password" name="" required />
         <label>Password</label>
       </div>
       <div class="user-box">
-        <input v-model="credentials.password2" type="password" name="" required />
+        <input v-model="payload.credentials.password2" type="password" name="" required />
         <label>Password Confirm</label>
       </div>
       <div class="user-box">
@@ -50,7 +50,7 @@
         </div>
       </div>
       <div class="signup-buttons">
-        <button @click="signup(credentials), moveToTop()" class="btn authenticate-btn">Submit</button>
+        <button @click="signup(payload), moveToTop()" class="btn authenticate-btn">Submit</button>
         <button @click="onSignupClose()" class="btn authenticate-btn">Back</button>
       </div>
     </div>
@@ -65,13 +65,14 @@
     name: 'SignupPage',
     data: function () {
       return {
-        genres: [],
-        credentials: {
-          username: '',
-          password1: '',
-          password2: '',
-        },
-      }
+        payload: {
+          genres: [],
+          credentials: {
+            username: '',
+            password1: '',
+            password2: '',
+          },
+      }}
     },
     computed: {
       ...mapGetters(['signupAuthError'])
@@ -95,11 +96,11 @@
         const genreBtn = document.querySelector(`button[data-id="${genreId}"]`)
         if (!genreBtn.classList.contains('raise-focus')) {
           genreBtn.classList.add('raise-focus')
-          this.genres.push(genreId)
+          this.payload.genres.push(genreId)
         } else {
           genreBtn.classList.remove('raise-focus')
-          const idx = this.genres.indexOf(genreId)
-          this.genres.splice(idx, 1)
+          const idx = this.payload.genres.indexOf(genreId)
+          this.payload.genres.splice(idx, 1)
         }
       }
     }
