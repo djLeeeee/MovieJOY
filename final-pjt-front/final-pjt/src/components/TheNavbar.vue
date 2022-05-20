@@ -11,12 +11,15 @@
         <ul class="navbar-nav">
           <li class="nav-item" style="text-align:center;">
             <div class="nav-link">
-              <transition name="slide-fade">
+              <!-- <transition name="slide-fade">
                 <input v-if="onSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
               </transition>
                 <button @click="searchStatus" class="btn btn-link search-btn">
                   <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
+                </button> -->
+              <router-link to="/search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </router-link>
             </div>
           </li>
           <li class="nav-item">
@@ -94,6 +97,7 @@
 .nav-link {
   display: flex;
   justify-content: center;
+  font-size: 0.9rem;
 }
 
 .search-btn {
