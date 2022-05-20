@@ -56,6 +56,9 @@ def reviews_c(request, tmdb_movie_id):
     movie = get_object_or_404(Movie, tmdb_movie_id=tmdb_movie_id)
     serializer = ReviewSerializer(data=request.data)
     if serializer.is_valid(raise_exception=True):
+        if Review.objects.filter(user=request.user).filter(movie=movie).exists():
+            review = get_object_or_404(Review, user=request.user, movie=movie)
+            review.delete()
         serializer.save(movie=movie, user=request.user)
         return Response(serializer.data)
 
