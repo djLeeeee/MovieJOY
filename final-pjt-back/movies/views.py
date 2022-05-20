@@ -2,32 +2,34 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.db.models import Avg
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .models import Movie, Review, Genre
 from .serializers.movie import MovieSerializer, MovieListSerializer
 from .serializers.review import ReviewSerializer, ReviewListSerializer
 from .serializers.genre import GenreSerializer
+import requests
+from random import sample
+
+BASE_URL = 'https://api.themoviedb.org/3'
+API_KEY = '52962731aacacff3f5f9da655947bff6'
+minimum_movie_nums = 12
 
 # Create your views here.
 @api_view(['GET'])
 def movies_list(request):
-    movies = Movie.objects.all()
+    movies = get_list_or_404(Movie)
     serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
 
 
 @api_view(['GET'])
 def movie_detail(request, tmdb_movie_id):
-    if not Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
-        movie = Movie(tmdb_movie_id=tmdb_movie_id)
-        movie.save()
-    movie = Movie.objects.filter(
-        tmdb_movie_id=tmdb_movie_id
-    ).annotate(
-        reviews_score_average=Avg('reviews__score')
-    )[0]
+    if Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
+        movie = get_object_or_404(Movie, tmdb_movie_id=tmdb_movie_id)
+    else:
+        movie = update_movie_db(tmdb_movie_id)
     serializer = MovieSerializer(movie)
     return Response(serializer.data)
 
@@ -86,3 +88,103 @@ def genre_like(request, tmdb_genre_id):
             genre.like_users.add(request.user)
     serializer = GenreSerializer(genre)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def recommend_genre_movie(request, tmdb_genre_id):
+    genre = get_object_or_404(Genre, tmdb_genre_id=tmdb_genre_id)
+    movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk]))
+    page = Movie.objects.count() // 20
+    while movies.count() < minimum_movie_nums:
+        update_movies_db(page)
+        movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk]))
+        page += 1
+    serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def recommend_tmdb(request):
+    user = request.user
+    page = 0
+    movies = []
+    while len(movies) < minimum_movie_nums:
+        page += 1
+        response = update_movies_db(page)
+        for movie in response:
+            if user.dislike_movies.filter(pk=movie.pk).exists():
+                pass
+            else:
+                movies.append(movie)
+    serializer = MovieListSerializer(sample(movies, 12), many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def upcoming_movie(request):
+    path = '/movie/upcoming'
+    params = {
+        'api_key': API_KEY,
+        'region': 'KR',
+        'language': 'ko',
+    }
+    response = requests.get(BASE_URL + path, params=params).json()['results']
+    movies = [update_movie_by_json(movie_info) for movie_info in response]
+    serializer = MovieListSerializer(sample(movies, min(minimum_movie_nums, len(movies))), many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def now_playing_movie(request):
+    path = '/movie/now_playing'
+    params = {
+        'api_key': API_KEY,
+        'region': 'KR',
+        'language': 'ko',
+    }
+    response = requests.get(BASE_URL + path, params=params).json()['results']
+    movies = [update_movie_by_json(movie_info) for movie_info in response]
+    serializer = MovieListSerializer(sample(movies, min(minimum_movie_nums, len(movies))), many=True)
+    return Response(serializer.data)
+
+
+def update_movies_db(page):
+    path = '/movie/popular'
+    params = {
+        'api_key': API_KEY,
+        'region': 'KR',
+        'language': 'ko',
+        'page': page,
+    }
+    movies = []
+    response = requests.get(BASE_URL + path, params=params).json()['results']
+    for movie_info in response:
+        movie = update_movie_by_json(movie_info)
+        movies.append(movie)
+    return movies
+
+
+def update_movie_db(tmdb_movie_id):
+    path = f'/movie/{tmdb_movie_id}'
+    params = {
+        'api_key': API_KEY,
+        'region': 'KR',
+        'language': 'ko',
+    }
+    response = requests.get(BASE_URL + path, params=params).json()
+    return update_movie_by_json(response)
+
+
+def update_movie_by_json(movie_info):
+    tmdb_movie_id = movie_info['id']
+    name = movie_info['title']
+    genres = movie_info['genre_ids']
+    if not Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
+        movie = Movie(tmdb_movie_id=tmdb_movie_id, name=name)
+        movie.save()
+        for genre_id in genres:
+            genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)
+            movie.genres.add(genre)
+    else:
+        movie = Movie.objects.get(tmdb_movie_id=tmdb_movie_id)
+    return movie

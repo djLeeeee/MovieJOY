@@ -19,7 +19,7 @@ def get_trailer():
     for _ in range(end_page):
         params['page'] += 1
         movies += requests.get(BASE_URL + path, params=params).json()['results']
-    print('get')
+    print(movies)
     movies_result = {'data': []}
     for movie in movies:
         trailer_path = ''
@@ -74,5 +74,15 @@ def get_upcoming():
     }
 
 
-# get_trailer()
-get_genre_movie_list_to_fixture()
+def now_playing_movie():
+    path = '/movie/now_playing'
+    params = {
+        'api_key': API_KEY,
+        'region': 'KR',
+        'language': 'ko',
+    }
+    response = requests.get(BASE_URL + path, params=params).json()['results']
+    print(response)
+
+
+now_playing_movie()

@@ -1,4 +1,3 @@
-from email.policy import default
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -22,4 +21,4 @@ class MovieListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Movie
-        fields = '__all__'
+        fields = ('id', 'tmdb_movie_id',)

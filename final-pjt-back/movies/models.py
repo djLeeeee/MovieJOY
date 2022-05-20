@@ -9,13 +9,18 @@ class Genre(models.Model):
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_genres')
 
     def __str__(self) -> str:
-        return self.name + str(self.tmdb_genre_id)
+        return self.name + '/' + str(self.tmdb_genre_id)
 
 
 class Movie(models.Model):
     tmdb_movie_id = models.IntegerField(default=0)
+    name = models.CharField(max_length=50)
+    genres = models.ManyToManyField(Genre, related_name='movies')
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
     dislike_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dislike_movies')
+
+    def __str__(self) -> str:
+        return self.name + '/' + str(self.tmdb_movie_id)
 
 
 class Review(models.Model):
