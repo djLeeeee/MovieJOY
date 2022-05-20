@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from ..models import Movie
+from ..models import Movie, Review
 from .review import ReviewSerializer
 
 User = get_user_model()
@@ -9,8 +9,13 @@ User = get_user_model()
 # Movie 
 class MovieSerializer(serializers.ModelSerializer):
 
-    reviews = ReviewSerializer(many=True, read_only=True)
-    reviews_score_average = serializers.FloatField(default=0)
+    class CustomReviewSerializer(ReviewSerializer):
+
+        class Meta:
+            model = Review
+            fields = ('id', 'content', 'score', 'user')
+
+    reviews = CustomReviewSerializer(many=True, read_only=True)
 
     class Meta:
         model = Movie

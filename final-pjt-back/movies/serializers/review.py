@@ -10,7 +10,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Review
-        fields = ('pk', 'content', 'score',)
+        fields = ('id', 'content', 'score')
 
 # 전체 리뷰 조회용
 class ReviewListSerializer(serializers.ModelSerializer):
