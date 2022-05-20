@@ -4,7 +4,7 @@
     <div class="card-front">
       <figure>
         <div class="img-bg"></div>
-        <img :src="posterPath" alt="Brohm Lake">
+        <img :src="posterPath" alt="MoviePoster">
       </figure>
     </div>
 
@@ -55,7 +55,7 @@ export default {
     for(let star of stars) {
       const num = star.dataset.id
       if(voteAverage - num >= 0) {
-        star.style.color = '#01a8b1'
+        star.style.color = '#01a8b1c4'
       } 
     }
   }
@@ -67,7 +67,6 @@ export default {
 .flip-card {
   width: 15rem;
   height: 20rem;
-
   position: relative;
   transform-style: preserve-3d;
   transition: .6s .1s;
@@ -125,7 +124,7 @@ figure,
 }
 
 /* img */
-img {
+.flip-card img {
   width: 100%;
   height: 100%;
   border-radius: 24px;
@@ -141,18 +140,13 @@ img {
 
 
 .card-ul {
-  padding-top: 50%;
-  margin: 0 auto;
-  width: 70%;
-  height: 100%;
-
   list-style: none;
-  color: var(--white-1);
-
+  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-right: 2rem;
 }
 
 
@@ -160,12 +154,15 @@ img {
   width: 100%;
   margin-top: 12px;
   padding-bottom: 12px;
-
-  font-size: 14px;
+  font-size: 1.5rem;
+  text-shadow: rgba(255, 255, 255, 0.308) 1px 1px;
   text-align: center;
-
   position: relative;
 }
 
-
+.fa-star {
+  text-shadow: rgba(155, 155, 155, 0.418) 1px 1px;
+  font-size: 1.2rem;
+  color: rgba(240, 248, 255, 0.562);
+}
 </style>

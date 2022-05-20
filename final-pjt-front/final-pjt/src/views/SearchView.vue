@@ -1,6 +1,6 @@
 <template>
   <div id="search-box">
-    <div class="flexbox">
+    <div class="search-flex">
 			<div class="search">
 				<p class="search-main-text">Search the movie title</p>
 				<p class="search-text">Click on search icon, then type your keyword.</p>
@@ -47,6 +47,9 @@ export default {
           alert('검색 결과가 없습니다')
         }
       })
+
+      const searchBox = document.querySelector('#search-box')
+      searchBox.setAttribute('style', 'margin: 0vh;')
     }
   }
 }
@@ -55,9 +58,11 @@ export default {
 <style>
 #search-box {
 	padding: 2rem;
+  margin-top: 30vh;
+  transition: 0.8s;
 }
 
-.flexbox {
+.search-flex {
   width: 100%;
   height: 100%;
   display: flex;

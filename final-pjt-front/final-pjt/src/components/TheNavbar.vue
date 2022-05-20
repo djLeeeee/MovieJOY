@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-md bg-light">
+    <nav class="navbar navbar-expand-md">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,14 +11,8 @@
         <ul class="navbar-nav">
           <li class="nav-item" style="text-align:center;">
             <div class="nav-link">
-              <!-- <transition name="slide-fade">
-                <input v-if="onSearch" class="form-control" type="search" placeholder="Search" aria-label="Search">
-              </transition>
-                <button @click="searchStatus" class="btn btn-link search-btn">
-                  <i class="fa-solid fa-magnifying-glass"></i>
-                </button> -->
               <router-link to="/search">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <p class="fa-solid fa-magnifying-glass"></p>
               </router-link>
             </div>
           </li>
@@ -82,6 +76,11 @@
 <style>
 .navbar {
   position: sticky;
+  background-color: rgba(0, 0, 0, 0.432);
+}
+
+.navbar-brand {
+  color: white
 }
 
 .navbar-nav {
@@ -98,6 +97,24 @@
   display: flex;
   justify-content: center;
   font-size: 0.9rem;
+  color: white;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #00d8e4;
+  transform: scale(1.1);
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: #00d8e4;
+  transform: scale(1.1);
 }
 
 .search-btn {
@@ -108,7 +125,6 @@
 
 .fa-magnifying-glass {
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.3);
 }
 
 .slide-fade-enter-active {
