@@ -116,7 +116,7 @@ def recommend_tmdb(request):
                 pass
             else:
                 movies.append(movie)
-    serializer = MovieListSerializer(sample(movies, 12), many=True)
+    serializer = MovieListSerializer(sample(movies, minimum_movie_nums), many=True)
     return Response(serializer.data)
 
 
@@ -178,9 +178,16 @@ def update_movie_db(tmdb_movie_id):
 def update_movie_by_json(movie_info):
     tmdb_movie_id = movie_info['id']
     name = movie_info['title']
+    poster_path = movie_info['poster_path']
+    vote_average = movie_info['vote_average']
     genres = movie_info['genre_ids']
     if not Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
-        movie = Movie(tmdb_movie_id=tmdb_movie_id, name=name)
+        movie = Movie(
+            tmdb_movie_id=tmdb_movie_id,
+            name=name,
+            poster_path=poster_path,
+            vote_average=vote_average
+        )
         movie.save()
         for genre_id in genres:
             genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)

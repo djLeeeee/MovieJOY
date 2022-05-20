@@ -15,6 +15,8 @@ class Genre(models.Model):
 class Movie(models.Model):
     tmdb_movie_id = models.IntegerField(default=0)
     name = models.CharField(max_length=50)
+    poster_path = models.CharField(max_length=100)
+    vote_average = models.FloatField(default=0)
     genres = models.ManyToManyField(Genre, related_name='movies')
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
     dislike_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dislike_movies')
