@@ -5,16 +5,50 @@
 				<p class="search-main-text">Search the movie title</p>
 				<p class="search-text">Click on search icon, then type your keyword.</p>
 				<div>
-					<input type="text" placeholder="Search . . ." required>
+					<input @keyup.enter="submitKeyword" v-model="inputKeyword" type="text" placeholder="Search . . ." required>
 				</div>
 			</div>
 		</div>
+    <MovieList v-if="movies" :movies="movies" />
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import MovieList from "@/components/MovieList"
+
 export default {
   name: 'SearchView',
+  components: {
+    MovieList,
+  },
+  data: function () {
+    return {
+      inputKeyword: '',
+      movies: []
+    }
+  },
+  methods: {
+    submitKeyword: function (keyword_input) {
+      keyword_input = this.inputKeyword
+
+      const params = {
+        'api_key': '52962731aacacff3f5f9da655947bff6',
+        'query': keyword_input,
+        'region': 'KR',
+        'language': 'ko',
+      }
+
+      axios.get('https://api.themoviedb.org/3/search/movie',  {params,})
+      .then(res => {
+        this.movies = res.data.results
+        console.log(this.movies)
+        if (!this.movies.length) {
+          alert('검색 결과가 없습니다')
+        }
+      })
+    }
+  }
 }
 </script>
 

@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios';
 import store from './store'
+// import './style/style.scss'
 
 Vue.prototype.$axios = axios; //prototype에 axios 추가
 
