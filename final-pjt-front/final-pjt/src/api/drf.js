@@ -17,5 +17,6 @@ export default {
     reviews: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/` + 'reviews/',
     review_ud: (TMDBMovieId, reviewPk) => HOST + MOVIES + `${TMDBMovieId}/` + 'reviews/' + `${reviewPk}/`,
     likeGenre: TMDBGenreId => HOST + MOVIES + `${TMDBGenreId}/` + 'genre/',
+    recommendByGenre: TMDBGenreId => HOST + MOVIES + `${TMDBGenreId}/` + 'recommendation/',
   },
 }

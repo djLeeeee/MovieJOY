@@ -15,7 +15,7 @@
       </figure>
 
       <ul class="card-ul">
-        <li>{{ movie.title }}</li>
+        <li>{{ movie.title || movie.name }}</li>
         <div class="star-box">
           <i :id="idPath" data-id="1" class="fa-solid fa-star"></i>
           <i :id="idPath" data-id="2" class="fa-solid fa-star"></i>
