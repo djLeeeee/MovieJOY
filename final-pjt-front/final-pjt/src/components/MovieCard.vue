@@ -46,12 +46,12 @@ export default {
       return `https://image.tmdb.org/t/p/original/${poster_path}`
     },
     idPath: function () {
-      return `movie-${this.movie.id}`
+      return `movie-${ this.movie.id || this.movie.tmdb_movie_id }`
     }
   },
   mounted() {
     const voteAverage = Math.round(this.movie.vote_average / 2)
-    const stars = document.querySelectorAll(`#movie-${ this.movie.id }`)
+    const stars = document.querySelectorAll(`#movie-${ this.movie.id || this.movie.tmdb_movie_id }`)
     for(let star of stars) {
       const num = star.dataset.id
       if(voteAverage - num >= 0) {
