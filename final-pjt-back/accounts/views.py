@@ -31,6 +31,11 @@ def profile(request, username):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+def is_auth(request):
+    pass
+
+
 @api_view(['POST'])
 def sms_send(request, phone_number):
     auth_number = randint(100000, 999999)

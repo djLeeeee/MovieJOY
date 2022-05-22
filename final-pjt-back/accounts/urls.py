@@ -5,6 +5,7 @@ app_name = 'accounts'
 
 urlpatterns = [
     path('profile/<username>/', views.profile),
+    path('sms_auth/', views.is_auth),
     path('sms_auth/<phone_number>/', views.sms_send),
-    path('sms_auth/<phone_number>/<int:auth_number>/', views.sms_auth)
+    path('sms_auth/<phone_number>/<int:auth_number>/', views.sms_auth),
 ]

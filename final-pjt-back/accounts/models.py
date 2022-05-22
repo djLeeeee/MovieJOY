@@ -11,4 +11,4 @@ class SMS_auth(models.Model):
 
 class User(AbstractUser):
     nickname = models.CharField(max_length=10)
-    sms_auth = models.ForeignKey(SMS_auth, on_delete=models.CASCADE, related_name='user')
+    phone_number = models.CharField(max_length=11, default='0')
