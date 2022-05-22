@@ -13,7 +13,7 @@ class Genre(models.Model):
 
 
 class Movie(models.Model):
-    tmdb_movie_id = models.IntegerField(default=0)
+    tmdb_movie_id = models.IntegerField(primary_key=True, default=0)
     name = models.CharField(max_length=50)
     poster_path = models.CharField(max_length=100)
     vote_average = models.FloatField(default=0)

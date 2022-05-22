@@ -1,9 +1,9 @@
 <template>
   <div>
     This is a movie recommendation by genre page.
-    <div v-for="(movies, idx) in moviesByGenre" :key="idx" :movies="movies">
-      <p>{{ genres[idx]['name'] }}</p>
-      <MovieList :movies="movies"/>
+    <div v-for="(data, idx) in moviesByGenre" :key="idx">
+      <p>{{ data['genre_name'] }}</p>
+      <MovieList :movies="data['movies']"/>
     </div>
   </div>
 </template>
@@ -109,8 +109,12 @@
           headers: this.authHeader 
         })
         .then(res => {
-          this.moviesByGenre.push(res.data)
-          console.log(res.data)
+          const data = {
+            genre_name: genre['name'],
+            movies: res.data
+          }
+          this.moviesByGenre.push(data)
+          console.log(data)
         })
       })
     }

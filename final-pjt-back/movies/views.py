@@ -99,9 +99,9 @@ def recommend_genre_movie(request, tmdb_genre_id):
     movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk])).order_by('?')
     page = Movie.objects.count() // 20
     while movies.count() < minimum_movie_nums:
+        page += 1
         update_movies_db(page)
         movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk])).order_by('?')
-        page += 1
     serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
     return Response(serializer.data)
 
@@ -196,5 +196,5 @@ def update_movie_by_json(movie_info):
             genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)
             movie.genres.add(genre)
     else:
-        movie = Movie.objects.get(tmdb_movie_id=tmdb_movie_id)
+        movie = get_object_or_404(Movie, tmdb_movie_id=tmdb_movie_id)
     return movie
