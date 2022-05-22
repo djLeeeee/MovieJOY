@@ -96,11 +96,11 @@ def genre_like(request, tmdb_genre_id):
 @api_view(['GET'])
 def recommend_genre_movie(request, tmdb_genre_id):
     genre = get_object_or_404(Genre, tmdb_genre_id=tmdb_genre_id)
-    movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk]))
+    movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk])).order_by('?')
     page = Movie.objects.count() // 20
     while movies.count() < minimum_movie_nums:
         update_movies_db(page)
-        movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk]))
+        movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk])).order_by('?')
         page += 1
     serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
     return Response(serializer.data)
