@@ -3,17 +3,21 @@
     <TheNavbar v-if="isLoggedIn" />
     <div id="router-box">
       <router-view/>
+      
     </div>
+    <TheUnderNavbar v-if="isLoggedIn" />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import TheNavbar from '@/components/TheNavbar'
+import TheUnderNavbar from '@/components/TheUnderNavbar'
 
 export default {
   components: {
-    TheNavbar
+    TheNavbar,
+    TheUnderNavbar,
   },
   computed: {
     ...mapGetters(['isLoggedIn'])
@@ -38,4 +42,5 @@ export default {
     font-weight: normal;
     font-style: normal;
 }
+
 </style>

@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" href="#">Project</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+          <i class="fa-solid fa-bars navbar-toggler-icon"></i>
         </button>
       </div>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -37,11 +37,6 @@
               </router-link>
             </div>
           </li>
-          
-          <!-- 로그아웃 버튼 -->
-          <li>
-            <button @click="logout()">Logout</button>
-          </li>
         </ul>
       </div>
     </nav>
@@ -50,8 +45,6 @@
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
-
   export default {
     name: 'TheNavbar',
     data: function () {
@@ -67,7 +60,6 @@
           window.removeEventListener('resize', this.handleResize);
     },
     methods: {
-      ...mapActions(['logout']),
       searchStatus: function () {
         if (this.windowWidth >= 768) {
           this.onSearch = !this.onSearch}
@@ -84,8 +76,12 @@
 
 <style>
 .navbar {
-  position: sticky;
+  position: fixed-top;
   background-color: rgba(0, 0, 0, 0.432);
+}
+
+.navbar-toggler-icon {
+  color: white;
 }
 
 .navbar-brand {
