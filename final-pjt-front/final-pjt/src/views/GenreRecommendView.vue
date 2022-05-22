@@ -2,9 +2,9 @@
   <div>
     This is a movie recommendation by genre page.
     <div v-for="(data, idx) in moviesByGenre" :key="idx">
-      <p>{{ data['genre_name'] }}</p>
-      <MovieList :movies="data['movies']"/>
+      <button @click="selectGenre(idx)">{{ data['genre_name'] }}</button>
     </div>
+    <MovieList :movies="selectedMovies"/>
   </div>
 </template>
 
@@ -96,10 +96,16 @@
           },
         ],
         moviesByGenre: [],
+        selectedMovies: [],
       }
     },
     computed: {
       ...mapGetters(['authHeader'])
+    },
+    methods: {
+      selectGenre: function (idx) {
+        this.selectedMovies = this.moviesByGenre[idx].movies
+      }
     },
     created () {
       this.genres.map(genre => {
@@ -114,7 +120,6 @@
             movies: res.data
           }
           this.moviesByGenre.push(data)
-          console.log(data)
         })
       })
     }
