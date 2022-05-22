@@ -16,17 +16,26 @@
               </router-link>
             </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="#">Home</a>
+          <li class="nav-item" style="text-align:center;">
+            <div class="nav-link">
+              <router-link to="/recommend">
+                <p>Home</p>
+              </router-link>
+            </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Recommend</a>
+          <li class="nav-item" style="text-align:center;">
+            <div class="nav-link">
+              <router-link to="/recommend/genre">
+                <p>Genre</p>
+              </router-link>
+            </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Genre</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link">MyPage</a>
+          <li class="nav-item" style="text-align:center;">
+            <div class="nav-link">
+              <router-link to="/mypage">
+                <p>MyPage</p>
+              </router-link>
+            </div>
           </li>
           
           <!-- 로그아웃 버튼 -->

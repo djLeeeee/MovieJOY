@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MainRecommendView from '../views/MainRecommendView.vue'
 import SearchView from '../views/SearchView.vue'
+import MyPageView from '../views/MyPageView.vue'
+import GenreRecommendView from '../views/GenreRecommendView.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +24,16 @@ const routes = [
     name: 'search',
     component: SearchView
   },
+  {
+    path: '/mypage',
+    name: 'mypage',
+    component: MyPageView
+  },
+  {
+    path: '/recommend/genre',
+    name: 'genrerecommend',
+    component: GenreRecommendView
+  }
 ]
 
 const router = new VueRouter({
