@@ -4,6 +4,7 @@
     <div v-for="(data, idx) in moviesByGenre" :key="idx">
       <button @click="selectGenre(idx)">{{ data['genre_name'] }}</button>
     </div>
+    <p>{{ selectedGenreName }}</p>
     <MovieList :movies="selectedMovies"/>
   </div>
 </template>
@@ -97,6 +98,7 @@
         ],
         moviesByGenre: [],
         selectedMovies: [],
+        selectedGenreName: '',
       }
     },
     computed: {
@@ -105,6 +107,7 @@
     methods: {
       selectGenre: function (idx) {
         this.selectedMovies = this.moviesByGenre[idx].movies
+        this.selectedGenreName = this.moviesByGenre[idx].genre_name
       }
     },
     created () {
