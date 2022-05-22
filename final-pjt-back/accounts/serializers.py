@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from movies.models import Movie, Genre, Review
+from .models import SMS_auth
+
 
 class ProfileSerializer(serializers.ModelSerializer):
 
@@ -30,3 +32,10 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = ('id', 'nickname', 'like_genres', 'like_movies', 'dislike_movies', 'reviews',)
+
+
+class AuthSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = SMS_auth
+        fields = '__all__'
