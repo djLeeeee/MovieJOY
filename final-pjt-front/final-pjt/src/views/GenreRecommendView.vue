@@ -1,6 +1,5 @@
 <template>
   <div id="genre-reccomend-box">
-    This is a movie recommendation by genre page.
     <div id="genre-box" class="row row-cols-5 row-cols-md-6 row-cols-lg-8 row-cols-xl-10 g-1">
       <div v-for="(data, idx) in moviesByGenre" :key="idx">
         <button @click="selectGenre(idx)" class="col custom-btn btn-12 bubbly-button">
@@ -11,9 +10,7 @@
     </div>
     <div id="genre-movie-box">
       <MovieList :movies="selectedMovies"/>
-    </div>
-    <p>{{ selectedGenreName }}</p>
-    
+    </div> 
   </div>
 </template>
 
@@ -110,7 +107,6 @@
         ],
         moviesByGenre: [],
         selectedMovies: [],
-        selectedGenreName: '',
       }
     },
     computed: {
@@ -118,10 +114,7 @@
     },
     methods: {
       selectGenre: function (idx) {
-
-
         this.selectedMovies = this.moviesByGenre[idx].movies
-        this.selectedGenreName = this.moviesByGenre[idx].genre_name
       }
     },
     created () {

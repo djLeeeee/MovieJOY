@@ -43,4 +43,7 @@ export default {
     font-style: normal;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
 </style>

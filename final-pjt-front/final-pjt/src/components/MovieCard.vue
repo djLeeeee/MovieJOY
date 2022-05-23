@@ -1,6 +1,9 @@
 <template>
  <div class="col">
-  <div class="flip-card">
+  <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
+    <MovieDetail :movieId="this.movie.id || this.movie.tmdb_movie_id"/>
+  </ModalView>
+  <div class="flip-card" @click="isModalViewed=true, showModal()">
     <div class="card-front">
       <figure>
         <div class="img-bg"></div>
@@ -30,14 +33,26 @@
 </template>
 
 <script>
+import ModalView from "@/components/ModalView.vue"
+import MovieDetail from "@/components/MovieDetail.vue"
+
 export default {
   name: 'MovieCard',
   props: {
     movie: Object,
   },
+  components: {
+    ModalView,
+    MovieDetail,
+  },
   data: function () {
     return {
-
+      isModalViewed: false,
+    }
+  },
+  methods: {
+    showModal () {
+      document.body.classList.add("modal-open");
     }
   },
   computed: {
