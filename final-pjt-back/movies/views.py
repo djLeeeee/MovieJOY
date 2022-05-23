@@ -183,18 +183,27 @@ def update_movie_by_json(movie_info):
     name = movie_info['title']
     poster_path = movie_info['poster_path']
     vote_average = movie_info['vote_average']
-    genres = movie_info['genre_ids']
+    overview = movie_info['overview']
     if not Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
         movie = Movie(
             tmdb_movie_id=tmdb_movie_id,
             name=name,
             poster_path=poster_path,
-            vote_average=vote_average
+            vote_average=vote_average,
+            overview=overview
         )
         movie.save()
-        for genre_id in genres:
-            genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)
-            movie.genres.add(genre)
+        if movie_info.get('genre_ids'):
+            genres = movie_info['genre_ids']
+            for genre_id in genres:
+                genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)
+                movie.genres.add(genre)
+        elif movie_info.get('genres'):
+            genres = movie_info['genres']
+            for genre in genres:
+                genre_id = genre['id']
+                genre = get_object_or_404(Genre, tmdb_genre_id=genre_id)
+                movie.genres.add(genre)
     else:
         movie = get_object_or_404(Movie, tmdb_movie_id=tmdb_movie_id)
     return movie

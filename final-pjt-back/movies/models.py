@@ -17,6 +17,7 @@ class Movie(models.Model):
     name = models.CharField(max_length=50)
     poster_path = models.CharField(max_length=100)
     vote_average = models.FloatField(default=0)
+    overview = models.CharField(max_length=500)
     genres = models.ManyToManyField(Genre, related_name='movies')
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_movies')
     dislike_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='dislike_movies')

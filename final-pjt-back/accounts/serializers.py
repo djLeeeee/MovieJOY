@@ -10,13 +10,13 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Movie
-            fields = ('id', 'tmdb_movie_id',)
+            fields = ('tmdb_movie_id',)
 
     class GenreSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Genre
-            fields = ('id', 'tmdb_genre_id',)
+            fields = ('tmdb_genre_id',)
 
     class ReviewSerializer(serializers.ModelSerializer):
 
