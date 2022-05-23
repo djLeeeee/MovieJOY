@@ -1,5 +1,5 @@
 <template>
-  <div id="genre-reccomend-box">
+  <div @click="genreClose" id="genre-recommend-box">
     <div id="genre-select-box">
       <p class="genre-main-text">Search the movie by genres</p>
       <p class="genre-text">Recommend 12 movies of your choice.</p>
@@ -11,7 +11,7 @@
         Select Genre
       </a>
     </div>
-        <div id="genre-movie-box">
+    <div @click="genreClose" id="genre-movie-box">
       <h3 style="color: white;">{{ selectedGenre }}</h3>
       <MovieList :movies="selectedMovies"/>
     </div>
@@ -39,7 +39,6 @@
     },
     data: function () {
       return {
-        windowWidth: window.innerWidth,
         isSelect: false,
         genres: [
           {
@@ -136,6 +135,14 @@
       },
       onSelect: function () {
         this.isSelect = !this.isSelect
+      },
+      genreClose: function (event) {
+        if(event.target.id === "genre-recommend-box" || 
+          event.target.id === "genre-movie-box") {
+          this.isSelect = false
+        }
+
+        console.log(event.target.class)
       }
     },
     created () {
@@ -158,7 +165,7 @@
 </script>
 
 <style>
-#genre-reccomend-box {
+#genre-recommend-box {
   width: 100%;
   height: 100vh;
   display: flex;
@@ -171,7 +178,7 @@
   transition: 0.8s;
 }
 
-#genre-reccomend-box #genre-box {
+#genre-recommend-box #genre-box {
   position: relative;
   top: 10rem;
   width: 6rem;
