@@ -124,12 +124,6 @@
         selectedGenre: '',
       }
     },
-    mounted() {
-          window.addEventListener('resize', this.handleResize);
-    },
-    beforeDestroy() {
-          window.removeEventListener('resize', this.handleResize);
-    },
     computed: {
       ...mapGetters(['authHeader'])
     },
@@ -165,6 +159,8 @@
 
 <style>
 #genre-reccomend-box {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
 }

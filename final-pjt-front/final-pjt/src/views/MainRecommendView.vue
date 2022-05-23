@@ -27,15 +27,25 @@
         Review of Genre
       </a>
     </div>
+    <div>
+      <MovieList />
+    </div>
   </div>
 </template>
 
 <script>
+  // import axios from 'axios'
+  // import drf from '@/api/drf'
+  import { mapGetters } from 'vuex'
+  import MovieList from "@/components/MovieList"
 
   export default {
     name: 'MainRecommendationView',
     components: { 
-
+      MovieList,
+    },
+    computed: {
+      ...mapGetters(['authHeader'])
     },
   }
 </script>
@@ -47,6 +57,10 @@
   font-family: "Meta";
   font-style: normal;
   font-weight: normal;
+}
+
+#logo-box {
+  margin-top: 20vh;
 }
 
 main {

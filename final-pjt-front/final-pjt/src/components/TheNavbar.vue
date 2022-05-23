@@ -32,8 +32,8 @@
           </li>
           <li class="nav-item" style="text-align:center;">
             <div class="nav-link">
-              <router-link to="/mypage">
-                <p>MyPage</p>
+              <router-link to="/release">
+                <p>Release</p>
               </router-link>
             </div>
           </li>
@@ -105,13 +105,13 @@
   color: white;
 }
 
-a {
+.nav-link a {
   color: white;
   text-decoration: none;
 }
 
-a:hover,
-a:focus {
+.nav-link a:hover,
+.nav-link a:focus {
   color: #00d8e4;
   transform: scale(1.1);
 }
