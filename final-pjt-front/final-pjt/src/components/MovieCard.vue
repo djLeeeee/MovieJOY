@@ -84,10 +84,11 @@ export default {
   height: 20rem;
   position: relative;
   transform-style: preserve-3d;
-  transition: .6s .1s;
+  transition: .3s .1s;
 }
 
-.flip-card:hover {
+.flip-card:hover,
+.flip-card:focus {
   transform: rotateY(180deg);
 }
 
