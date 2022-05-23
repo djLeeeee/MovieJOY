@@ -46,4 +46,8 @@ export default {
 body.modal-open {
   overflow: hidden;
 }
+
+#router-box {
+  width: 100vw;
+}
 </style>

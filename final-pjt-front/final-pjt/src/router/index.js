@@ -5,6 +5,7 @@ import MainRecommendView from '../views/MainRecommendView.vue'
 import SearchView from '../views/SearchView.vue'
 import MyPageView from '../views/MyPageView.vue'
 import GenreRecommendView from '../views/GenreRecommendView.vue'
+import ReleaseView from '../views/ReleaseView.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/recommend/genre',
     name: 'genrerecommend',
     component: GenreRecommendView
+  },
+  {
+    path: '/release',
+    name: 'release',
+    component: ReleaseView,
   }
 ]
 

@@ -2,11 +2,12 @@
   <div id="underNavbar"> 
     <nav class="menu">
       <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
-      <label class="menu-open-button" for="menu-open">
-    </label>
+      <label class="menu-open-button" for="menu-open"></label>
 
       <a @click="logout()" class="menu-item logout-color"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
-      <a href="#" class="menu-item profile-color"> <i class="fa-solid fa-user"></i> </a>
+      <router-link class="menu-item profile-color" to="/mypage">
+         <a href="#" class="profile-color-sub"> <i class="fa-solid fa-user"></i> </a>
+      </router-link>
       <a @click="moveToTop" class="menu-item scroll-up-color"><i class="fa-solid fa-arrow-up"></i> </a>
     </nav>
   </div>
@@ -143,7 +144,8 @@ a {
    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
 }
 
-.profile-color:hover {
+.profile-color:hover,
+.profile-color-sub:hover {
    color: #5fac61d8;
    text-shadow: none;
 }
