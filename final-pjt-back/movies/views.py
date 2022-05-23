@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.db.models import Q
+from django.db.models import Q, Sum
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .models import Movie, Review, Genre
@@ -102,6 +102,21 @@ def recommend_genre_movie(request, tmdb_genre_id):
         page += 1
         update_movies_db(page)
         movies = Movie.objects.filter(genres__in=[genre.pk]).filter(~Q(dislike_users__in=[request.user.pk])).order_by('?')
+    serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def recommend_reviews(request):
+    user = request.user
+    if user.like_genres.count() > 0:
+        genre = user.like_genres.all()[0]
+        movies = Movie.objects.filter(genres__in=[genre])
+        for genre in user.like_genres.all():
+            movies = movies | Movie.objects.filter(genres__in=[genre])
+        movies = movies.annotate(reviews_score=Sum('reviews__score')).order_by('-reviews_score')
+    else:
+        movies = Movie.objects.order_by('-vote_average').annotate(reviews_score=Sum('reviews__score')).order_by('-reviews_score')
     serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
     return Response(serializer.data)
 
