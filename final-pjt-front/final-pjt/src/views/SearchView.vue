@@ -10,7 +10,7 @@
 			</div>
 		</div>
     <div>
-      <MovieList v-if="movies" :movies="movies" />
+      <MovieList :movies="movies" />
     </div>
   </div>
 </template>
@@ -44,10 +44,6 @@ export default {
       axios.get('https://api.themoviedb.org/3/search/movie',  {params,})
       .then(res => {
         this.movies = res.data.results
-        console.log(this.movies)
-        if (!this.movies.length) {
-          alert('검색 결과가 없습니다')
-        }
       })
 
       const searchBox = document.querySelector('#search-box')
@@ -59,7 +55,6 @@ export default {
 
 <style>
 #search-box {
-	padding: 2rem;
   margin-top: 30vh;
   transition: 0.8s;
 }
@@ -141,4 +136,6 @@ export default {
 	color: rgba(255, 255, 255, 0.753);
 	margin-bottom: 2rem;
 }
+
+
 </style>

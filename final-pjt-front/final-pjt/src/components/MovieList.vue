@@ -20,9 +20,14 @@ export default {
 
 <style>
 .flip-card-container {
-  margin-top: 2rem;
+  margin-left: 2rem;
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+  margin-bottom: 5rem;
+  margin-right: 3rem;
 }
 
 </style>

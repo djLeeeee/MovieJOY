@@ -1,14 +1,28 @@
 <template>
   <div id="genre-reccomend-box">
-    <div class="genre-buttons" id="genre-box">
-      <button v-for="(data, idx) in moviesByGenre" :key="idx" @click="selectGenre(idx)" class="raise">
-          <span>{{ data['genre_name'] }}</span>
-      </button>
+    <div id="genre-select-box">
+      <p class="genre-main-text">Search the movie by genres</p>
+      <p class="genre-text">Recommend 12 movies of your choice.</p>
+      <a @click="onSelect" href="#">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        Select Genre
+      </a>
     </div>
-    <div id="genre-movie-box">
+        <div id="genre-movie-box">
       <h3 style="color: white;">{{ selectedGenre }}</h3>
       <MovieList :movies="selectedMovies"/>
-    </div> 
+    </div>
+    <transition name="fade"> 
+      <div v-if="isSelect" class="genre-buttons" id="genre-box">
+        <p class="genre-box-text">Genres</p>
+        <button v-for="(data, idx) in moviesByGenre" :key="idx" @click="selectGenre(idx), onSelect()" class="raise">
+            <span>{{ data['genre_name'] }}</span>
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -26,7 +40,7 @@
     data: function () {
       return {
         windowWidth: window.innerWidth,
-        smallBox: false,
+        isSelect: false,
         genres: [
           {
             'id': 37,
@@ -123,14 +137,11 @@
       selectGenre: function (idx) {
         this.selectedMovies = this.moviesByGenre[idx].movies
         this.selectedGenre = this.moviesByGenre[idx].genre_name
+        const genreSelectBox = document.querySelector('#genre-select-box')
+        genreSelectBox.setAttribute('style', 'margin: 0vh;')
       },
-      handleResize: function () {
-        this.windowWidth = window.innerWidth;
-        if (this.windowWidth < 1200) {
-          this.smallBox = true
-        } else {
-          this.smallBox = false
-        }
+      onSelect: function () {
+        this.isSelect = !this.isSelect
       }
     },
     created () {
@@ -158,14 +169,37 @@
   justify-content: center;
 }
 
+#genre-select-box {
+  padding: 2rem;
+  margin-top: 30vh;
+  transition: 0.8s;
+}
+
 #genre-box {
-  margin-top: 5rem;
+  position: relative;
+  top: 10rem;
+  width: 6rem;
   width: 450px;
-  height: 100%;
+  height: 450px;
+  padding: 50px;
+  background: rgba(0, 0, 0, 0.753);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  overflow: auto;
+}
+
+#genre-movie-box {
+  position: absolute;
+  margin-top: 250px;
+  margin-bottom: 5rem;
+}
+
+.genre-box-text {
+  color: white;
+  font-size: 1rem;
 }
 
 .genre-buttons button {
-  width: 6rem;
   background: none;
   border: 2px solid;
   font: inherit;
@@ -188,5 +222,129 @@
   font-weight: bold;
   color: #00d7e2ec;
   transition: all .5s;
+}
+
+#genre-select-box {
+  position: absolute;
+}
+
+/* genre-select-btn */
+#genre-select-box a{
+    position: relative;
+    display: inline-block;
+    padding: 15px 20px;
+
+    color: #03e9f4;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: 0.5s;
+    letter-spacing: 4px;
+    overflow: hidden;
+    font-size: 0.9rem;
+   
+}
+#genre-select-box a:hover{
+    background: #03e9f4;
+    color: #050801;
+    box-shadow: 0 0 5px #03e9f4,
+                0 0 25px #03e9f4,
+                0 0 50px #03e9f4,
+                0 0 200px #03e9f4;
+     -webkit-box-reflect:below 1px linear-gradient(transparent, #0005);
+}
+
+#genre-select-box a span{
+    position: absolute;
+    display: block;
+}
+#genre-select-box a span:nth-child(1){
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,transparent,#03e9f4);
+    animation: animate1 1s linear infinite;
+}
+@keyframes animate1{
+    0%{
+        left: -100%;
+    }
+    50%,100%{
+        left: 100%;
+    }
+}
+#genre-select-box a span:nth-child(2){
+    top: -100%;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(180deg,transparent,#03e9f4);
+    animation: animate2 1s linear infinite;
+    animation-delay: 0.25s;
+}
+@keyframes animate2{
+    0%{
+        top: -100%;
+    }
+    50%,100%{
+        top: 100%;
+    }
+}
+#genre-select-box a span:nth-child(3){
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(270deg,transparent,#03e9f4);
+    animation: animate3 1s linear infinite;
+    animation-delay: 0.50s;
+}
+@keyframes animate3{
+    0%{
+        right: -100%;
+    }
+    50%,100%{
+        right: 100%;
+    }
+}
+
+
+#genre-select-box a span:nth-child(4){
+    bottom: -100%;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: linear-gradient(360deg,transparent,#03e9f4);
+    animation: animate4 1s linear infinite;
+    animation-delay: 0.75s;
+}
+@keyframes animate4{
+    0%{
+        bottom: -100%;
+    }
+    50%,100%{
+        bottom: 100%;
+    }
+}
+
+.genre-main-text {
+	color: white;
+	font-size: 2rem;
+}
+
+.genre-text {
+	color: rgba(255, 255, 255, 0.753);
+	margin-bottom: 2rem;
+}
+
+.fade-enter-active {
+  transition: opacity .5s;
+}
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
