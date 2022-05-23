@@ -175,7 +175,7 @@
   transition: 0.8s;
 }
 
-#genre-box {
+#genre-reccomend-box #genre-box {
   position: relative;
   top: 10rem;
   width: 6rem;
@@ -202,7 +202,7 @@
 .genre-buttons button {
   background: none;
   border: 2px solid;
-  font: inherit;
+  /* font: inherit; */
   line-height: 1;
   margin: 0.5em;
   padding: 0.5em;
