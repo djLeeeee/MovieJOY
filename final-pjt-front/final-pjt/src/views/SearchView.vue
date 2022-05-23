@@ -9,7 +9,9 @@
 				</div>
 			</div>
 		</div>
-    <MovieList v-if="movies" :movies="movies" />
+    <div>
+      <MovieList v-if="movies" :movies="movies" />
+    </div>
   </div>
 </template>
 

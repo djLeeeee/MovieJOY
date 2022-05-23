@@ -1,14 +1,12 @@
 <template>
   <div id="genre-reccomend-box">
-    <div id="genre-box" class="row row-cols-5 row-cols-md-6 row-cols-lg-8 row-cols-xl-10 g-1">
-      <div v-for="(data, idx) in moviesByGenre" :key="idx">
-        <button @click="selectGenre(idx)" class="col custom-btn btn-12 bubbly-button">
-          <span>Click!</span>
+    <div class="genre-buttons" id="genre-box">
+      <button v-for="(data, idx) in moviesByGenre" :key="idx" @click="selectGenre(idx)" class="raise">
           <span>{{ data['genre_name'] }}</span>
-        </button>
-      </div>
+      </button>
     </div>
     <div id="genre-movie-box">
+      <h3 style="color: white;">{{ selectedGenre }}</h3>
       <MovieList :movies="selectedMovies"/>
     </div> 
   </div>
@@ -23,10 +21,12 @@
   export default {
     name: 'GenreRecommendView',
     components: { 
-      MovieList
+      MovieList,
     },
     data: function () {
       return {
+        windowWidth: window.innerWidth,
+        smallBox: false,
         genres: [
           {
             'id': 37,
@@ -107,7 +107,14 @@
         ],
         moviesByGenre: [],
         selectedMovies: [],
+        selectedGenre: '',
       }
+    },
+    mounted() {
+          window.addEventListener('resize', this.handleResize);
+    },
+    beforeDestroy() {
+          window.removeEventListener('resize', this.handleResize);
     },
     computed: {
       ...mapGetters(['authHeader'])
@@ -115,6 +122,15 @@
     methods: {
       selectGenre: function (idx) {
         this.selectedMovies = this.moviesByGenre[idx].movies
+        this.selectedGenre = this.moviesByGenre[idx].genre_name
+      },
+      handleResize: function () {
+        this.windowWidth = window.innerWidth;
+        if (this.windowWidth < 1200) {
+          this.smallBox = true
+        } else {
+          this.smallBox = false
+        }
       }
     },
     created () {
@@ -132,91 +148,45 @@
           this.moviesByGenre.push(data)
         })
       })
-    }
+    },
   }
 </script>
 
 <style>
 #genre-reccomend-box {
-  padding: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 #genre-box {
-  display: flex;
+  margin-top: 5rem;
+  width: 450px;
+  height: 100%;
 }
 
-.custom-btn {
-  width: 130px;
-  height: 40px;
-  color: #fff;
-  border-radius: 5px;
-  padding: 10px 25px;
-  font-family: 'Lato', sans-serif;
-  font-weight: 500;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  display: inline-block;
-  outline: none;
+.genre-buttons button {
+  width: 6rem;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em;
+  color: white;
+  font-size: 0.9rem;
+  transition: all .5s;
 }
 
-.btn-12{
-  position: relative;
-  right: 20px;
-  bottom: 20px;
-  border:none;
-  box-shadow: none;
-  width: 130px;
-  height: 40px;
-  line-height: 42px;
-  -webkit-perspective: 230px;
-  perspective: 230px;
-}
-.btn-12 span {
-  display: block;
-  position: absolute;
-  width: 130px;
-  height: 40px;
-  border-radius: 5px;
-  margin:0;
-  text-align: center;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  -webkit-transition: all .3s;
-  transition: all .3s;
-}
 
-.btn-12 span:nth-child(1) {
-  -webkit-transform: rotateX(90deg);
-  -moz-transform: rotateX(90deg);
-  transform: rotateX(90deg);
-  -webkit-transform-origin: 50% 50% -20px;
-  -moz-transform-origin: 50% 50% -20px;
-  transform-origin: 50% 50% -20px;
+.genre-buttons .raise:hover,
+.genre-buttons .raise-focus {
+  font-size: 0.9rem;
+  box-shadow: 0 0.5em 0.5em -0.4em #01a8b1;
+  border: 2px solid #01a8b1a1;
+  transform: translateY(-0.25em);
+  background-color: #01a8b138;
+  font-weight: bold;
   color: #00d7e2ec;
-}
-
-.btn-12 span:nth-child(2) {
-  -webkit-transform: rotateX(0deg);
-  -moz-transform: rotateX(0deg);
-  transform: rotateX(0deg);
-  -webkit-transform-origin: 50% 50% -20px;
-  -moz-transform-origin: 50% 50% -20px;
-  transform-origin: 50% 50% -20px;
-}
-
-.btn-12:hover span:nth-child(1) {
-  -webkit-transform: rotateX(0deg);
-  -moz-transform: rotateX(0deg);
-  transform: rotateX(0deg);
-}
-
-.btn-12:hover span:nth-child(2) {
- color: transparent;
-  -webkit-transform: rotateX(-90deg);
-  -moz-transform: rotateX(-90deg);
-  transform: rotateX(-90deg);
+  transition: all .5s;
 }
 </style>
