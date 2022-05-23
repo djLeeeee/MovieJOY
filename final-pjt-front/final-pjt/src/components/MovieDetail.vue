@@ -1,36 +1,29 @@
 <template>
   <div>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
-    <h1>{{ movieId }}</h1>
+    <section id="movie-detail-section">
+      <MovieDetailInfoSection :movieId="movieId" />
+      <MovieDetailReview :movieId="movieId" />
+    </section>
   </div>
 </template>
 
 <script>
+import MovieDetailInfoSection from "@/components/MovieDetailInfoSection.vue"
+import MovieDetailReview from "@/components/MovieDetailReview.vue"
+
 export default {
   props: {
     movieId: Number,
+  },
+  components: {
+    MovieDetailInfoSection,
+    MovieDetailReview,
   },
 }
 </script>
 
 <style>
-
+#movie-detail-section {
+  display: flex;
+}
 </style>

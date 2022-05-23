@@ -13,7 +13,7 @@ export default {
   },
   movies: {
     movie: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/`,
-    likeArticle: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/` + 'like/',
+    likeMovie: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/` + 'like/',
     reviews: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/` + 'reviews/',
     review_ud: (TMDBMovieId, reviewPk) => HOST + MOVIES + `${TMDBMovieId}/` + 'reviews/' + `${reviewPk}/`,
     likeGenre: TMDBGenreId => HOST + MOVIES + `${TMDBGenreId}/` + 'genre/',
