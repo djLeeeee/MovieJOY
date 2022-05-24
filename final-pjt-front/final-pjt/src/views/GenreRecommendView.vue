@@ -141,8 +141,6 @@
           event.target.id === "genre-movie-box") {
           this.isSelect = false
         }
-
-        console.log(event.target.class)
       }
     },
     created () {

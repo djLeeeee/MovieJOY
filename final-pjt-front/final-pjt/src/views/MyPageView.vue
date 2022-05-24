@@ -17,52 +17,65 @@
 					</div>
 					<div class="profile-info">
 						<p>User Nickname</p>
+            <div>{{ user.nickname }}</div>
 						<p>Favorite Genres</p>
+            <div v-for="(genre, idx) in user.like_genres" :key="idx" >{{ genre.name }}</div>
 					</div>
 				</div>
 				<div class="user-review-box">
 					<h3>My Reviews</h3>
 					<div class="reviews-box">
-						<p>웅냥냥냥</p>	
-						<p>웅냥냥냥</p>	
-						<p>웅냥냥냥</p>	
-						<p>웅냥냥냥</p>	
+						<div v-for="(review, idx) in user.reviews" :key="idx" >
+              {{ review.score }}
+              {{ review.movie.name }}
+            </div>
 					</div>	
 				</div>
 			</div>
-			<div v-if="nowOpenPage === 'like-movies'">
-				무비지롱롱롱롱
+			<div v-if="nowOpenPage === 'like-movies'" id="user-like-dislike-box">
+        <h3 class="like-dislike-label">Like Movies</h3>
+        <div class="like-dislike-box">
+          <div v-for="(movie, idx) in user.like_movies" :key="idx" >
+            {{ movie.name }}
+          </div>
+        </div>
+        <h3 class="like-dislike-label">Dislike Movies</h3>
+        <div class="like-dislike-box">
+          <div v-for="(movie, idx) in user.dislike_movies" :key="idx" >
+            {{ movie.name }}
+          </div>
+        </div>
 			</div>
 		</div>
 		<transition name="fade">
 			<div v-if="isSettingsOpen" id="settings-box">
 				<h2>Settings</h2>
 				<div class="user-box">
-					<input type="text" name="">
+					<input type="text" name="" v-model="inputNickname">
 					<label>NickName</label>
 				</div>
 				<div id="genre-box">
 					<h6 class="choose-text">Choose your favorite genres</h6>
 					<div class="genre-buttons">
-						<button class="raise" data-id="878">SF</button>
-						<button class="raise" data-id="10770">TV영화</button>
-						<button class="raise" data-id="10751">가족</button>
-						<button class="raise" data-id="27">공포</button>
-						<button class="raise" data-id="99">다큐멘터리</button>
-						<button class="raise" data-id="18">드라마</button>
-						<button class="raise" data-id="10749">로맨스</button>
-						<button class="raise" data-id="12">모험</button>
-						<button class="raise" data-id="9648">미스터리</button>
-						<button class="raise" data-id="80">범죄</button>
-						<button class="raise" data-id="37">서부</button>
-						<button class="raise" data-id="53">스릴러</button>
-						<button class="raise" data-id="16">애니메이션</button>
-						<button class="raise" data-id="28">액션</button>
-						<button class="raise" data-id="36">역사</button>
-						<button class="raise" data-id="10402">음악</button>
-						<button class="raise" data-id="10752">전쟁</button>
-						<button class="raise" data-id="35">코미디</button>
-						<button class="raise" data-id="14">판타지</button>
+						<button @click="onSelectGenre" class="raise" data-id="878">SF</button>
+						<button @click="onSelectGenre" class="raise" data-id="10770">TV영화</button>
+						<button @click="onSelectGenre" class="raise" data-id="10751">가족</button>
+						<button @click="onSelectGenre" class="raise" data-id="27">공포</button>
+						<button @click="onSelectGenre" class="raise" data-id="99">다큐멘터리</button>
+						<button @click="onSelectGenre" class="raise" data-id="18">드라마</button>
+						<button @click="onSelectGenre" class="raise" data-id="10749">로맨스</button>
+						<button @click="onSelectGenre" class="raise" data-id="12">모험</button>
+						<button @click="onSelectGenre" class="raise" data-id="9648">미스터리</button>
+						<button @click="onSelectGenre" class="raise" data-id="80">범죄</button>
+						<button @click="onSelectGenre" class="raise" data-id="37">서부</button>
+						<button @click="onSelectGenre" class="raise" data-id="53">스릴러</button>
+						<button @click="onSelectGenre" class="raise" data-id="16">애니메이션</button>
+						<button @click="onSelectGenre" class="raise" data-id="28">액션</button>
+						<button @click="onSelectGenre" class="raise" data-id="36">역사</button>
+						<button @click="onSelectGenre" class="raise" data-id="10402">음악</button>
+						<button @click="onSelectGenre" class="raise" data-id="10752">전쟁</button>
+						<button @click="onSelectGenre" class="raise" data-id="35">코미디</button>
+						<button @click="onSelectGenre" class="raise" data-id="14">판타지</button>
 					</div>
 					<div class="settings-buttons">
 						<button class="btn authenticate-btn">Submit</button>
@@ -75,6 +88,10 @@
 </template>
 
 <script>
+  import axios from 'axios'
+  import drf from '@/api/drf'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'MyPageView',
     components: { 
@@ -85,27 +102,63 @@
 				nowOpenPage: 'my-profile',
 				isSettingsOpen: false,
 				imageSrc: '',
+        user: {},
+        inputNickname: '',
+        selectedGenres: [],
+        likeGenres: {},
 			}
 		},
 		created () {
 			this.imageSrc = './assets/base_profile_img.jpeg'
+      axios({
+        url: drf.accounts.myProfile(),
+        method: 'get',
+        headers: this.authHeader
+      })
+      .then(res => {
+        this.user = res.data
+        this.inputNickname = res.data.nickname
+        res.data.like_genres.map(genre => {
+          const genreId = genre.tmdb_genre_id
+          this.likeGenres.push(genreId)
+        })
+      })
 		},
 		methods: {
 			nowOpen: function (event) {
 				const onClickPage = event.target.id
-				console.log(onClickPage)
 				this.nowOpenPage = onClickPage
 			},
 			onSettingsOpen: function () {
+        if (this.isSettingsOpen) {
+          this.inputNickname = this.user.nickname
+          this.selectedGenres = []
+        }
 				this.isSettingsOpen = !this.isSettingsOpen
+        if (this.isSettingsOpen) {
+          this.activateBtn()
+        }
 			},
 			uploadImg() {
 				var image = this.$refs['image'].files
 				const url = URL.createObjectURL(image)
 				this.imageSrc = url
 				console.log(this.imageSrc)
-			}
-		}
+			},
+      activateBtn () {
+        this.likeGenres.map(genreId => {
+          console.log(genreId)
+          const likeGenreBtn = document.querySelector(`button[data-id="${genreId}"]`)
+          likeGenreBtn.classList.add('raise-focus')
+        })
+      },
+      onSelectGenre () {
+
+      }
+		},
+    computed: {
+      ...mapGetters(['authHeader'])
+    },
   }
 </script>
 
@@ -168,6 +221,27 @@
 	height: 100%;
 }
 
+#user-like-dislike-box {
+  text-align: start;
+  padding: 1rem;
+	height: 100%;
+}
+
+.like-dislike-label {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.like-dislike-box {
+	background-color: #00d9e44b;
+	height: 35%;
+	width: 100%;
+	text-align: start;
+	border-radius: 10px;
+	padding: 0.5rem;
+	overflow: auto;
+}
+
 .user-info-box {
 	height: 50%;
 	width: 100%;
@@ -199,7 +273,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	transition: .8s;
 }
 
 .reviews-box {
@@ -210,6 +283,11 @@
 	border-radius: 10px;
 	padding: 0.5rem;
 	overflow: auto;
+}
+
+.user-like-dislike-box {
+  padding: 1rem;
+	width: 100%;
 }
 
 #settings-box h2 {
@@ -280,6 +358,18 @@
   padding: 0.5em;
   color: rgb(51, 51, 51);
   font-size: 0.9rem;
+  transition: all .5s;
+}
+
+#settings-box .genre-buttons .raise:hover,
+#settings-box .genre-buttons .raise-focus {
+  font-size: 0.9rem;
+  box-shadow: 0 0.5em 0.5em -0.4em #01a8b1;
+  border: 2px solid #01a8b1a1;
+  transform: translateY(-0.25em);
+  background-color: #01a8b138;
+  font-weight: bold;
+  color: #00d7e2ec;
   transition: all .5s;
 }
 

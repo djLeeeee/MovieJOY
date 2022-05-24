@@ -93,7 +93,7 @@
       },
       onSelectGenre: function (event) {
         const genreId = event.target.dataset.id
-        const genreBtn = document.querySelector(`button[data-id="${genreId}"]`)
+        const genreBtn = event.target
         if (!genreBtn.classList.contains('raise-focus')) {
           genreBtn.classList.add('raise-focus')
           this.payload.genres.push(genreId)
