@@ -44,6 +44,8 @@ export default {
   methods: {
     selectMovie: function (category) {
       this.selectedMovies = this.recentMovies[category]
+      const releaseBox = document.querySelector('#release-box')
+      releaseBox.setAttribute('style', 'margin: 0vh;')
     }
   },
   computed: {

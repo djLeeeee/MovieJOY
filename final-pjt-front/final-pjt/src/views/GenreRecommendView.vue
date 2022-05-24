@@ -214,6 +214,11 @@
   transition: all .5s;
 }
 
+.page-open {
+  color: #01a8b1;
+  scale: 1.1;
+}
+
 
 .genre-buttons .raise:hover,
 .genre-buttons .raise-focus {

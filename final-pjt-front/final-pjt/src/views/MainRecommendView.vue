@@ -53,6 +53,8 @@
     methods: {
       selectMovie: function (category) {
         this.selectedMovies = this.moviesBy3Way[category]
+        const logoBox = document.querySelector('#logo-box')
+        logoBox.setAttribute('style', 'margin: 0vh;')
       }
     },
     computed: {
@@ -100,10 +102,10 @@
 
 #logo-box {
   margin-top: 20vh;
+  transition: 0.8s;
 }
 
 main {
-  margin-top: 5rem;
   transition: all 0.5s;
   -webkit-text-stroke: 4px #d6f4f4;
   font-variation-settings: "wght" 900, "ital" 1;

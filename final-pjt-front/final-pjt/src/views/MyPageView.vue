@@ -1,33 +1,33 @@
 <template>
-  <div>
-    <div class="card-container">
-      <span class="pro">PRO</span>
-      <img class="round" src="https://randomuser.me/api/portraits/women/79.jpg" alt="user" />
-      <h3>Ricky Park</h3>
-      <h6>New York</h6>
-      <p>User interface designer and <br/> front-end developer</p>
-      <div class="buttons">
-        <button class="primary">
-          Message
-        </button>
-        <button class="primary ghost">
-          Following
-        </button>
-      </div>
-      <div class="skills">
-        <h6>Skills</h6>
-        <ul>
-          <li>UI / UX</li>
-          <li>Front End Development</li>
-          <li>HTML</li>
-          <li>CSS</li>
-          <li>JavaScript</li>
-          <li>React</li>
-          <li>Node</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+	<div id="mypage-flex">
+		<div id="mypage-box">
+			<div id="mypage-nav">
+				<button @click="nowOpen" id="my-profile" class="my-profile page-open">My Profile</button>
+				<button @click="nowOpen" id="like-movies">Like Movies</button>
+			</div>
+			<div v-if="nowOpenPage === 'my-profile'" class="profile-box">
+				<div class="user-info-box">
+					<img src="@/assets/base_profile_img.jpeg" alt="">
+					<div class="profile-info">
+						<p>User Nickname</p>
+						<p>Favorite Genres</p>
+					</div>
+				</div>
+				<div class="user-review-box">
+					<h3>My Reviews</h3>
+					<div class="reviews-box">
+						<p>웅냥냥냥</p>	
+						<p>웅냥냥냥</p>	
+						<p>웅냥냥냥</p>	
+						<p>웅냥냥냥</p>	
+					</div>	
+				</div>
+			</div>
+			<div v-if="nowOpenPage === 'like-movies'">
+				무비지롱롱롱롱
+			</div>
+		</div>
+	</div>	
 </template>
 
 <script>
@@ -37,89 +37,131 @@
     components: { 
 
     },
+		data: function () {
+			return {
+				nowOpenPage: 'my-profile',
+			}
+		},
+		methods: {
+			nowOpen: function (event) {
+				const onClickPage = event.target.id
+				console.log(onClickPage)
+				this.nowOpenPage = onClickPage
+			} 
+		}
   }
 </script>
 
+
 <style>
-h3 {
-	margin: 10px 0;
+#mypage-flex {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	justify-content: center;
 }
 
-h6 {
-	margin: 5px 0;
-	text-transform: uppercase;
+#mypage-box {
+	margin-top: 5vh;
+	width: 50rem;
+	height: 40rem;
+	background: rgba(0, 0, 0, 0.753);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+	transition: .8s;
+	color: white;
 }
 
-p {
-	font-size: 14px;
-	line-height: 21px;
-}
-
-.card-container {
-	background-color: #231E39;
-	border-radius: 5px;
-	box-shadow: 0px 10px 20px -10px rgba(0,0,0,0.75);
-	color: #B3B8CD;
-	padding-top: 30px;
+#mypage-nav {
+	display: flex;
 	position: relative;
-	width: 350px;
-	max-width: 100%;
-	text-align: center;
+	bottom: 30px;
 }
 
-.card-container .pro {
-	color: #231E39;
-	background-color: #FEBB0B;
-	border-radius: 3px;
-	font-size: 14px;
-	font-weight: bold;
-	padding: 3px 7px;
-	position: absolute;
-	top: 30px;
-	left: 30px;
+#mypage-nav button {
+	border: none;
+	width: 150px;
+	height: 40px;
+	background: rgba(0, 0, 0, 0.753);
+	color: white;
 }
 
-.card-container .round {
-	border: 1px solid #03BFCB;
-	border-radius: 50%;
-	padding: 7px;
+#mypage-nav button:hover,
+#mypage-nav button:focus {
+	color: #00d9e4;
 }
 
-button.primary {
-	background-color: #03BFCB;
-	border: 1px solid #03BFCB;
-	border-radius: 3px;
-	color: #231E39;
-	font-family: Montserrat, sans-serif;
-	font-weight: 500;
-	padding: 10px 25px;
+
+.profile-box {
+	padding: 1rem;
+	height: 100%;
 }
 
-button.primary.ghost {
-	background-color: transparent;
-	color: #02899C;
+.user-info-box {
+	height: 50%;
+	width: 100%;
+	display: flex;
 }
 
-.skills {
-	background-color: #1F1A36;
-	text-align: left;
-	padding: 15px;
-	margin-top: 30px;
+.user-info-box img {
+	width: 300px;
+	height: 300px;
+	border-radius: 300px;
+	margin-left: 1rem;
+	transition: .8s;
+	box-shadow: 4px 4px 4px #00d9e4af,
+		4px 1px 1px #161491c2,
+    7px 7px 3px #80179bcc;
 }
 
-.skills ul {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
+.profile-info {
+	margin-left: 2rem;
+	text-align: start;
+	font-size: 1.5rem;
+	margin-top: 2rem;
 }
 
-.skills ul li {
-	border: 1px solid #2D2747;
-	border-radius: 2px;
-	display: inline-block;
-	font-size: 12px;
-	margin: 0 7px 7px 0;
-	padding: 7px;
+.user-review-box {
+	height: 250px;
+	width: 100%;
+	margin-top: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	transition: .8s;
 }
 
+.reviews-box {
+	background-color: #00d9e44b;
+	height: 100%;
+	width: 100%;
+	text-align: start;
+	border-radius: 10px;
+	padding: 0.5rem;
+	overflow: auto;
+}
+
+@media ( max-width: 830px ) {
+	#mypage-box {
+		margin-top: 15vh;
+		width: 500px;
+		height: 500px;
+	}
+
+	.user-info-box img {
+		width: 200px;
+		height: 200px;
+	}
+
+	.user-review-box {
+		height: 170px;
+	}
+
+	.profile-info {
+		margin-left: 2rem;
+		text-align: start;
+		font-size: 1rem;
+		margin-top: 2rem;
+	}
+}
 </style>
