@@ -24,6 +24,18 @@ subURL = f"/sms/v2/services/{serviceId}/messages"
 sending_phone_number = '01073118189'
 
 
+@api_view(['GET', 'POST'])
+def my_profile(request):
+    user = request.user
+    if request.method == 'GET':
+        pass
+    elif request.method == 'POST':
+        user.nickname = request.data["nickname"]
+        user.save()
+    serializer = ProfileSerializer(user)
+    return Response(serializer.data)
+
+
 @api_view(['GET'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)

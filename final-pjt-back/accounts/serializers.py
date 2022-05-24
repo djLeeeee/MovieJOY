@@ -16,9 +16,16 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Genre
-            fields = ('tmdb_genre_id',)
+            fields = ('tmdb_genre_id', 'name')
 
     class ReviewSerializer(serializers.ModelSerializer):
+
+        class CustomMovieSerializer(serializers.ModelSerializer):
+            class Meta:
+                model = Movie
+                fields = ('tmdb_movie_id', 'name')
+
+        movie = CustomMovieSerializer(read_only=True)
 
         class Meta:
             model = Review
