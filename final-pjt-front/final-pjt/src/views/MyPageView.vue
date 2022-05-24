@@ -55,11 +55,7 @@
 				</div>
 				<div id="genre-box">
 					<h6 class="choose-text">Choose your favorite genres</h6>
-					<GenreButton :likeGenres="likeGenres"/>
-					<div class="settings-buttons">
-						<button class="btn authenticate-btn">Submit</button>
-						<button @click="onSettingsOpen" class="btn authenticate-btn">Close</button>
-					</div>
+					<GenreButton :likeGenres="likeGenres" @edit-profile-data="submitProfileData" @close-settings="onSettingsOpen" />
 				</div>
 			</div>
 		</transition>	
@@ -120,10 +116,45 @@
 				this.imageSrc = url
 				console.log(this.imageSrc)
 			},
+      submitProfileData (data) {
+        axios({
+          url: drf.accounts.myProfile(),
+          method: 'post',
+          headers: this.authHeader,
+          data: {
+            'nickname': this.inputNickname
+          }
+        })
+        .then(
+          this.user.nickname = this.inputNickname,
+          data.map(genreId => {
+            axios({
+              url: drf.movies.likeGenre(genreId),
+              method: "post",
+              headers: this.authHeader,
+            })
+          })
+        ).then(this.onSettingsOpen)
+      },
 		},
     computed: {
       ...mapGetters(['authHeader'])
     },
+		updated () {
+      axios({
+        url: drf.accounts.myProfile(),
+        method: 'get',
+        headers: this.authHeader
+      })
+      .then(res => {
+        this.user = res.data
+        this.likeGenres = []
+        res.data.like_genres.map(genre => {
+          const genreId = genre.tmdb_genre_id
+          this.likeGenres.push(genreId)
+        })
+      })
+		},
   }
 </script>
 
@@ -290,15 +321,6 @@
 
 #settings-box .choose-text {
   color: rgb(51, 51, 51);
-}
-
-.settings-buttons .authenticate-btn {
-  margin-top: 0.5rem;
-	color: rgb(51, 51, 51);
-}
-
-.settings-buttons .authenticate-btn:hover {
-	color: #00666bec;
 }
 
 #settings-box .genre-buttons button {
