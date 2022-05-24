@@ -4,8 +4,9 @@
 			<div id="mypage-nav">
 				<button @click="nowOpen" id="my-profile" class="my-profile page-open">My Profile</button>
 				<button @click="nowOpen" id="like-movies">Like Movies</button>
+				<button @click="onSettingsOpen">Settings</button>
 			</div>
-			<div v-if="nowOpenPage === 'my-profile'" class="profile-box">
+			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
 					<img src="@/assets/base_profile_img.jpeg" alt="">
 					<div class="profile-info">
@@ -27,11 +28,47 @@
 				무비지롱롱롱롱
 			</div>
 		</div>
+		<transition name="fade">
+			<div v-if="isSettingsOpen" id="settings-box">
+				<h2>Settings</h2>
+				<div class="user-box">
+					<input type="text" name="">
+					<label>NickName</label>
+				</div>
+				<div id="genre-box">
+					<h6 class="choose-text">Choose your favorite genres</h6>
+					<div class="genre-buttons">
+						<button class="raise" data-id="878">SF</button>
+						<button class="raise" data-id="10770">TV영화</button>
+						<button class="raise" data-id="10751">가족</button>
+						<button class="raise" data-id="27">공포</button>
+						<button class="raise" data-id="99">다큐멘터리</button>
+						<button class="raise" data-id="18">드라마</button>
+						<button class="raise" data-id="10749">로맨스</button>
+						<button class="raise" data-id="12">모험</button>
+						<button class="raise" data-id="9648">미스터리</button>
+						<button class="raise" data-id="80">범죄</button>
+						<button class="raise" data-id="37">서부</button>
+						<button class="raise" data-id="53">스릴러</button>
+						<button class="raise" data-id="16">애니메이션</button>
+						<button class="raise" data-id="28">액션</button>
+						<button class="raise" data-id="36">역사</button>
+						<button class="raise" data-id="10402">음악</button>
+						<button class="raise" data-id="10752">전쟁</button>
+						<button class="raise" data-id="35">코미디</button>
+						<button class="raise" data-id="14">판타지</button>
+					</div>
+					<div class="settings-buttons">
+						<button class="btn authenticate-btn">Submit</button>
+						<button @click="onSettingsOpen" class="btn authenticate-btn">Close</button>
+					</div>
+				</div>
+			</div>
+		</transition>	
 	</div>	
 </template>
 
 <script>
-
   export default {
     name: 'MyPageView',
     components: { 
@@ -40,6 +77,7 @@
 		data: function () {
 			return {
 				nowOpenPage: 'my-profile',
+				isSettingsOpen: false,
 			}
 		},
 		methods: {
@@ -47,27 +85,32 @@
 				const onClickPage = event.target.id
 				console.log(onClickPage)
 				this.nowOpenPage = onClickPage
-			} 
+			},
+			onSettingsOpen: function () {
+				this.isSettingsOpen = !this.isSettingsOpen
+			},
 		}
   }
 </script>
 
 
 <style>
+
 #mypage-flex {
-	width: 100vw;
-	height: 100vh;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 }
 
 #mypage-box {
 	margin-top: 5vh;
+	position: absolute;
 	width: 50rem;
 	height: 40rem;
 	background: rgba(0, 0, 0, 0.753);
-  box-sizing: border-box;
-  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+	box-sizing: border-box;
+	box-shadow: 0 15px 25px rgba(0,0,0,.6);
 	transition: .8s;
 	color: white;
 }
@@ -91,8 +134,20 @@
 	color: #00d9e4;
 }
 
+#settings-box {
+	position: relative;
+	top: 6rem;
+	width: 6rem;
+	width: 450px;
+	height: 620px;
+	padding: 40px;
+	background: rgba(197, 197, 197, 0.911);
+	box-sizing: border-box;
+	box-shadow: 0 15px 25px rgba(0,0,0,.6);
+	overflow: auto;
+}
 
-.profile-box {
+#profile-box {
 	padding: 1rem;
 	height: 100%;
 }
@@ -122,7 +177,7 @@
 }
 
 .user-review-box {
-	height: 250px;
+	height: 230px;
 	width: 100%;
 	margin-top: 1.5rem;
 	display: flex;
@@ -140,6 +195,78 @@
 	padding: 0.5rem;
 	overflow: auto;
 }
+
+#settings-box h2 {
+	margin: 0 0 30px;
+	padding: 0;
+	color: rgb(51, 51, 51);
+	text-align: center;
+}
+
+#settings-box .user-box {
+	position: relative;
+	margin-top: 0.5rem;
+}
+
+#settings-box .user-box input {
+	width: 100%;
+	padding: 10px 0;
+	font-size: 1.2rem;
+	color: rgb(51, 51, 51);
+	margin-bottom: 30px;
+	border: none;
+	border-bottom: 1px solid rgb(51, 51, 51);
+	outline: none;
+	background: transparent;
+}
+
+#settings-box .user-box label {
+	position: absolute;
+	padding: 10px 0;
+	top: -20px;
+	left: 0;
+	color: #00666bec;
+	font-size: 1rem;
+}
+
+#settings-box .choose-text {
+  color: rgb(51, 51, 51);
+}
+
+#settings-box .genre-buttons .raise:hover,
+#settings-box .genre-buttons .raise-focus {
+  font-size: 0.9rem;
+  box-shadow: 0 0.5em 0.5em -0.4em #00666bec;
+  border: 2px solid #00666bec;
+  transform: translateY(-0.25em);
+  background-color: #3d3d3d38;
+  font-weight: bold;
+  color: #00666bec;
+  transition: all .5s;
+}
+
+.settings-buttons .authenticate-btn {
+  margin-top: 0.5rem;
+	color: rgb(51, 51, 51);
+}
+
+.settings-buttons .authenticate-btn:hover {
+	color: #00666bec;
+}
+
+#settings-box .genre-buttons button {
+  width: 6rem;
+  background: none;
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 0.5em;
+  color: rgb(51, 51, 51);
+  font-size: 0.9rem;
+  transition: all .5s;
+}
+
 
 @media ( max-width: 830px ) {
 	#mypage-box {
