@@ -13,7 +13,7 @@
         <p>{{ review.user.nickname || review.user.username }}</p>
       </div>
     </div>
-    <div style="color: white;">
+    <div style="color: white; text-align: left;">
       {{ review.content }}
     </div>
   </div>
