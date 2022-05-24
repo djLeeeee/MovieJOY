@@ -3,14 +3,14 @@
     <div id="release-box">
       <p class="release-main-text">Check the screening information</p>
       <p class="release-text">Check now playing and up comming movies</p>
-      <a href="#">
+      <a href="#" @click="selectMovie(0)">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
         Now Playing
       </a>
-      <a href="#">
+      <a href="#" @click="selectMovie(1)">
         <span></span>
         <span></span>
         <span></span>
@@ -18,12 +18,56 @@
         Up Comming
       </a>
     </div>
+    <div>
+      <MovieList :movies="selectedMovies" />
+    </div>
   </div>
 </template>
 
 <script>
+import drf from '@/api/drf'
+import { mapGetters } from 'vuex'
+import MovieList from "@/components/MovieList"
+import axios from 'axios'
+
 export default {
   name: 'ReleaseView',
+  data: function () {
+    return {
+      selectedMovies: [],
+      recentMovies: {},
+    }
+  },
+  components: { 
+    MovieList,
+  },
+  methods: {
+    selectMovie: function (category) {
+      this.selectedMovies = this.recentMovies[category]
+    }
+  },
+  computed: {
+    ...mapGetters(['authHeader'])
+  },
+  created () {
+    axios({
+      url: drf.movies.nowPlayingMovie(),
+      method: 'get',
+      headers: this.authHeader
+    })
+    .then(res => {
+      this.recentMovies[0] = res.data
+    })
+
+    axios({
+      url: drf.movies.upComingMovie(),
+      method: 'get',
+      headers: this.authHeader
+    })
+    .then(res => {
+      this.recentMovies[1] = res.data
+    })
+  }
 }
 </script>
 

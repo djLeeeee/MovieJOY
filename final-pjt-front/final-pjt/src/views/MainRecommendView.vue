@@ -5,21 +5,21 @@
       <p class="main-page-text">Movie Recommendation In 3 Ways</p>
     </div>
     <div id="recommend-buttons">
-      <a href="#">
+      <a href="#" @click="selectMovie(0)">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
         Popular of TMDB
       </a>
-      <a href="#">
+      <a href="#" @click="selectMovie(1)">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
         Choice of Genre
       </a>
-      <a href="#">
+      <a href="#" @click="selectMovie(2)">
         <span></span>
         <span></span>
         <span></span>
@@ -28,25 +28,64 @@
       </a>
     </div>
     <div>
-      <MovieList />
+      <MovieList :movies="selectedMovies" />
     </div>
   </div>
 </template>
 
 <script>
-  // import axios from 'axios'
-  // import drf from '@/api/drf'
+  import drf from '@/api/drf'
   import { mapGetters } from 'vuex'
   import MovieList from "@/components/MovieList"
+  import axios from 'axios'
 
   export default {
     name: 'MainRecommendationView',
+    data: function () {
+      return {
+        selectedMovies: [],
+        moviesBy3Way: {},
+      }
+    },
     components: { 
       MovieList,
+    },
+    methods: {
+      selectMovie: function (category) {
+        this.selectedMovies = this.moviesBy3Way[category]
+      }
     },
     computed: {
       ...mapGetters(['authHeader'])
     },
+    created () {
+      axios({
+        url: drf.movies.recommendByTMDB(),
+        method: 'get',
+        headers: this.authHeader
+      })
+      .then(res => {
+        this.moviesBy3Way[0] = res.data
+      })
+
+      axios({
+        url: drf.movies.recommendByLikeGenres(),
+        method: 'get',
+        headers: this.authHeader
+      })
+      .then(res => {
+        this.moviesBy3Way[1] = res.data
+      })
+
+      axios({
+        url: drf.movies.recommendByReviews(),
+        method: 'get',
+        headers: this.authHeader
+      })
+      .then(res => {
+        this.moviesBy3Way[2] = res.data
+      })
+    }
   }
 </script>
 
