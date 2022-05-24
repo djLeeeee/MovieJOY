@@ -2,18 +2,18 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 from ..models import Movie, Review
-from .review import ReviewSerializer
+from .review import ReviewListSerializer
 
 User = get_user_model()
 
 # Movie 
 class MovieSerializer(serializers.ModelSerializer):
 
-    class CustomReviewSerializer(ReviewSerializer):
+    class CustomReviewSerializer(ReviewListSerializer):
 
         class Meta:
             model = Review
-            fields = ('id', 'content', 'score', 'user')
+            fields = '__all__'
 
     reviews = CustomReviewSerializer(many=True, read_only=True)
 
