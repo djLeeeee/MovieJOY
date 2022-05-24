@@ -10,7 +10,7 @@
           <i :id="reviewStarPath" data-id="4" class="fa-solid fa-star"></i>
           <i :id="reviewStarPath" data-id="5" class="fa-solid fa-star"></i>
         </div>
-        <p>{{ review.user.username }}</p>
+        <p>{{ review.user.nickname || review.user.username }}</p>
       </div>
     </div>
     <div style="color: white;">

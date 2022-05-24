@@ -7,14 +7,14 @@
     <div class="card-front">
       <figure>
         <div class="img-bg"></div>
-        <img :src="posterPath" alt="MoviePoster">
+        <img :src="posterPath" :alt="movie.title">
       </figure>
     </div>
 
     <div class="card-back">
       <figure>
         <div class="img-bg"></div>
-        <img :src="posterPath" alt="Brohm Lake">
+        <img :src="posterPath" :alt="movie.title">
       </figure>
 
       <ul class="card-ul">

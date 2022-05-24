@@ -38,7 +38,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = get_user_model()
-        fields = ('id', 'nickname', 'like_genres', 'like_movies', 'dislike_movies', 'reviews', 'phone_number')
+        fields = ('id', 'username', 'nickname', 'like_genres', 'like_movies', 'dislike_movies', 'reviews', 'phone_number')
 
 
 class AuthSerializer(serializers.ModelSerializer):

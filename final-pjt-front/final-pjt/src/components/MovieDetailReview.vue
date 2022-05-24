@@ -25,7 +25,7 @@
     </div>
     <div style="margin-top: 2rem;">
       <ReviewList v-if="othersreviewed" :reviews="reviews" />
-      <div v-else>리뷰가 없습니다!</div>
+      <div v-else class="none-review-text">There are no reviews written yet...</div>
     </div>
   </div>
 </template>
@@ -253,5 +253,12 @@ export default {
   text-decoration: none;
 }
 
+.none-review-text {
+  color: white;
+  margin-bottom: 3rem;
+}
 
+.fa-star:hover {
+  transform: scale(1.2);
+}
 </style>

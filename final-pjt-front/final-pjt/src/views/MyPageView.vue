@@ -16,8 +16,7 @@
 						<img :src="imageSrc" alt="">
 					</div>
 					<div class="profile-info">
-						<p>User Nickname</p>
-            <div>{{ user.nickname }}</div>
+						<p>{{ user.nickname || user.username }}</p>
 						<p>Favorite Genres</p>
             <div v-for="(genre, idx) in user.like_genres" :key="idx" >{{ genre.name }}</div>
 					</div>
@@ -97,7 +96,7 @@
       })
       .then(res => {
         this.user = res.data
-        this.inputNickname = res.data.nickname
+        this.inputNickname = res.data.nickname || res.data.username
         res.data.like_genres.map(genre => {
           const genreId = genre.tmdb_genre_id
           this.likeGenres.push(genreId)
@@ -292,19 +291,6 @@
 #settings-box .choose-text {
   color: rgb(51, 51, 51);
 }
-
-#settings-box .genre-buttons .raise:hover,
-#settings-box .genre-buttons .raise-focus {
-  font-size: 0.9rem;
-  box-shadow: 0 0.5em 0.5em -0.4em #00666bec;
-  border: 2px solid #00666bec;
-  transform: translateY(-0.25em);
-  background-color: #3d3d3d38;
-  font-weight: bold;
-  color: #00666bec;
-  transition: all .5s;
-}
-
 
 .settings-buttons .authenticate-btn {
   margin-top: 0.5rem;
