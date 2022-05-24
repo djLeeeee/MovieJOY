@@ -10,7 +10,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
         class Meta:
             model = Movie
-            fields = ('tmdb_movie_id',)
+            fields = ('tmdb_movie_id', 'name')
 
     class GenreSerializer(serializers.ModelSerializer):
 
