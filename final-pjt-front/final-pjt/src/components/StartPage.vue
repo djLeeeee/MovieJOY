@@ -55,14 +55,12 @@
 <script>
   import SignupPage from "./SignupPage.vue"
   import { mapActions, mapGetters } from 'vuex'
-  import AccountErrorList from '@/components/AccountErrorList.vue'
   import router from '@/router'
 
   export default {
     name: 'StartPage',
     components: {
       SignupPage,
-      AccountErrorList,
     },
     data: function () {
       return {

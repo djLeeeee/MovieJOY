@@ -4,13 +4,15 @@
       <iframe :src="trailerURL" frameborder="0"></iframe>
     </div>
     <section class="information-container">
-      <h2 class="movie-title">{{ movie.name }}</h2>
-      <h2 class="movie-score">{{ movie.vote_average }}</h2>
-      <h2>
-        <i class="fa-solid fa-heart-circle-plus" id="movie-normal-button" v-if='normal' @click='movielike(), normal=false, like=true'/>
-        <i class="fa-solid fa-heart-circle-check" id="movie-like-button" v-if='like' @click='movielike(), like=false, dislike=true'/>
-        <i class="fa-solid fa-heart-circle-xmark" id="movie-dislike-button" v-if='dislike' @click='movielike(), dislike=false, normal=true'/>
-      </h2>
+        <h2 class="movie-title">{{ movie.name }}</h2>
+        <div class="score-like-button-box">
+          <h2 class="movie-score">{{ movie.vote_average }}</h2>
+          <h2 class="movie-button">
+            <i class="fa-solid fa-heart-circle-plus" id="movie-normal-button" v-if='normal' @click='movielike(), normal=false, like=true'/>
+            <i class="fa-solid fa-heart-circle-check" id="movie-like-button" v-if='like' @click='movielike(), like=false, dislike=true'/>
+            <i class="fa-solid fa-heart-circle-xmark" id="movie-dislike-button" v-if='dislike' @click='movielike(), dislike=false, normal=true'/>
+          </h2>
+        </div>
     </section>
     <div class="overview-container">
       {{ movie.overview }}
@@ -99,8 +101,6 @@ export default {
 <style>
 
 .movie-info-section {
-  width: 70%;
-  padding-right: 1rem;
   margin: 1rem;
 }
 
@@ -119,20 +119,24 @@ export default {
 
 .information-container  {
   display: flex;
+  justify-content: space-between;
   margin-top: 1rem;
 }
 
 .movie-title {
-  width: 70%;
   text-align: left;
   color: white;
   font-weight: bold;
 }
 
+.score-like-button-box {
+  display: flex;
+}
+
 .movie-score {
-  width: 20%;
   color: white;
   font-weight: bold;
+  margin-right: 1rem;
 }
 
 #movie-normal-button {

@@ -28,10 +28,8 @@ export default {
   width: 90%;
   height: 90%;
   overflow-y: auto;
-  background-color: rgba(0, 14, 59, 0.749);
-  transition: opacity 0.3s ease;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px white;
+  background-color: rgba(0, 0, 0, 0.89);
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
 }
 
 .modal-close-button {
