@@ -45,6 +45,7 @@
       return {
         selectedMovies: [],
         moviesBy3Way: {},
+        selectMovieCategory: -1,
       }
     },
     components: { 

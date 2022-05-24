@@ -73,6 +73,18 @@ export default {
         star.style.color = '#01a8b1c4'
       } 
     }
+  },
+  updated() {
+    const voteAverage = Math.round(this.movie.vote_average / 2)
+    const stars = document.querySelectorAll(`#movie-${ this.movie.id || this.movie.tmdb_movie_id }`)
+    for(let star of stars) {
+      const num = star.dataset.id
+      if(voteAverage - num >= 0) {
+        star.style.color = '#01a8b1c4'
+      } else {
+        star.style.color = 'rgba(240, 248, 255, 0.562)'
+      }
+    }
   }
 }
 

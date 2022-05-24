@@ -8,7 +8,13 @@
 			</div>
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
-					<img src="@/assets/base_profile_img.jpeg" alt="">
+
+					<div>
+						<form method="post" enctype="multipart/form-data">
+						<input ref="image" @change="uploadImg()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
+						</form>
+						<img :src="imageSrc" alt="">
+					</div>
 					<div class="profile-info">
 						<p>User Nickname</p>
 						<p>Favorite Genres</p>
@@ -78,7 +84,11 @@
 			return {
 				nowOpenPage: 'my-profile',
 				isSettingsOpen: false,
+				imageSrc: '',
 			}
+		},
+		created () {
+			this.imageSrc = './assets/base_profile_img.jpeg'
 		},
 		methods: {
 			nowOpen: function (event) {
@@ -89,6 +99,12 @@
 			onSettingsOpen: function () {
 				this.isSettingsOpen = !this.isSettingsOpen
 			},
+			uploadImg() {
+				var image = this.$refs['image'].files
+				const url = URL.createObjectURL(image)
+				this.imageSrc = url
+				console.log(this.imageSrc)
+			}
 		}
   }
 </script>
