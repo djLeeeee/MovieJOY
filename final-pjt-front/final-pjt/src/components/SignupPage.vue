@@ -111,21 +111,20 @@
 #all-box {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 #signup-box {
   position: relative;
-  top: 50%;
-  left: 50%;
+  top: 10rem;
   width: 450px;
-  height: 32rem;
+  height: 450px;
   padding: 50px;
-  transform: translate(-50%, -50%);
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.753);
   box-sizing: border-box;
   box-shadow: 0 15px 25px rgba(0,0,0,.6);
   overflow: auto;
-  padding-top: 0px;
 }
 
 #signup-box::-webkit-scrollbar {
@@ -163,6 +162,7 @@
   outline: none;
   background: transparent;
 }
+
 #signup-box .user-box label {
   position: absolute;
   top:0;
@@ -217,8 +217,6 @@
 
 .signup-error-box {
   text-align: start;
-  /* position: absolute;
-  top: 170px; */
   color: white;
   font-size: 0.8rem;
 }
