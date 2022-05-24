@@ -48,15 +48,7 @@
 		</div>
 		<transition name="fade">
 			<div v-if="isSettingsOpen" id="settings-box">
-				<h2>Settings</h2>
-				<div class="user-box">
-					<input type="text" name="" v-model="inputNickname">
-					<label>NickName</label>
-				</div>
-				<div id="genre-box">
-					<h6 class="choose-text">Choose your favorite genres</h6>
-					<GenreButton :likeGenres="likeGenres" @edit-profile-data="submitProfileData" @close-settings="onSettingsOpen" />
-				</div>
+				<SettingsInput :userNickname="user.nickname" :userUsername="user.username" :likeGenres="likeGenres" @edit-profile-data="submitProfileData" @close-settings="onSettingsOpen" />
 			</div>
 		</transition>	
 	</div>	
@@ -66,12 +58,12 @@
   import axios from 'axios'
   import drf from '@/api/drf'
   import { mapGetters } from 'vuex'
-  import GenreButton from '@/components/GenreButton.vue'
+  import SettingsInput from '@/components/SettingsInput.vue'
 
   export default {
     name: 'MyPageView',
     components: { 
-      GenreButton,
+      SettingsInput,
     },
 		data: function () {
 			return {
@@ -79,7 +71,6 @@
 				isSettingsOpen: false,
 				imageSrc: '',
         user: {},
-        inputNickname: '',
         likeGenres: [],
 			}
 		},
@@ -92,7 +83,6 @@
       })
       .then(res => {
         this.user = res.data
-        this.inputNickname = res.data.nickname || res.data.username
         res.data.like_genres.map(genre => {
           const genreId = genre.tmdb_genre_id
           this.likeGenres.push(genreId)
@@ -116,13 +106,13 @@
 				this.imageSrc = url
 				console.log(this.imageSrc)
 			},
-      submitProfileData (data) {
+      submitProfileData (data, nicknameData) {
         axios({
           url: drf.accounts.myProfile(),
           method: 'post',
           headers: this.authHeader,
           data: {
-            'nickname': this.inputNickname
+            'nickname': nicknameData
           }
         })
         .then(
