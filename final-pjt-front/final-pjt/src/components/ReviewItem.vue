@@ -1,14 +1,19 @@
 <template>
-  <div>
-    <div class="star-box">
-      <i :id="reviewStarPath" data-id="1" class="fa-solid fa-star"></i>
-      <i :id="reviewStarPath" data-id="2" class="fa-solid fa-star"></i>
-      <i :id="reviewStarPath" data-id="3" class="fa-solid fa-star"></i>
-      <i :id="reviewStarPath" data-id="4" class="fa-solid fa-star"></i>
-      <i :id="reviewStarPath" data-id="5" class="fa-solid fa-star"></i>
-      {{ review.user.username }}
+  <div id="review-item-box">
+    <div id="review-writer-info-box">
+      <img src="@/assets/base_profile_img.jpeg" alt="">
+      <div class="writer-info">
+        <div class="star-box">
+          <i :id="reviewStarPath" data-id="1" class="fa-solid fa-star"></i>
+          <i :id="reviewStarPath" data-id="2" class="fa-solid fa-star"></i>
+          <i :id="reviewStarPath" data-id="3" class="fa-solid fa-star"></i>
+          <i :id="reviewStarPath" data-id="4" class="fa-solid fa-star"></i>
+          <i :id="reviewStarPath" data-id="5" class="fa-solid fa-star"></i>
+        </div>
+        <p>{{ review.user.username }}</p>
+      </div>
     </div>
-    <div>
+    <div style="color: white;">
       {{ review.content }}
     </div>
   </div>
@@ -49,5 +54,39 @@ export default {
 </script>
 
 <style>
+#review-item-box {
+  margin-bottom: 2rem;
+  padding-left: 0.2rem;
+}
 
+#review-writer-info-box {
+  display: flex;
+  flex-direction: row;
+  vertical-align: center;
+}
+
+#review-writer-info-box img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  margin-top: 3px;
+}
+
+.writer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.writer-info p {
+  color: white; 
+  font-size: 0.8rem; 
+  text-align: left;
+  margin-left: 10px;
+}
+
+.star-box {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.5rem;
+}
 </style>

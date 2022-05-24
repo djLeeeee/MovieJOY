@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="review-item-box">
     <ReviewItem v-for="(review, idx) in reviews" :key="idx" :review="review"  />
   </div>
 </template>

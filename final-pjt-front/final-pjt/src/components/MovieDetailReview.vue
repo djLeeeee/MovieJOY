@@ -1,27 +1,29 @@
 <template>
   <div class="movie-review-section">
     <p class="review-text">Reviews</p>
-    <div v-if="reviewed">
-      <ReviewItem  :review="myreview"/>
-      <button @mousedown="editReview()">수정</button>
-      <button @click="deleteReview()">삭제</button>
-    </div>
-    <div id="review-input-box" v-else>
-      <div class="first-line">
-        <div class="star-rate-box">
-          <i :id="reviewIdPath" data-id="1" class="fa-solid fa-star" @click="selectStar"></i>
-          <i :id="reviewIdPath" data-id="2" class="fa-solid fa-star" @click="selectStar"></i>
-          <i :id="reviewIdPath" data-id="3" class="fa-solid fa-star" @click="selectStar"></i>
-          <i :id="reviewIdPath" data-id="4" class="fa-solid fa-star" @click="selectStar"></i>
-          <i :id="reviewIdPath" data-id="5" class="fa-solid fa-star" @click="selectStar"></i>
+    <div id="review-input-box">
+      <div class="star-rate-box">
+        <i :id="reviewIdPath" data-id="1" class="fa-solid fa-star" @click="selectStar"></i>
+        <i :id="reviewIdPath" data-id="2" class="fa-solid fa-star" @click="selectStar"></i>
+        <i :id="reviewIdPath" data-id="3" class="fa-solid fa-star" @click="selectStar"></i>
+        <i :id="reviewIdPath" data-id="4" class="fa-solid fa-star" @click="selectStar"></i>
+        <i :id="reviewIdPath" data-id="5" class="fa-solid fa-star" @click="selectStar"></i>
+      </div>
+      <div v-if="reviewed">
+        <div class="myreview-content">
+          <p>{{ myreview.content }}</p>
         </div>
-      </div>
-      <div>
-        <input v-model="myreview.content" type="text" name="" class="review-content-input-box" required />
-        <button @click="submitReview()">제출</button>
-      </div>
+        <div class="submit-buttons">
+          <button @mousedown="editReview()" class="btn btn-link">Update</button>
+          <button @click="deleteReview()" class="btn btn-link">Delete</button>
+        </div>
+      </div> 
     </div>
-    <div>
+    <div v-if="!reviewed" class="review-content-input-box">
+      <textarea @keypress.enter="submitReview()" v-model="myreview.content" type="text" name="" class="review-content-input" placeholder="Write the review..." required />
+      <button @click="submitReview()" class="btn btn-link">Submit</button>
+    </div>
+    <div style="margin-top: 2rem;">
       <ReviewList v-if="othersreviewed" :reviews="reviews" />
       <div v-else>리뷰가 없습니다!</div>
     </div>
@@ -29,7 +31,6 @@
 </template>
 
 <script>
-import ReviewItem from '@/components/ReviewItem.vue'
 import ReviewList from '@/components/ReviewList.vue'
 import axios from 'axios'
 import drf from '@/api/drf'
@@ -38,7 +39,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: "MovieDetailReview",
   components: {
-    ReviewItem,
     ReviewList,
   },
   props: {
@@ -67,6 +67,7 @@ export default {
         'content': '',
         'score': 0,         
       }
+      this.updateStar()
     },
     editReview () {
       this.reviewed = false
@@ -101,14 +102,16 @@ export default {
       })
     },
     selectStar: function (event) {
-      const selectScore = event.target.dataset.id
-      this.myreview.score = selectScore
-      const stars = document.querySelectorAll(`#movie-${ this.movieId }-review`)
-      for (let star of stars) {
-        if (star.dataset.id <= selectScore) {
-          star.style.color = '#01a8b1c4'
-        } else {
-          star.style.color = "rgba(240, 248, 255, 0.562)"
+      if (!this.reviewed) {
+        const selectScore = event.target.dataset.id
+        this.myreview.score = selectScore
+        const stars = document.querySelectorAll(`#movie-${ this.movieId }-review`)
+        for (let star of stars) {
+          if (star.dataset.id <= selectScore) {
+            star.style.color = '#01a8b1c4'
+          } else {
+            star.style.color = "rgba(240, 248, 255, 0.562)"
+          }
         }
       }
     },
@@ -149,6 +152,9 @@ export default {
         }
       })
     })
+  },
+  updated () {
+    this.updateStar()
   }
 }
 </script>
@@ -156,7 +162,7 @@ export default {
 <style>
 .movie-review-section {
   width: 100%;
-  margin: 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -165,15 +171,87 @@ export default {
 .star-rate-box {
   display: flex;
   justify-content: flex-start;
+  margin: 0.5rem;
 }
 
 .review-text {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+  margin-left: 10px;
 }
 
-.review-input-box {
-  width: 80%;
+#review-input-box {
+  width: 100%;
 }
+
+.review-content-input-box {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.review-content-input {
+  width: 100%;
+  height: 8rem;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.397);
+  outline: none;
+  border: none;
+  border-right: 0px;
+  border-top: 0px;
+  border-left: 0px;
+  border-bottom:0px;
+  padding: 20px;
+  padding-top: 20px;
+  color: white;
+}
+
+.review-content-input text {
+  color: white;
+}
+
+.review-content-input:focus { 
+  box-shadow: 3px 3px 7px #01a8b1a4;
+}
+
+.review-content-input-box button {
+  background: none;
+  color:#00595e;
+  text-decoration: none;
+  position: relative;
+  bottom: 35px;
+  align-self: flex-end
+}
+
+.review-content-input-box button:hover,
+.review-content-input-box button:focus,
+.submit-buttons button:hover,
+.submit-buttons button:focus {
+  color: #00cbd6;
+  transform: scale(1.1);
+}
+
+.myreview-content {
+  color: white;
+  width: 100%;
+  height: 8rem;
+  border-radius: 20px;
+  background-color: rgba(255, 255, 255, 0.397);
+  padding: 20px;
+  text-align: start;
+}
+
+.submit-buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-buttons button {
+  background: none;
+  color: #00595e;
+  text-decoration: none;
+}
+
+
 </style>
