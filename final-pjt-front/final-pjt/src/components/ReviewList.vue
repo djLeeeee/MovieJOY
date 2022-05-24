@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ReviewItem v-for="(review, idx) in reviews" :key="idx" :review="review" />
+    <ReviewItem v-for="(review, idx) in reviews" :key="idx" :review="review"  />
   </div>
 </template>
 
@@ -14,6 +14,11 @@ export default {
   },
   props: {
     reviews: Array,
+  },
+  data: function () {
+    return {
+      reviewed: this.reviews.length > 0
+    }
   }
 }
 </script>
