@@ -83,8 +83,12 @@ export default {
       }
     },
     submitReview () {
-      if ( this.myreview.score === 0 || this.myreview.content === '' ) {
-        alert('올바른 값을 입력해주세요!')
+      if ( this.myreview.score === 0 ) {
+        alert('별점을 입력해주세요!')
+        return
+      }
+      if (this.myreview.content === '') {
+        alert('내용을 입력해주세요!')
         return
       }
       axios({
