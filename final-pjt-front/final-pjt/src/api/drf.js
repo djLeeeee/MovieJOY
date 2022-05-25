@@ -10,7 +10,8 @@ export default {
     signup: () => HOST + ACCOUNTS + 'signup/',
     currentUserInfo: () => HOST + ACCOUNTS + 'user/',
     profile: username => HOST + ACCOUNTS + 'profile/' + username,
-    myProfile: () => HOST + ACCOUNTS + 'profile/'
+    myProfile: () => HOST + ACCOUNTS + 'profile/',
+    imageUpdate: imgNum => HOST + ACCOUNTS + 'profile_image/' + `${imgNum}/`,
   },
   movies: {
     movie: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/`,

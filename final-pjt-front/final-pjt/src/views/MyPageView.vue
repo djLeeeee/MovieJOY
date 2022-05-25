@@ -82,7 +82,7 @@
 				isSettingsOpen: false,
 				isProfileImageOpen: false,
 				imageSrc: '',
-        user: {},
+        user: {profile_image: 0},
         likeGenres: [],
 			}
 		},

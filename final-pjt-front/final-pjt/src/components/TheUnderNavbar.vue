@@ -24,7 +24,7 @@ export default {
   name: 'TheUndernavbar',
   data: function () {
     return {
-      profile_image: 0
+      profile_image: 1
     }
   },
   methods: {
@@ -37,6 +37,16 @@ export default {
     ...mapGetters(['authHeader'])
   },
   created () {
+    axios({
+      url: drf.accounts.myProfile(),
+      method: 'get',
+      headers: this.authHeader
+    })
+    .then(res =>
+      this.profile_image = res.data.profile_image
+    )
+  },
+  updated () {
     axios({
       url: drf.accounts.myProfile(),
       method: 'get',
