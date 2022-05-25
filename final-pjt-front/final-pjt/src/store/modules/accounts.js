@@ -87,25 +87,21 @@ export default {
     },
 
     logout({ getters, dispatch }) {
-      // window.Kakao.init('e5ff1659f2da5db0ab6fc8f99cd0733d')
-      // window.Kakao.isInitialized()
-      if (!window.Kakao.Auth.getAccessToken()) {
-        axios({
-          url: drf.accounts.logout(),
-          method: 'post',
-          headers: getters.authHeader,
-        })
-          .then(() => {
-            dispatch('removeToken')
-          })
-          .catch(err => {
-            console.error(err.response)
-          })
-      } else {
+      if ( window.Kakao.Auth.getAccessToken() ) {
         window.Kakao.Auth.logout()
       } 
+      axios({
+        url: drf.accounts.logout(),
+        method: 'post',
+        headers: getters.authHeader,
+      })
+      .then(() => {
+        dispatch('removeToken')
+      })
+      .catch(err => {
+        console.error(err.response)
+      })
       router.push({ name: 'home' })
-
     },
 
     clearErrorList ({ commit }) {

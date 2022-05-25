@@ -53,9 +53,11 @@
 
 <script src="https://unpkg.com/vue/dist/vue.js"></script>
 <script>
+  import axios from 'axios'
   import SignupPage from "./SignupPage.vue"
   import { mapActions, mapGetters } from 'vuex'
   import router from '@/router'
+  import drf from '@/api/drf'
 
   export default {
     name: 'StartPage',
@@ -76,7 +78,7 @@
       ...mapGetters(['loginAuthError'])
     },
     methods: {
-      ...mapActions(['login', 'clearErrorList']),
+      ...mapActions(['login', 'signup', 'clearErrorList']),
 
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
@@ -89,7 +91,6 @@
       },
 
       kakaoLogin: function () {
-        console.log(window.Kakao)
         window.Kakao.Auth.login({
           scope: 'profile_nickname',
           success: this.getKakaoAccount,
@@ -101,11 +102,36 @@
           url: '/v2/user/me',
           success: res => {
             const kakao_account = res.kakao_account;
-            const nickname = kakao_account.nickname
-            router.push({ name: 'mainrecommend' })
+            const nickname = kakao_account.profile.nickname
+            const username = nickname + "FromKAKAO"
+            const password = "kakaosocialuser1"
+            const credentials = {
+              username,
+              password,
+              password1: password,
+              password2: password,
+            }
+            console.log(drf.accounts.profile(username))
+            axios({
+              url: drf.accounts.profile(username),
+              method: 'get'
+            })
+            .then(res => {
+              console.log("success")
+              this.login(credentials)
+            })
+            .catch(res => {
+              console.log("error")
+              const payload = {
+                  genres: [],
+                  credentials,
+                }
+              this.signup(payload)
+              }
+            )
           },
           fail: error => {
-            console.log(error)
+            alert(error)
           }
         })
       }
