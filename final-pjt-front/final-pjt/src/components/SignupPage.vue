@@ -21,10 +21,6 @@
         <input v-model="payload.credentials.password2" type="password" name="" required />
         <label>Password Confirm</label>
       </div>
-      <div class="user-box">
-        <input type="text" name="" required />
-        <label>Phone Number</label>
-      </div>
       <div id="genre-box">
         <h6 class="choose-text">Choose your favorite genres</h6>
         <div class="genre-buttons">

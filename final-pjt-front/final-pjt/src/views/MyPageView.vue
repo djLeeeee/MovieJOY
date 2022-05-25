@@ -9,7 +9,7 @@
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
 					<img src="@/assets/base_profile_img.jpeg" alt="">
-					<button class="btn btn-link modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+					<button @click="onEditProfileImage" class="btn btn-link modal-btn">
 						<i class="fa-solid fa-camera"></i>
 					</button>
 					<div class="profile-info">
@@ -25,22 +25,6 @@
 					<div class="reviews-box">
 						<UserReviewItem v-for="(review, idx) in user.reviews" :key="idx" :review="review" />
 					</div>	
-				</div>
-				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">Change the profile image</h5>
-								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-							</div>
-							<div class="modal-body">
-								...
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-link">Save changes</button>
-							</div>
-						</div>
-					</div>
 				</div>
 			</div>
 			<div v-if="nowOpenPage === 'like-movies'" id="user-like-dislike-box">
@@ -67,6 +51,11 @@
 				<SettingsInput :userNickname="user.nickname" :userUsername="user.username" :likeGenres="likeGenres" @edit-profile-data="submitProfileData" @close-settings="onSettingsOpen" />
 			</div>
 		</transition>	
+		<transition name="fade">
+			<div v-if="isProfileImageOpen" id="edit-profile-box">
+				<EditProfileImage @close-edit-profile="onEditProfileImage" />
+			</div>
+		</transition>
 	</div>	
 </template>
 
@@ -77,6 +66,7 @@
   import SettingsInput from '@/components/SettingsInput.vue'
 	import UserReviewItem from '@/components/UserReviewItem.vue'
   import LikeMovieName from '@/components/LikeMovieName.vue'
+  import EditProfileImage from '@/components/EditProfileImage.vue'
 
   export default {
     name: 'MyPageView',
@@ -84,11 +74,13 @@
       SettingsInput,
       UserReviewItem,
       LikeMovieName,
+			EditProfileImage
     },
 		data: function () {
 			return {
 				nowOpenPage: 'my-profile',
 				isSettingsOpen: false,
+				isProfileImageOpen: false,
 				imageSrc: '',
         user: {},
         likeGenres: [],
@@ -118,6 +110,9 @@
           this.inputNickname = this.user.nickname
         }
 				this.isSettingsOpen = !this.isSettingsOpen
+			},
+			onEditProfileImage: function () {
+				this.isProfileImageOpen = !this.isProfileImageOpen
 			},
       submitProfileData (data, nicknameData) {
         axios({
@@ -186,7 +181,7 @@
 #mypage-nav {
 	display: flex;
 	position: relative;
-	bottom: 30px;
+	bottom: 40px;
 }
 
 #mypage-nav button {
@@ -202,7 +197,8 @@
 	color: #00d9e4;
 }
 
-#settings-box {
+#settings-box,
+#edit-profile-box {
 	position: relative;
 	top: 6rem;
 	width: 6rem;
