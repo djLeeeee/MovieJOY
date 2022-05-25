@@ -22,7 +22,7 @@ export default {
 <style>
 .modal-container {
   position: fixed;
-  z-index: 9998;
+  z-index: 10;
   top: 5%;
   left: 5%;
   width: 90%;

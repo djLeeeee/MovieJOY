@@ -6,7 +6,7 @@
         <router-view/>
       </transition>
     </div>
-    <TheUnderNavbar v-if="isLoggedIn" />
+    <TheUnderNavbar id="under-navbar-component" v-if="isLoggedIn" />
   </div>
 </template>
 
@@ -79,4 +79,5 @@ body.modal-open {
 .fade-leave-to {
   opacity: 0;
 }
+
 </style>

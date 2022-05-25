@@ -112,6 +112,7 @@ export default {
 .settings-buttons .authenticate-btn {
   margin-top: 0.5rem;
 	color: rgb(51, 51, 51);
+  transition: .3s;
 }
 
 .settings-buttons .authenticate-btn:hover {

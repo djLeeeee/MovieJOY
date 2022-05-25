@@ -70,6 +70,7 @@ export default {
 .profile-img-buttons .authenticate-btn {
   margin-top: 0.5rem;
 	color: rgb(51, 51, 51);
+  transition: .3s;
 }
 
 .profile-img-buttons .authenticate-btn:hover {

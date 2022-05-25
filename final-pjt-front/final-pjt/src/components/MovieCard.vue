@@ -7,14 +7,14 @@
     <div class="card-front">
       <figure>
         <div class="img-bg"></div>
-        <img :src="posterPath" :alt="movie.title">
+        <img :src="posterPath" />
       </figure>
     </div>
 
     <div class="card-back">
       <figure>
         <div class="img-bg"></div>
-        <img :src="posterPath" :alt="movie.title">
+        <img :src="posterPath" />
       </figure>
 
       <ul class="card-ul">
@@ -35,6 +35,7 @@
 <script>
 import ModalView from "@/components/ModalView.vue"
 import MovieDetail from "@/components/MovieDetail.vue"
+import notFoundImg from '@/assets/not-found-image.jpeg'
 
 export default {
   name: 'MovieCard',
@@ -53,12 +54,16 @@ export default {
   methods: {
     showModal () {
       document.body.classList.add("modal-open");
-    }
+    },
   },
   computed: {
     posterPath: function () {
       const poster_path = this.movie.poster_path
-      return `https://image.tmdb.org/t/p/original/${poster_path}`
+      if (poster_path) {
+        return `https://image.tmdb.org/t/p/original/${poster_path}`
+      } else {
+        return notFoundImg
+      }
     },
     idPath: function () {
       return `movie-${ this.movie.id || this.movie.tmdb_movie_id }`

@@ -2,7 +2,12 @@
   <div>
     <nav class="navbar navbar-expand-md">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">Movie JOY</a>
+          <div class="navbar-brand" href="#">
+            <router-link to="/recommend">
+              <p>Movie JOY</p>
+            </router-link>
+          </div>
+        
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <i class="fa-solid fa-bars navbar-toggler-icon"></i>
         </button>
@@ -91,6 +96,19 @@
   font-weight: bold;
   color: rgb(255, 255, 255);
   margin-left: 0.5rem;
+  text-decoration: none;
+  transition: .3s;
+}
+
+.navbar-brand:hover,
+.navbar-brand a:hover,
+.navbar-brand a:focus {
+  color: rgb(255, 255, 255);
+  transform: scale(1.1);
+}
+
+.navbar-brand a {
+  text-decoration: none;
 }
 
 @keyframes neon1 {
@@ -121,6 +139,7 @@
   font-size: 1rem;
   color: white;
   margin: 0.3rem;
+  transition: .3s;
 }
 
 .nav-link a {
