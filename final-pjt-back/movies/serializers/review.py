@@ -11,7 +11,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     class CustomProfileSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('id', 'username', 'nickname')
+            fields = ('id', 'username', 'nickname', 'profile_image')
 
     user = CustomProfileSerializer(read_only=True)
        
@@ -25,7 +25,7 @@ class ReviewListSerializer(serializers.ModelSerializer):
     class CustomProfileSerializer(serializers.ModelSerializer):
         class Meta:
             model = User
-            fields = ('id', 'username', 'nickname')
+            fields = ('id', 'username', 'nickname', 'profile_image')
 
     user = CustomProfileSerializer(read_only=True)
 

@@ -27,6 +27,9 @@ sending_phone_number = '01073118189'
 @api_view(['GET', 'POST'])
 def my_profile(request):
     user = request.user
+    if user.profile_image == 0:
+        user.profile_image = randint(1, 24)
+        user.save()
     if request.method == 'GET':
         pass
     elif request.method == 'POST':
@@ -36,16 +39,20 @@ def my_profile(request):
     return Response(serializer.data)
 
 
-@api_view(['GET', 'POST'])
-def profile_image(request):
-    pass
-
-
 @api_view(['GET'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
     serializer = ProfileSerializer(user)
     return Response(serializer.data)
+
+
+@api_view(['POST'])
+def profile_image_update(request, profile_number):
+    user = request.user
+    user.profile_image = profile_number
+    user.save()
+    serializer = ProfileSerializer(user)
+    return Response(serializer.data) 
 
 
 @api_view(['GET'])
