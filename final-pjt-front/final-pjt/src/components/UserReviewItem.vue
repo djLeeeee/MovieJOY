@@ -7,15 +7,30 @@
       <i :id="reviewStarPath" data-id="4" class="fa-solid fa-star"></i>
       <i :id="reviewStarPath" data-id="5" class="fa-solid fa-star"></i>
     </div>
-    <p>{{ review.movie.name }}</p>
+    <p @click="isModalViewed=true, showModal()">{{ review.movie.name }}</p>
+    <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
+      <MovieDetail :movieId="review.movie.tmdb_movie_id"/>
+    </ModalView>
   </div>
 </template>
 
 <script>
+import ModalView from "@/components/ModalView.vue"
+import MovieDetail from "@/components/MovieDetail.vue"
+
 export default {
   name: 'UserReviewItem',
   props: {
     review: Object,
+  },
+  data: function () {
+    return {
+      isModalViewed: false,
+    }
+  },
+  components: {
+    ModalView,
+    MovieDetail,
   },
   computed:{
     reviewStarPath: function () {
@@ -32,6 +47,11 @@ export default {
       }
     }
   },
+  methods: {
+    showModal () {
+      document.body.classList.add("modal-open");
+    },
+  }
 }
 </script>
 

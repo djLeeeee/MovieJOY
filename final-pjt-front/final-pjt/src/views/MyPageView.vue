@@ -48,7 +48,7 @@
 					<h3 class="like-dislike-label">Like Movies</h3>
 					<div class="like-dislike-box">
 						<div v-for="(movie, idx) in user.like_movies" :key="idx" >
-							{{ movie.name }}
+              <LikeMovieName :movie="movie" />
 						</div>
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 					<h3 class="like-dislike-label">Dislike Movies</h3>
 					<div class="like-dislike-box">
 						<div v-for="(movie, idx) in user.dislike_movies" :key="idx" >
-							{{ movie.name }}
+              <LikeMovieName :movie="movie" />
 						</div>
 					</div>
 				</div>
@@ -76,12 +76,14 @@
   import { mapGetters } from 'vuex'
   import SettingsInput from '@/components/SettingsInput.vue'
 	import UserReviewItem from '@/components/UserReviewItem.vue'
+  import LikeMovieName from '@/components/LikeMovieName.vue'
 
   export default {
     name: 'MyPageView',
     components: { 
       SettingsInput,
-			UserReviewItem,
+      UserReviewItem,
+      LikeMovieName,
     },
 		data: function () {
 			return {
