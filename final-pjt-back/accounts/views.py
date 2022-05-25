@@ -36,6 +36,11 @@ def my_profile(request):
     return Response(serializer.data)
 
 
+@api_view(['GET', 'POST'])
+def profile_image(request):
+    pass
+
+
 @api_view(['GET'])
 def profile(request, username):
     user = get_object_or_404(User, username=username)
