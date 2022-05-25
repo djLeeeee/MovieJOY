@@ -53,7 +53,7 @@
 		</transition>	
 		<transition name="fade">
 			<div v-if="isProfileImageOpen" id="edit-profile-box">
-				<EditProfileImage @close-edit-profile="onEditProfileImage" />
+				<EditProfileImage :userProfileImage="userProfileImage" @close-edit-profile="onEditProfileImage" />
 			</div>
 		</transition>
 	</div>	
@@ -84,6 +84,7 @@
 				imageSrc: '',
         user: {profile_image: 0},
         likeGenres: [],
+				userProfileImage: 0,
 			}
 		},
 		created () {
@@ -97,6 +98,7 @@
         res.data.like_genres.map(genre => {
           const genreId = genre.tmdb_genre_id
           this.likeGenres.push(genreId)
+					this.userProfileImage = this.user.profile_image
         })
       })
 		},
@@ -150,6 +152,7 @@
         res.data.like_genres.map(genre => {
           const genreId = genre.tmdb_genre_id
           this.likeGenres.push(genreId)
+					this.userProfileImage = this.user.profile_image
         })
       })
 		},
