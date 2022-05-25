@@ -6,12 +6,12 @@
     <section class="information-container">
         <h2 class="movie-title">{{ movie.name }}</h2>
         <div class="score-like-button-box">
-          <h2 class="movie-score">{{ movie.vote_average }}</h2>
+          <h2 class="movie-score">{{ movie.vote_average }}</h2>          
           <h2 class="movie-button">
-            <i class="fa-solid fa-heart-circle-plus" id="movie-normal-button" v-if='normal' @click='movielike(), normal=false, like=true'/>
-            <i class="fa-solid fa-heart-circle-check" id="movie-like-button" v-if='like' @click='movielike(), like=false, dislike=true'/>
-            <i class="fa-solid fa-heart-circle-xmark" id="movie-dislike-button" v-if='dislike' @click='movielike(), dislike=false, normal=true'/>
-          </h2>
+              <i class="fa-solid fa-heart-circle-plus" id="movie-normal-button" v-if='normal' @click='movielike(), normal=false, like=true'/>
+              <i class="fa-solid fa-heart-circle-check" id="movie-like-button" v-if='like' @click='movielike(), like=false, dislike=true'/>
+              <i class="fa-solid fa-heart-circle-xmark" id="movie-dislike-button" v-if='dislike' @click='movielike(), dislike=false, normal=true'/>
+          </h2>         
         </div>
     </section>
     <div class="overview-container">
@@ -155,16 +155,56 @@ export default {
 #movie-normal-button {
   text-align: center;
   color: white;
+  animation: neon1 1.5s ease-in-out infinite alternate;
 }
 
 #movie-like-button {
   text-align: center;
   color: crimson;
+  animation: neon2 1.5s ease-in-out infinite alternate;
 }
 
 #movie-dislike-button {
   text-align: center;
-  color: rgb(70, 70, 70);
+  color: rgb(46, 46, 46);
+  animation: neon3 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes neon1 {
+  from {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.575), 0 0 4px rgba(255, 255, 255, 0.671), 0 0 6px rgba(255, 255, 255, 0.726), 0 0 8px #00adb9,
+      0 0 10px #0066aa, 0 0 12px #bd0153, 0 0 14px #4c00c7, 0 0 16px #00adb9;
+  }
+  to {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.747), 0 0 10px rgba(255, 255, 255, 0.651), 0 0 15px rgba(255, 255, 255, 0.644), 0 0 20px #00adb9,
+      0 0 35px #0066aa, 0 0 40px #bd0153, 0 0 50px #4c00c7, 0 0 75px #00adb9;
+  }
+}
+
+@keyframes neon2 {
+  from {
+    text-shadow: 0 0 2px rgba(255, 124, 174, 0.616), 0 0 4px rgba(255, 124, 174, 0.616), 0 0 6px rgba(255, 124, 174, 0.616), 0 0 8px #c5009473,
+      0 0 10px #c40142, 0 0 12px #bd0153, 0 0 14px #e000c2, 0 0 16px #dd00009a;
+  }
+  to {
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.747), 0 0 10px rgba(255, 255, 255, 0.651), 0 0 15px rgba(255, 255, 255, 0.644), 0 0 20px #c5009473,
+      0 0 35px #c40142, 0 0 40px #bd0153, 0 0 50px #e000c2, 0 0 75px #dd00009a;
+  }
+}
+
+@keyframes neon3 {
+  from {
+    text-shadow: 0 0 2px rgba(121, 121, 121, 0.616), 0 0 4px rgba(121, 121, 121, 0.616), 0 0 6px rgba(121, 121, 121, 0.616), 0 0 8px #585858ab,
+      0 0 10px #4f0074, 0 0 12px #150c63, 0 0 14px #155468, 0 0 16px #1b6a7ee1;
+  }
+  to {
+    text-shadow: 0 0 5px rgba(121, 121, 121, 0.616), 0 0 10px rgba(121, 121, 121, 0.616), 0 0 15px rgba(121, 121, 121, 0.616), 0 0 20px #585858ab,
+      0 0 35px #4f0074, 0 0 40px #150c63, 0 0 50px #155468, 0 0 75px #1b6a7ee1;
+  }
+}
+
+.movie-score {
+  position: relative;
 }
 
 .overview-container {
@@ -172,4 +212,5 @@ export default {
   text-align: left;
   color: white;
 }
+
 </style>
