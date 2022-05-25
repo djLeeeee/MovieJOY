@@ -2,7 +2,7 @@
   <div>
     <section id="movie-detail-section">
       <div id="detail-info-flex">
-        <MovieDetailInfoSection :movieId="movieId" />
+        <MovieDetailInfoSection :movieId="movieId" :movieName="movieName"/>
       </div>
       <div id="review-flex">
         <MovieDetailReview :movieId="movieId" />
@@ -18,6 +18,7 @@ import MovieDetailReview from "@/components/MovieDetailReview.vue"
 export default {
   props: {
     movieId: Number,
+    movieName: String,
   },
   components: {
     MovieDetailInfoSection,

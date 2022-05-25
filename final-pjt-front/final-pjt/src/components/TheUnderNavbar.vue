@@ -3,7 +3,7 @@
     <nav class="menu">
       <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
       <label class="menu-open-button" for="menu-open">
-        <img :src="require(`@/assets/profile_img/img_${ profile_image }.png`)" alt="">
+        <img :src="require(`@/assets/profile_img/img_${ profile_image }.png`)" alt="" id="under-navbar-profile">
       </label>
 
       <a @click="logout()" class="menu-item logout-color"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
@@ -42,20 +42,10 @@ export default {
       method: 'get',
       headers: this.authHeader
     })
-    .then(res =>
+    .then(res =>{
       this.profile_image = res.data.profile_image
-    )
-  },
-  updated () {
-    axios({
-      url: drf.accounts.myProfile(),
-      method: 'get',
-      headers: this.authHeader
     })
-    .then(res =>
-      this.profile_image = res.data.profile_image
-    )
-  }
+  },
 }
 </script>
 

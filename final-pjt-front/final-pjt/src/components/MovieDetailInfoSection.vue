@@ -29,6 +29,7 @@ export default {
   name: "MovieDetailInfoSection",
   props: {
     movieId: Number,
+    movieName: String,
   },
   data: function () {
     return {
@@ -66,7 +67,20 @@ export default {
         this.trailerURL = 'https://www.youtube.com/embed/' + res.data.results[0]['key']
       }
       else {
-        this.trailerURL = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAHsAsQMBIgACEQEDEQH/xAAbAAEAAgMBAQAAAAAAAAAAAAAABAUCAwYBB//EADMQAAICAQMBBAgEBwAAAAAAAAABAgMEERIhMQUiUbETFBU0QWFxkjIzUnMjQmJygZGh/8QAFAEBAAAAAAAAAAAAAAAAAAAAAP/EABQRAQAAAAAAAAAAAAAAAAAAAAD/2gAMAwEAAhEDEQA/APrYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA15FjppnYq5WbVrtiKLq8iqNtT1g/8AnyZnKWyLm+kU5cfI52Gf6LLd2PVsrn+OrdxIDoJ2VwellkIPwlJIQsrm9IThJ6a6RkmUWXiSyprJwt18LXz+qD8GRZ1ZGHZGcoTqmuYtoDqgVNfa17odssPWEeJTjLReXzLSElOEZR10kk1qBkAAAAAAAAAAAAAAAAAAAAAAADXke73fty8jkvgdbke72/2S8jkl0As7rfZee4UJuChFWQctd705+hLx6vTJwhOV+Dcn+Ll0y6/UhOzHza4esWujIhHa7NNYzS6a+DPK7q+z7IvGyPWE/wAyO3bFr5ARFfbCiWOp6VN6uKXU6jH92p/bj5HP5uLFVrJxHux5cPnmt+DL/G93p/bj5AbQAAAAAAAAAAAAAAAAAAAAAGLnBOScopxWr56LxPVz0ANJrRpNPh6kH2Th6/gn95O3R3OOq3LlrXlHoED2Rh/on949kYX6J/eTwBWW4ksDW7Di7KtNLqZPXdEn49td1ELKfy2u7x0+Q9YpVqr9PWrNdFDet3+jNLRaJaJLoB6AYucVOMHJKUtXGLfL06+YGQAAAAAAAAAAAAAAAAAApO1cHItycu/Hg3N4qqitVpYnu3R+vKaNlVGas6p7bUlOPeVn8NVbNHFx167tX08OS3AFTk4mRZ2jZOEbFVOVClKE9usVu3cp6/FEeON2jVjS2+sSslQ091rb3KzjTV9dmvgXwA5fLeXi4C9anfHu3KpK3bLdxsb72r4+GrLHFozl2rKy2d3oedvxg46LRPvddf6f8ltouOOnQ9AracO9Zmbfu2b7d1alCL3dyKT16rkiUU59cYzlXlNQdMpwnapSskm97jz0fHHH0L0AUHq3aMqJTayY2xrk64q7+f0ja150fd06m/GxsldrRuurue30ydjs1g05LZtWvHC8EXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD/2Q=="
+        console.log(this.movieName)
+        const API_KEY = 'AIzaSyCJ83Db4TiQbjAQ9V2Nqg8ClYPueu01YOc'
+        const API_URL = 'https://www.googleapis.com/youtube/v3/search'
+        const params = {
+          key: API_KEY,
+          part: 'snippet',
+          q: this.movieName,
+          type: 'video',
+        }
+        axios.get(API_URL, {params,})
+        .then(res => {
+          const selected = res.data.items[0]
+          this.trailerURL = `https://www.youtube.com/embed/${selected.id.videoId}`
+        })
       }
     })
 
