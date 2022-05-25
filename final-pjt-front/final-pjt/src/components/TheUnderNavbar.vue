@@ -3,7 +3,7 @@
     <nav class="menu">
       <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
       <label class="menu-open-button" for="menu-open">
-        <img :src="require(`@/assets/profile_img/img_${ profile_image }.png`)" alt="" />
+        <img :src="require(`@/assets/profile_img/img_${ profile_image }.png`)" alt="">
       </label>
 
       <a @click="logout()" class="menu-item logout-color"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
@@ -106,6 +106,14 @@ a {
    cursor: pointer;
    box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
 }
+
+.menu-open-button img {
+   border-radius: 100%;
+   width: 61px;
+   height: 61px;
+   margin-bottom: 10px;
+}
+
 
 .menu-open-button:hover {
    -webkit-transform: scale(1.2, 1.2) translate3d(0, 0, 0);
