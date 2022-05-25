@@ -106,9 +106,10 @@
         window.Kakao.API.request({
           url: '/v2/user/me',
           success: res => {
-            const kakao_account = res.kakao_account;
+            const kakao_account = res.kakao_account
+            const kakao_id = res.id
             const nickname = kakao_account.profile.nickname
-            const username = nickname + "FromKAKAO"
+            const username = nickname + kakao_id
             const password = "kakaosocialuser1"
             const credentials = {
               username,
@@ -116,13 +117,11 @@
               password1: password,
               password2: password,
             }
-            console.log(drf.accounts.profile(username))
             axios({
               url: drf.accounts.profile(username),
               method: 'get'
             })
             .then(res => {
-              console.log("success")
               this.login(credentials)
             })
             .catch(res => {
