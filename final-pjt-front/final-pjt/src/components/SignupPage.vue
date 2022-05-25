@@ -119,7 +119,7 @@
   position: relative;
   top: 10rem;
   width: 450px;
-  height: 450px;
+  height: 600px;
   padding: 50px;
   background: rgba(0, 0, 0, 0.753);
   box-sizing: border-box;

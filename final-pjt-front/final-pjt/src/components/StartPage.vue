@@ -152,12 +152,12 @@
 }
 
   #main-box {
-    background-image: url('@/assets/main_dark.jpg');
-    background-size: 100% 100%;
+    background-image: url('https://images.unsplash.com/photo-1539035104074-dee66086b5e3?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjI0MX0&auto=format&fit=crop&w=2550&q=80');
+    /* background-image: url('@/assets/main_dark.jpg'); */
+    background-size: 100vw 100vh;
     background-repeat: no-repeat;
     width: 100%;
-    object-fit: fill;
-    height: 55rem;
+    height: 100vh;
     position: absolute;
     font-family: 'GmarketSansMedium'
   }
@@ -187,7 +187,7 @@
     height: 20rem;
     flex-direction: column;
     align-items: flex-start;
-    background-color: rgba(0, 0, 0, 0.459);
+    background-color: rgba(0, 0, 0, 0.678);
     justify-content: center;
   }
 

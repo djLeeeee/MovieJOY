@@ -2,8 +2,9 @@
   <div id="app">
     <TheNavbar v-if="isLoggedIn" />
     <div id="router-box">
-      <router-view/>
-      
+      <transition name="slide" mode="out-in">
+        <router-view/>
+      </transition>
     </div>
     <TheUnderNavbar v-if="isLoggedIn" />
   </div>
@@ -35,6 +36,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   padding-bottom: 5rem;;
+  position: relative;
+  top: 0px;
 }
 
 @font-face {
@@ -51,4 +54,16 @@ body.modal-open {
 #router-box {
   width: 100vw;
 }
+
+.slide-enter-from,
+.slide-leave-active {
+  transition: opacity 1s, transform 1s;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  transform: translateX(-30%);
+}
+
 </style>
