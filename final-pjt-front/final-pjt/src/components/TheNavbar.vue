@@ -77,7 +77,7 @@
 <style>
 .navbar {
   position: fixed-top;
-  background-color: rgba(0, 0, 0, 0.432);
+  /* background-color: rgba(0, 0, 0, 0.432); */
 }
 
 .navbar-toggler-icon {

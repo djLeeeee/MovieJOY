@@ -26,7 +26,6 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
-  margin-bottom: 5rem;
   margin-right: 3rem;
 }
 
