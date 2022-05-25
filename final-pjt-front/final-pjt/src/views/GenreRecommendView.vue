@@ -31,6 +31,7 @@
   import drf from '@/api/drf'
   import { mapGetters } from 'vuex'
   import MovieList from "@/components/MovieList"
+  import router from '@/router'
 
   export default {
     name: 'GenreRecommendView',
@@ -124,7 +125,7 @@
       }
     },
     computed: {
-      ...mapGetters(['authHeader'])
+      ...mapGetters(['authHeader', 'isLoggedIn'])
     },
     methods: {
       selectGenre: function (idx) {
@@ -159,6 +160,11 @@
         })
       })
     },
+    mounted () {
+      if (! this.isLoggedIn) {
+          router.push({ name: 'home' })
+      }
+    }
   }
 </script>
 

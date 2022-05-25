@@ -38,6 +38,7 @@
   import { mapGetters } from 'vuex'
   import MovieList from "@/components/MovieList"
   import axios from 'axios'
+  import router from '@/router'
 
   export default {
     name: 'MainRecommendationView',
@@ -59,7 +60,7 @@
       }
     },
     computed: {
-      ...mapGetters(['authHeader'])
+      ...mapGetters(['authHeader', 'isLoggedIn'])
     },
     created () {
       axios({
@@ -88,7 +89,12 @@
       .then(res => {
         this.moviesBy3Way[2] = res.data
       })
-    }
+    },
+    mounted () {
+    if (! this.isLoggedIn) {
+        router.push({ name: 'home' })
+      }
+    },  
   }
 </script>
 

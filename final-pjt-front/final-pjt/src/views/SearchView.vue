@@ -18,6 +18,8 @@
 <script>
 import axios from 'axios'
 import MovieList from "@/components/MovieList"
+import router from '@/router'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SearchView',
@@ -29,6 +31,9 @@ export default {
       inputKeyword: '',
       movies: []
     }
+  },
+  computed: {
+      ...mapGetters(['isLoggedIn'])
   },
   methods: {
     submitKeyword: function (keyword_input) {
@@ -49,7 +54,12 @@ export default {
       const searchBox = document.querySelector('#search-box')
       searchBox.setAttribute('style', 'margin: 0vh;')
     }
-  }
+  },
+  mounted () {
+    if (! this.isLoggedIn) {
+      router.push({ name: 'home' })
+    }
+  },
 }
 </script>
 

@@ -97,11 +97,11 @@ export default {
       })
       .then(() => {
         dispatch('removeToken')
+        router.push({ name: 'home' })
       })
       .catch(err => {
         console.error(err.response)
       })
-      router.push({ name: 'home' })
     },
 
     clearErrorList ({ commit }) {

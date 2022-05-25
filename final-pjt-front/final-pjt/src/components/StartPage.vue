@@ -56,8 +56,8 @@
   import axios from 'axios'
   import SignupPage from "./SignupPage.vue"
   import { mapActions, mapGetters } from 'vuex'
-  import router from '@/router'
   import drf from '@/api/drf'
+  import router from '@/router'
 
   export default {
     name: 'StartPage',
@@ -74,11 +74,16 @@
         },
       }
     },
+    mounted () {
+      if (this.isLoggedIn) {
+        router.push({ name: 'mainrecommend' })
+      }
+    },
     computed: {
-      ...mapGetters(['loginAuthError'])
+      ...mapGetters(['loginAuthError', 'isLoggedIn'])
     },
     methods: {
-      ...mapActions(['login', 'signup', 'clearErrorList']),
+      ...mapActions(['login', 'signup', 'clearErrorList', 'logout']),
 
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen

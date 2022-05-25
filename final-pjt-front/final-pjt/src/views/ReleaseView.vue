@@ -29,6 +29,7 @@ import drf from '@/api/drf'
 import { mapGetters } from 'vuex'
 import MovieList from "@/components/MovieList"
 import axios from 'axios'
+import router from '@/router'
 
 export default {
   name: 'ReleaseView',
@@ -49,7 +50,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authHeader'])
+    ...mapGetters(['authHeader', 'isLoggedIn'])
   },
   created () {
     axios({
@@ -69,7 +70,12 @@ export default {
     .then(res => {
       this.recentMovies[1] = res.data
     })
-  }
+  },
+  mounted () {
+    if (! this.isLoggedIn) {
+      router.push({ name: 'home' })
+    }
+  },
 }
 </script>
 
