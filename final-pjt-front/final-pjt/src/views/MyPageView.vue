@@ -8,7 +8,7 @@
 			</div>
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
-					<img src="@/assets/base_profile_img.jpeg" alt="">
+					<img :src="require(`@/assets/profile_img/img_${ user.profile_image }.png`)" alt="" />
 					<button @click="onEditProfileImage" class="btn btn-link modal-btn">
 						<i class="fa-solid fa-camera"></i>
 					</button>

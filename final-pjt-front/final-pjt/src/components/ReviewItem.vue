@@ -1,7 +1,7 @@
 <template>
   <div id="review-item-box">
     <div id="review-writer-info-box">
-      <img src="@/assets/base_profile_img.jpeg" alt="">
+      <img :src="require(`@/assets/profile_img/img_${ review.user.profile_image }.png`)" alt="" />
       <div class="writer-info">
         <div class="star-box">
           <i :id="reviewStarPath" data-id="1" class="fa-solid fa-star"></i>

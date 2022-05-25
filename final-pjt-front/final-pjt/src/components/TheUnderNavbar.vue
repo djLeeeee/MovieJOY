@@ -2,7 +2,9 @@
   <div id="underNavbar"> 
     <nav class="menu">
       <input type="checkbox" href="#" class="menu-open" name="menu-open" id="menu-open" />
-      <label class="menu-open-button" for="menu-open"></label>
+      <label class="menu-open-button" for="menu-open">
+        <img :src="require(`@/assets/profile_img/img_${ profile_image }.png`)" alt="" />
+      </label>
 
       <a @click="logout()" class="menu-item logout-color"> <i class="fa-solid fa-arrow-right-from-bracket"></i> </a>
       <router-link class="menu-item profile-color" to="/mypage">
@@ -14,15 +16,35 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import axios from 'axios'
+import { mapActions, mapGetters } from 'vuex'
+import drf from '@/api/drf'
 
 export default {
   name: 'TheUndernavbar',
+  data: function () {
+    return {
+      profile_image: 0
+    }
+  },
   methods: {
     ...mapActions(['logout']),
     moveToTop: function () {
       window.scrollTo({top: 0, behavior: 'smooth'})
     }
+  },
+  computed: {
+    ...mapGetters(['authHeader'])
+  },
+  created () {
+    axios({
+      url: drf.accounts.myProfile(),
+      method: 'get',
+      headers: this.authHeader
+    })
+    .then(res =>
+      this.profile_image = res.data.profile_image
+    )
   }
 }
 </script>
