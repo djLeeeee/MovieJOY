@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheNavbar v-if="isLoggedIn" />
+    <TheNavbar id="navbar-component" v-if="isLoggedIn" />
     <div id="router-box">
       <transition name="slide" mode="out-in">
         <router-view/>
@@ -53,6 +53,8 @@ body.modal-open {
 
 #router-box {
   width: 100vw;
+  position: relative;
+  top: 0px;
 }
 
 .slide-enter-from,
@@ -66,4 +68,15 @@ body.modal-open {
   transform: translateX(-30%);
 }
 
+.fade-enter-active {
+  transition: opacity .5s;
+  transition-delay: .5s;
+}
+.fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

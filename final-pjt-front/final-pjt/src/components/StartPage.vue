@@ -170,7 +170,7 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    position: absolute;
+    position: fixed-top;
   }
 
   #signup-box-flex {
