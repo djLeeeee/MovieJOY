@@ -13,18 +13,17 @@
 						<i class="fa-solid fa-camera"></i>
 					</button>
 					<div class="profile-info">
-						<p>{{ user.nickname || user.username }}</p>
-						<p>Favorite Genres</p>
-            <div v-for="(genre, idx) in user.like_genres" :key="idx" >{{ genre.name }}</div>
+						<p class="nickname-text">{{ user.nickname || user.username }}</p>
+						<p style="font-weight: bold; padding: 0px;">Favorite Genres</p>
+            <div style="margin-left: 10px;" v-for="(genre, idx) in user.like_genres" :key="idx" >
+							{{ genre.name }}
+						</div>
 					</div>
 				</div>
 				<div class="user-review-box">
 					<h3>My Reviews</h3>
 					<div class="reviews-box">
-						<div v-for="(review, idx) in user.reviews" :key="idx" >
-              {{ review.score }}
-              {{ review.movie.name }}
-            </div>
+						<UserReviewItem v-for="(review, idx) in user.reviews" :key="idx" :review="review" />
 					</div>	
 				</div>
 				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -45,18 +44,22 @@
 				</div>
 			</div>
 			<div v-if="nowOpenPage === 'like-movies'" id="user-like-dislike-box">
-        <h3 class="like-dislike-label">Like Movies</h3>
-        <div class="like-dislike-box">
-          <div v-for="(movie, idx) in user.like_movies" :key="idx" >
-            {{ movie.name }}
-          </div>
-        </div>
-        <h3 class="like-dislike-label">Dislike Movies</h3>
-        <div class="like-dislike-box">
-          <div v-for="(movie, idx) in user.dislike_movies" :key="idx" >
-            {{ movie.name }}
-          </div>
-        </div>
+				<div class="like-box">
+					<h3 class="like-dislike-label">Like Movies</h3>
+					<div class="like-dislike-box">
+						<div v-for="(movie, idx) in user.like_movies" :key="idx" >
+							{{ movie.name }}
+						</div>
+					</div>
+				</div>
+				<div class="dislike-box">
+					<h3 class="like-dislike-label">Dislike Movies</h3>
+					<div class="like-dislike-box">
+						<div v-for="(movie, idx) in user.dislike_movies" :key="idx" >
+							{{ movie.name }}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<transition name="fade">
@@ -72,11 +75,13 @@
   import drf from '@/api/drf'
   import { mapGetters } from 'vuex'
   import SettingsInput from '@/components/SettingsInput.vue'
+	import UserReviewItem from '@/components/UserReviewItem.vue'
 
   export default {
     name: 'MyPageView',
     components: { 
       SettingsInput,
+			UserReviewItem,
     },
 		data: function () {
 			return {
@@ -134,7 +139,7 @@
       },
 		},
     computed: {
-      ...mapGetters(['authHeader'])
+      ...mapGetters(['authHeader']),
     },
 		updated () {
       axios({
@@ -217,22 +222,32 @@
   text-align: start;
   padding: 1rem;
 	height: 100%;
+	display: flex;
+
 }
 
+.like-box,
+.dislike-box {
+	width: 50%;
+	padding: 0.5rem;
+}
+
+
 .like-dislike-label {
-  margin-top: 1rem;
   margin-bottom: 0.5rem;
+	margin-left: 0.5rem;
 }
 
 .like-dislike-box {
-	background-color: #00d9e44b;
-	height: 35%;
+	border: solid 7px #00d9e44b;
+	height: 31rem;
 	width: 100%;
 	text-align: start;
 	border-radius: 10px;
 	padding: 0.5rem;
 	overflow: auto;
 }
+
 
 .user-info-box {
 	height: 50%;
@@ -265,10 +280,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	border: solid 7px #00d9e44b;
+	border-radius: 10px;
+	padding: 0.5rem;
 }
 
 .reviews-box {
-	background-color: #00d9e44b;
+	/* background-color: #00d9e44b; */
+	/* border: solid 7px #00d9e44b; */
 	height: 100%;
 	width: 100%;
 	text-align: start;
@@ -279,6 +298,7 @@
 
 .user-like-dislike-box {
   padding: 1rem;
+	padding-top: 0px;
 	width: 100%;
 }
 
@@ -330,6 +350,16 @@
   color: rgb(51, 51, 51);
   font-size: 0.9rem;
   transition: all .5s;
+}
+
+.nickname-text {
+	font-size: 2rem;
+	font-weight: bold;
+	/* text-transform: uppercase; */
+	background: linear-gradient(to right, #30CFD0 0%, #330867 100%);
+	text-shadow: 2px 2px rgba(240, 255, 255, 0.233);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
 }
 
 .modal-dialog {
@@ -386,7 +416,6 @@
 	color: black;
 }
 
-
 @media ( max-width: 830px ) {
 	#mypage-box {
 		margin-top: 15vh;
@@ -422,6 +451,23 @@
 
 	.modal-btn i {
 		margin-top: 0px;
+	}
+
+	.nickname-text {
+		font-size: 1.5rem;
+	}
+
+	#user-like-dislike-box {
+		flex-direction: column;
+	}
+
+	.like-box,
+	.dislike-box {
+		width: 100%;
+	}
+
+	.like-dislike-box {
+		height: 160px;
 	}
 }
 </style>
