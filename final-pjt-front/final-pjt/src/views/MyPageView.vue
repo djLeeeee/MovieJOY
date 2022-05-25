@@ -9,6 +9,9 @@
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
 					<img src="@/assets/base_profile_img.jpeg" alt="">
+					<button class="btn btn-link modal-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+						<i class="fa-solid fa-camera"></i>
+					</button>
 					<div class="profile-info">
 						<p>{{ user.nickname || user.username }}</p>
 						<p>Favorite Genres</p>
@@ -23,6 +26,22 @@
               {{ review.movie.name }}
             </div>
 					</div>	
+				</div>
+				<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title" id="exampleModalLabel">Change the profile image</h5>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+								...
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-link">Save changes</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div v-if="nowOpenPage === 'like-movies'" id="user-like-dislike-box">
@@ -313,6 +332,60 @@
   transition: all .5s;
 }
 
+.modal-dialog {
+	margin-top: 20vh;
+	color: rgb(51, 51, 51);
+	border-radius: 0px;
+}
+
+.modal-header,
+.modal-footer {
+	height: 2.5rem;
+	padding: 0px;
+	padding: 0.5rem;
+}
+
+.modal-footer button {
+	text-decoration: none;
+	color: rgb(51, 51, 51);
+	padding: 0px;
+	margin: 0px;
+	font-size: 1rem;
+}
+
+.modal-footer button:hover,
+.modal-footer button:focus,
+.modal-header button:hover,
+.modal-header button:focus {
+	transform: scale(1.1);
+	color: #00949c;
+	border: none;
+}
+
+
+.modal-btn {
+	position: relative;
+	font-size: 1.8rem;
+	width: 60px;
+	height: 60px;
+	background-color: rgb(243, 243, 243);
+	border-radius: 70px;
+	transition: .8s;
+	text-align: center;
+	text-decoration: none;
+}
+
+.modal-btn:hover,
+.modal-btn:focus {
+	transform: scale(1.1);
+	background-color: rgb(243, 243, 243)
+}
+
+.modal-btn i {
+	margin-top: 8px;
+	color: black;
+}
+
 
 @media ( max-width: 830px ) {
 	#mypage-box {
@@ -335,6 +408,20 @@
 		text-align: start;
 		font-size: 1rem;
 		margin-top: 2rem;
+	}
+
+	.modal-btn {
+		position: relative;
+		font-size: 1rem;
+		width: 30px;
+		height: 30px;
+		border-radius: 30px;
+		display: flex;
+		justify-content: center;
+	}
+
+	.modal-btn i {
+		margin-top: 0px;
 	}
 }
 </style>
