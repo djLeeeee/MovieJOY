@@ -67,7 +67,6 @@ export default {
         this.trailerURL = 'https://www.youtube.com/embed/' + res.data.results[0]['key']
       }
       else {
-        console.log(this.movieName)
         const API_KEY = 'AIzaSyCJ83Db4TiQbjAQ9V2Nqg8ClYPueu01YOc'
         const API_URL = 'https://www.googleapis.com/youtube/v3/search'
         const params = {
