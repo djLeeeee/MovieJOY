@@ -8,13 +8,7 @@
 			</div>
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
-
-					<div>
-						<form method="post" enctype="multipart/form-data">
-						<input ref="image" @change="uploadImg()" type="file" id="chooseFile" name="chooseFile" accept="image/*">
-						</form>
-						<img :src="imageSrc" alt="">
-					</div>
+					<img src="@/assets/base_profile_img.jpeg" alt="">
 					<div class="profile-info">
 						<p>{{ user.nickname || user.username }}</p>
 						<p>Favorite Genres</p>
@@ -75,7 +69,6 @@
 			}
 		},
 		created () {
-			this.imageSrc = './assets/base_profile_img.jpeg'
       axios({
         url: drf.accounts.myProfile(),
         method: 'get',
@@ -99,12 +92,6 @@
           this.inputNickname = this.user.nickname
         }
 				this.isSettingsOpen = !this.isSettingsOpen
-			},
-			uploadImg() {
-				var image = this.$refs['image'].files
-				const url = URL.createObjectURL(image)
-				this.imageSrc = url
-				console.log(this.imageSrc)
 			},
       submitProfileData (data, nicknameData) {
         axios({
