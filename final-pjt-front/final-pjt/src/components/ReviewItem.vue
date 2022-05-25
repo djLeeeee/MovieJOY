@@ -34,9 +34,13 @@ export default {
     const stars = document.querySelectorAll(`#${ this.reviewStarPath }`)
     for (let star of stars) {        
       if (star.dataset.id <= this.review.score) {
-        star.style.color = '#01a8b1c4'
+        if (!star.classList.contains('star-active')) {
+          star.classList.add('star-active')
+        }
       } else {
-        star.style.color = "rgba(240, 248, 255, 0.562)"
+        if (star.classList.contains('star-active')) {
+          star.classList.remove('star-active')
+        }
       }
     }
   },
@@ -44,9 +48,13 @@ export default {
     const stars = document.querySelectorAll(`#${ this.reviewStarPath }`)
     for (let star of stars) {        
       if (star.dataset.id <= this.review.score) {
-        star.style.color = '#01a8b1c4'
+        if (!star.classList.contains('star-active')) {
+          star.classList.add('star-active')
+        }
       } else {
-        star.style.color = "rgba(240, 248, 255, 0.562)"
+        if (star.classList.contains('star-active')) {
+          star.classList.remove('star-active')
+        }
       }
     }
   }
@@ -89,4 +97,5 @@ export default {
   justify-content: flex-start;
   margin: 0.5rem;
 }
+
 </style>

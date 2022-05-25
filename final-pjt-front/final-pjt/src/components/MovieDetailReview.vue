@@ -76,9 +76,13 @@ export default {
       const stars = document.querySelectorAll(`#movie-${ this.movieId }-review`)
       for (let star of stars) {        
         if (star.dataset.id <= this.myreview.score) {
-          star.style.color = '#01a8b1c4'
+          if (!star.classList.contains('star-active')) {
+            star.classList.add('star-active')
+          }
         } else {
-          star.style.color = "rgba(240, 248, 255, 0.562)"
+           if (star.classList.contains('star-active')) {
+            star.classList.remove('star-active')
+          }
         }
       }
     },
@@ -112,9 +116,13 @@ export default {
         const stars = document.querySelectorAll(`#movie-${ this.movieId }-review`)
         for (let star of stars) {
           if (star.dataset.id <= selectScore) {
-            star.style.color = '#01a8b1c4'
+            if (!star.classList.contains('star-active')) {
+              star.classList.add('star-active')
+            }
           } else {
-            star.style.color = "rgba(240, 248, 255, 0.562)"
+             if (star.classList.contains('star-active')) {
+              star.classList.remove('star-active')
+            }
           }
         }
       }
@@ -225,7 +233,8 @@ export default {
   text-decoration: none;
   position: relative;
   bottom: 35px;
-  align-self: flex-end
+  align-self: flex-end;
+  transition: .3s;
 }
 
 .review-content-input-box button:hover,
@@ -255,6 +264,7 @@ export default {
   background: none;
   color: #00595e;
   text-decoration: none;
+  transition: .3s;
 }
 
 .none-review-text {

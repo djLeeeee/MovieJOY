@@ -75,7 +75,9 @@ export default {
     for(let star of stars) {
       const num = star.dataset.id
       if(voteAverage - num >= 0) {
-        star.style.color = '#01a8b1c4'
+        if (!star.classList.contains('star-active')) {
+          star.classList.add('star-active')
+        }
       } 
     }
   },
@@ -85,9 +87,13 @@ export default {
     for(let star of stars) {
       const num = star.dataset.id
       if(voteAverage - num >= 0) {
-        star.style.color = '#01a8b1c4'
+        if (!star.classList.contains('star-active')) {
+          star.classList.add('star-active')
+        }
       } else {
-        star.style.color = 'rgba(240, 248, 255, 0.562)'
+        if (star.classList.contains('star-active')) {
+          star.classList.remove('star-active')
+        }
       }
     }
   }
@@ -170,8 +176,6 @@ figure,
   background: rgba(0, 0, 0, 0.493);
 }
 
-
-
 .card-ul {
   list-style: none;
   color: white;
@@ -194,8 +198,25 @@ figure,
 }
 
 .fa-star {
-  text-shadow: rgba(155, 155, 155, 0.418) 1px 1px;
   font-size: 1.2rem;
-  color: rgba(240, 248, 255, 0.562);
+  color: rgb(0, 0, 0);
+  animation: neon1 1.5s ease-in-out infinite alternate;
+  transition: .3s;
+}
+
+.star-active {
+  transform: scale(1.1);
+  color: #ffffffe8;
+}
+
+@keyframes neon1 {
+  from {
+    text-shadow: 0 0 1px rgba(255, 255, 255, 0.575), 0 0 2px rgba(255, 255, 255, 0.671), 0 0 3px rgba(255, 255, 255, 0.726), 0 0 4px #00adb9,
+      0 0 5px #0066aa, 0 0 6px #bd0153, 0 0 7px #4c00c7, 0 0 8px #00adb9;
+  }
+  to {
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.747), 0 0 4px rgba(255, 255, 255, 0.651), 0 0 6px rgba(255, 255, 255, 0.644), 0 0 8px #00adb9,
+      0 0 10px #0066aa, 0 0 12px #bd0153, 0 0 14px #4c00c7, 0 0 16px #00adb9;
+  }
 }
 </style>

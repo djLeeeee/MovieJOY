@@ -39,11 +39,15 @@ export default {
   },
   mounted () {
     const stars = document.querySelectorAll(`#${ this.reviewStarPath }`)
-    for (let star of stars) {        
+    for (let star of stars) { 
       if (star.dataset.id <= this.review.score) {
-        star.style.color = '#01a8b1c4'
+        if (!star.classList.contains('star-active')) {
+          star.classList.add('star-active')
+        }
       } else {
-        star.style.color = "rgba(240, 248, 255, 0.562)"
+        if (star.classList.contains('star-active')) {
+          star.classList.remove('star-active')
+        }
       }
     }
   },
@@ -65,6 +69,17 @@ export default {
   font-size: 1.2rem;
   margin-top: 5px;
 }
+
+.fa-star {
+  animation: neon1 1.5s ease-in-out infinite alternate;
+  margin: 1px;
+}
+
+.star-active {
+  transform: scale(1.1);
+  color: #ffffffe8;
+}
+
 
 @media ( max-width: 830px ) {
   #user-review-item p {
