@@ -60,7 +60,9 @@ export default {
         method: 'post',
         headers: this.authHeader
       })
-      .then(this.closeEditProfile())
+      .then(
+        this.$router.go()
+      )
     }
   }
 }

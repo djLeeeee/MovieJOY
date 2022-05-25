@@ -51,7 +51,8 @@ export default {
     }
   },
   mounted () {
-    this.likeGenres.map(genreId => {
+    this.likeGenres.map(genre => {
+      const genreId = genre.tmdb_genre_id
       const genreBtn = document.querySelector(`button[data-id="${genreId}"]`)
       genreBtn.classList.add('raise-focus')
     })
@@ -74,6 +75,7 @@ export default {
       }
     },
     editProfile: function () {
+      console.log(this.selectedGenres)
       this.$emit('edit-profile-data', this.selectedGenres, this.inputNickname)
     },
     closeSettings: function () {

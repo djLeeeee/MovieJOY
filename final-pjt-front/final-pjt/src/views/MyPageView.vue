@@ -15,9 +15,7 @@
 					<div class="profile-info">
 						<p class="nickname-text">{{ user.nickname || user.username }}</p>
 						<p style="font-weight: bold; padding: 0px;">Favorite Genres</p>
-            <div style="margin-left: 10px;" v-for="(genre, idx) in user.like_genres" :key="idx" >
-							{{ genre.name }}
-						</div>
+            <GenresName :likeGenres="likeGenres" />
 					</div>
 				</div>
 				<div class="user-review-box">
@@ -67,6 +65,7 @@
 	import UserReviewItem from '@/components/UserReviewItem.vue'
   import LikeMovieName from '@/components/LikeMovieName.vue'
   import EditProfileImage from '@/components/EditProfileImage.vue'
+  import GenresName from '@/components/GenresName.vue'
 
   export default {
     name: 'MyPageView',
@@ -74,7 +73,8 @@
       SettingsInput,
       UserReviewItem,
       LikeMovieName,
-			EditProfileImage
+			EditProfileImage,
+      GenresName,
     },
 		data: function () {
 			return {
@@ -83,8 +83,8 @@
 				isProfileImageOpen: false,
 				imageSrc: '',
         user: {profile_image: 1},
-        likeGenres: [],
 				userProfileImage: 0,
+        likeGenres: [],
 			}
 		},
 		created () {
@@ -95,11 +95,8 @@
       })
       .then(res => {
         this.user = res.data
-        res.data.like_genres.map(genre => {
-          const genreId = genre.tmdb_genre_id
-          this.likeGenres.push(genreId)
-					this.userProfileImage = this.user.profile_image
-        })
+        this.likeGenres = res.data.like_genres
+        this.userProfileImage = this.user.profile_image
       })
 		},
 		methods: {
@@ -125,8 +122,8 @@
             'nickname': nicknameData
           }
         })
-        .then(
-          this.user.nickname = this.inputNickname,
+        .then(() => {
+          this.user.nickname = this.inputNickname
           data.map(genreId => {
             axios({
               url: drf.movies.likeGenre(genreId),
@@ -134,28 +131,16 @@
               headers: this.authHeader,
             })
           })
-        ).then(this.onSettingsOpen)
+          this.refresh()
+        })
       },
+      refresh () {
+        this.$router.go()
+      }  
 		},
     computed: {
       ...mapGetters(['authHeader']),
     },
-		updated () {
-      axios({
-        url: drf.accounts.myProfile(),
-        method: 'get',
-        headers: this.authHeader
-      })
-      .then(res => {
-        this.user = res.data
-        this.likeGenres = []
-        res.data.like_genres.map(genre => {
-          const genreId = genre.tmdb_genre_id
-          this.likeGenres.push(genreId)
-					this.userProfileImage = this.user.profile_image
-        })
-      })
-		},
   }
 </script>
 
