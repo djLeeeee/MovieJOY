@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="dislike-box">
-					<h3 class="like-dislike-label">Dislike Movies</h3>
+					<h3 class="like-dislike-label">No Interest Movies</h3>
 					<div class="like-dislike-box">
 						<div v-for="(movie, idx) in user.dislike_movies" :key="idx" >
               <LikeMovieName :movie="movie" />
