@@ -1,6 +1,6 @@
 # MOVIE JOY
 
-![img](README.assets/스크린샷 2022-05-27 오전 5.00.26.png)
+![img](README.assets/logo.png)
 
 
 
@@ -14,7 +14,7 @@
 
 ## Members
 
-![img](README.assets/스크린샷 2022-05-27 오전 5.23.32.png)
+![img](README.assets/role.png)
 
 
 
@@ -30,6 +30,7 @@
 * 리뷰, 평점 작성
 * 현재 상영중인 영화, 개봉 예정 영화 데이터
 * 음성인식
+* 전화번호 인증에 따른 비밀번호 변경
 * 프로필 사진 
 * 나만의 포토카드 꾸미기
 * black & light 모드
@@ -56,53 +57,167 @@
 
 ### Login and Signup
 
-**1. Login **
+1. Login 
 
 ![img](README.assets/login.png)
 
 > * 카카오톡 로그인 서비스 구현
 
-**2. Signup**
+2. Signup
 
-![img](README.assets/스크린샷 2022-05-27 오전 5.20.40.png)
+![img](README.assets/signup.png)
+
+> * 유저 선호 장르 입력을 받은 후 DB에 데이터 저장
 
 
 
+### Movie Recommend
+
+![img](README.assets/main_recommend.png)
+
+> * TMDB popular 추천 영화
+> * 유저 선호 장르 기반 추천 영화
+> * 유저 리뷰 평점 기반 추천 영화
+> * 3가지 추천 알고리즘의 영화들을 각 12개씩 페이지에 출력
 
 
-## 0511
 
-#### 추천 알고리즘
+## Genre Category
 
-- 선호 장르
-- 리뷰 평점 관련 추천
-- 전체 평점
-- etc...
+![img](README.assets/genre_1.png)
 
-#### 기능
+![img](README.assets/genre_2.png)
 
-- 리뷰 작성 / 영화 상세 페이지에 작성 :exclamation:
-- 야간 모드
-- 해당 영화 추천받지 않음 :exclamation:
-- 소셜 로그인
-- 현재 상영 중인 영화
-- 개봉 예정 영화 관심 체크 / 알림 :exclamation:
-- 결제
-- 음성 인식
-- 나만의 포토 카드 꾸미기 :exclamation:
-- etc...
+![img](README.assets/genre_3.png)
 
-#### 모델링
+> * 선택한 장르에 따른 12개의 영화를 랜덤으로 추천
 
-- **유저**
 
-  `Abstractuser` + 관심 장르 
 
-- **영화**
+## Release Movie
 
-  `TMDB` API + 추천받지 않을 영화(유저 참조) + 관심있는 개봉 예정 영화(유저 참조) + 리뷰 참조
+![img](README.assets/release.png)
 
-- **리뷰**
+> * 현재 상영 영화, 개봉 예정 영화들의 목록을 추천
 
-  일반적인 리뷰 + 유저 참조 + 평점 
+
+
+## Search
+
+![img](README.assets/search_1.png)
+
+![img](README.assets/search_2.png)
+
+> * 음성인식을 통한 검색어 입력 가능
+> * 영화 title을 입력시 TMDB API를 통해 검색 결과들을 출력
+
+
+
+## Movie Detail
+
+1. Detail 페이지 전체 화면
+
+![img](README.assets/detail_1.png)
+
+![img](README.assets/detail_2.png)
+
+> * 영화 트레일러 영상 
+>
+>   * TMDB API에 트레일러 정보가 없을 땐 
+>
+>     유튜브에서 해당 영화 제목을 검색하여 첫번째 영상을 출력
+>
+> * 영화 관심 정보 표시
+>
+>   * 아무런 관심 정보도 표시되지 않은 상태
+>
+>     ![img](README.assets/like_1.png)
+>
+>   * 관심 영화 등록
+>
+>     ![img](README.assets/like_2.png)
+>
+>   * 추천 제외 영화 등록
+>
+>     ![img](README.assets/like_3.png)
+>
+> * Review 작성
+>
+>   ![img](README.assets/review_1.png)
+>
+>   * 음성인식을 통한 리뷰 작성 가능
+>   * 별점 부여 및 리뷰 수정, 삭제
+>
+> * 다른 사람의 Review 열람
+
+
+
+## Under navbar
+
+![img](README.assets/under_nav.png)
+
+> * 페이지 스크롤을 top으로 올려주는 버튼
+> * mypage 이동 router rink
+> * 로그아웃 버튼
+> * 유저 프로필 이미지 사진 
+>   * 평소엔 이미지 사진만 뜨지만 클릭시 다른 3개의 버튼 활성화
+
+
+
+## My Page
+
+1. 기본 유저 프로필
+
+![img](README.assets/profile_1.png)
+
+![img](README.assets/profile_2.png)
+
+> * 현재 유저 정보 표시
+>   * 닉네임
+>   * 선호 장르
+>   * 리뷰 작성 목록, 별점 정보 => 클릭시 detail page modal 호출
+> * 프로필 사진 변경
+
+
+
+2. Like Movies
+
+![img](README.assets/like_movie_1.png)
+
+![img](README.assets/like_movie_2.png)
+
+> * 지금까지 입력해둔 관심 영화 정보, 추천 제외 영화 목록을 출력
+> * title 클릭시 detail page modal 호출
+
+
+
+3. Auth
+
+![img](README.assets/auth_1.png)
+
+![img](README.assets/auth_2.jpeg)
+
+> * 
+
+
+
+4. Settings
+
+![img](README.assets/settings.png)
+
+> * 유저 닉네임, 선호 영화 장르 변경 가능
+
+
+
+## 느낀점
+
+### 이동준
+
+> 써라
+
+
+
+### 조혜림
+
+> 
 
