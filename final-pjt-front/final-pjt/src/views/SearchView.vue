@@ -5,8 +5,11 @@
 				<p class="search-main-text">Search the movie title</p>
 				<p class="search-text">Click on search icon, then type your keyword.</p>
 				<div>
-					<input @keyup.enter="submitKeyword" v-model="inputKeyword" type="text" placeholder="Search . . ." required>
-				</div>
+					<input @focus="onSearch" @blur="onSearch" @keypress.enter="submitKeyword" class="input-bar" v-model="inputKeyword" type="text" placeholder="Search . . ." required>
+        </div>  
+        <button @mouseenter="onVoice" v-if="isSearch" class="btn btn-link voice-btn">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
 			</div>
 		</div>
     <div>
@@ -29,6 +32,7 @@ export default {
   data: function () {
     return {
       inputKeyword: '',
+      isSearch: false,
       movies: []
     }
   },
@@ -36,6 +40,43 @@ export default {
       ...mapGetters(['isLoggedIn'])
   },
   methods: {
+    onSearch: function () {
+      if (!this.inputKeyword) {
+        this.isSearch = !this.isSearch
+      }
+    },
+    onFocus: function () {
+      const searchInput = document.querySelector('.input-bar')
+      searchInput.focus()
+    },
+    onVoice: function () {
+      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      const recognition = new window.SpeechRecognition();
+      recognition.interimResults = false;
+      recognition.lang = 'ko-KR'; 
+      const btn = document.querySelector('.voice-btn')
+
+      btn.classList.add('on-voice')
+      let p = ''
+    
+      recognition.addEventListener('result', e => {
+      const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+
+        p = transcript;
+        this.inputKeyword += p
+
+        if (e.results[0].isFinal) {
+          p = ' '
+          this.inputKeyword += p
+          btn.classList.remove('on-voice')
+        }
+      });    
+
+      recognition.start();
+    },
     submitKeyword: function (keyword_input) {
       keyword_input = this.inputKeyword
 
@@ -147,5 +188,20 @@ export default {
 	margin-bottom: 2rem;
 }
 
+.voice-btn {
+  color: white;
+  position: relative;
+  top: 3px;
+  transition: .3s;
+}
 
+.voice-btn:hover,
+.voice-btn:focus {
+  color: #01a8b1,
+}
+
+.on-voice {
+  transform: scale(1.2);
+  color: #01a8b1;
+}
 </style>
