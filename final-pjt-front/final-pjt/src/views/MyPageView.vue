@@ -4,7 +4,8 @@
 			<div id="mypage-nav">
 				<button @click="nowOpen" id="my-profile" class="my-profile page-open">My Profile</button>
 				<button @click="nowOpen" id="like-movies">Like Movies</button>
-				<button @click="onSettingsOpen">Settings</button>
+				<button @click="nowOpen" id="sms-auth">Auth</button>
+        <button @click="onSettingsOpen">Settings</button>
 			</div>
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
 				<div class="user-info-box">
@@ -43,6 +44,9 @@
 					</div>
 				</div>
 			</div>
+      <div v-if="nowOpenPage === 'sms-auth'">
+        <AuthForm :phonenumber="user.phone_number" />
+      </div>
 		</div>
 		<transition name="fade">
 			<div v-if="isSettingsOpen" id="settings-box">
@@ -66,6 +70,7 @@
   import LikeMovieName from '@/components/LikeMovieName.vue'
   import EditProfileImage from '@/components/EditProfileImage.vue'
   import GenresName from '@/components/GenresName.vue'
+  import AuthForm from '@/components/AuthForm.vue'
 
   export default {
     name: 'MyPageView',
@@ -75,6 +80,7 @@
       LikeMovieName,
 			EditProfileImage,
       GenresName,
+      AuthForm,
     },
 		data: function () {
 			return {

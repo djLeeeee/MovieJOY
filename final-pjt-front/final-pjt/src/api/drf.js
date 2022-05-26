@@ -12,6 +12,9 @@ export default {
     profile: username => HOST + ACCOUNTS + 'profile/' + username,
     myProfile: () => HOST + ACCOUNTS + 'profile/',
     imageUpdate: imgNum => HOST + ACCOUNTS + 'profile_image/' + `${imgNum}/`,
+    smsauth: phoneNum => HOST + ACCOUNTS + 'sms_auth/' + `${phoneNum}/`,
+    smsdoauth: (phoneNum, authNum) => HOST + ACCOUNTS + 'sms_auth/' + `${phoneNum}/` + `${authNum}/`,
+    changePassword: () => HOST + ACCOUNTS + 'password/change/',
   },
   movies: {
     movie: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/`,
