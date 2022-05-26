@@ -2,7 +2,7 @@
   <div>
     <div @click="isModalViewed=true, showModal()">{{ movie.name }}</div>
     <ModalView v-if="isModalViewed" @close-modal="isModalViewed=false">
-      <MovieDetail :movieId="movie.tmdb_movie_id"/>
+      <MovieDetail :movieId="movie.tmdb_movie_id || movie.id" :movieName="movie.name || movie.title"/>
     </ModalView>
   </div>
 </template>
