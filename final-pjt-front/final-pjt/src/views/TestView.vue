@@ -1,7 +1,7 @@
 <template>
    <div>
      <input v-model="speachTest" type="text">
-     <button @click="onVoice"><i class="fa-solid fa-microphone"></i></button>
+     <button @mouseover="onVoice"><i class="voice-btn fa-solid fa-microphone"></i></button>
      <div class="words" contenteditable>
   </div>
    </div>
@@ -24,11 +24,11 @@ export default {
       const recognition = new window.SpeechRecognition();
       recognition.interimResults = false;
       recognition.lang = 'ko-KR'; 
-      
-      let p = ''
-      console.log(p)
-      this.speachTest = p
+      const btn = document.querySelector('.voice-btn')
 
+      btn.classList.add('on-voice')
+      let p = ''
+    
       recognition.addEventListener('result', e => {
       const transcript = Array.from(e.results)
         .map(result => result[0])
@@ -37,24 +37,20 @@ export default {
 
         p = transcript;
         this.speachTest += p
-        console.log(p)
 
         if (e.results[0].isFinal) {
-          p = ''
+          p = ' '
           this.speachTest += p
-          console.log(p)
+          btn.classList.remove('on-voice')
         }
       });
       
-    recognition.addEventListener('end', recognition.start);
-
+    // recognition.addEventListener('end', recognition.start);
     recognition.start();
-
     }
   }
 }
 </script>
 
 <style>
-
 </style>
