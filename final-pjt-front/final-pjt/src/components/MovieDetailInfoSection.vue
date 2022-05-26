@@ -4,7 +4,7 @@
       <iframe :src="trailerURL" frameborder="0"></iframe>
     </div>
     <section class="information-container">
-        <h2 class="movie-title">{{ movie.name }}</h2>
+        <h2 class="movie-title">{{ movieName }}</h2>
         <div class="score-like-button-box">
           <h2 class="movie-score">{{ movie.vote_average }}</h2>          
           <h2 class="movie-button">
@@ -67,7 +67,7 @@ export default {
         this.trailerURL = 'https://www.youtube.com/embed/' + res.data.results[0]['key']
       }
       else {
-        const API_KEY = 'AIzaSyCJ83Db4TiQbjAQ9V2Nqg8ClYPueu01YOc'
+        const API_KEY = 'AIzaSyCh1FVbptpkcaXC1TKsO3l8TTuRGYnr9pQ'
         const API_URL = 'https://www.googleapis.com/youtube/v3/search'
         const params = {
           key: API_KEY,

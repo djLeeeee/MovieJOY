@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from django.db.models import Q, Sum
+from django.db.models import Q, Sum, Avg
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 from .models import Movie, Review, Genre
@@ -114,9 +114,9 @@ def recommend_genres(request):
         movies = Movie.objects.filter(genres__in=[genre])
         for genre in user.like_genres.all():
             movies = movies | Movie.objects.filter(genres__in=[genre])
-        movies = movies.filter(~Q(dislike_users__in=[request.user.pk])).order_by('-vote_average')
+        movies = movies.filter(~Q(dislike_users__in=[request.user.pk])).order_by('-vote_average').distinct()
     else:
-        movies = Movie.objects.filter(~Q(dislike_users__in=[request.user.pk])).order_by('-vote_average')
+        movies = Movie.objects.filter(~Q(dislike_users__in=[request.user.pk])).order_by('-vote_average').distinct()
     serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
     return Response(serializer.data)
 
@@ -129,9 +129,9 @@ def recommend_reviews(request):
         movies = Movie.objects.filter(genres__in=[genre])
         for genre in user.like_genres.all():
             movies = movies | Movie.objects.filter(genres__in=[genre])
-        movies = movies.filter(~Q(dislike_users__in=[request.user.pk])).annotate(reviews_score=Sum('reviews__score')).order_by('-reviews_score')
+        movies = movies.filter(~Q(dislike_users__in=[request.user.pk])).annotate(reviews_score=Avg('reviews__score')).order_by('-reviews_score').distinct()
     else:
-        movies = Movie.objects.filter(~Q(dislike_users__in=[request.user.pk])).annotate(reviews_score=Sum('reviews__score')).order_by('-reviews_score')
+        movies = Movie.objects.filter(~Q(dislike_users__in=[request.user.pk])).annotate(reviews_score=Avg('reviews__score')).order_by('-reviews_score').distinct()
     serializer = MovieListSerializer(movies[:minimum_movie_nums], many=True)
     return Response(serializer.data)
 
@@ -163,7 +163,7 @@ def upcoming_movie(request):
     }
     response = requests.get(BASE_URL + path, params=params).json()['results']
     movies = [update_movie_by_json(movie_info) for movie_info in response]
-    serializer = MovieListSerializer(sample(movies, min(minimum_movie_nums, len(movies))), many=True)
+    serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
 
 
@@ -177,7 +177,7 @@ def now_playing_movie(request):
     }
     response = requests.get(BASE_URL + path, params=params).json()['results']
     movies = [update_movie_by_json(movie_info) for movie_info in response]
-    serializer = MovieListSerializer(sample(movies, min(minimum_movie_nums, len(movies))), many=True)
+    serializer = MovieListSerializer(movies, many=True)
     return Response(serializer.data)
 
 
@@ -211,7 +211,9 @@ def update_movie_db(tmdb_movie_id):
 def update_movie_by_json(movie_info):
     tmdb_movie_id = movie_info['id']
     name = movie_info['title']
-    poster_path = movie_info['poster_path']
+    poster_path = movie_info.get('poster_path', '')
+    if not poster_path:
+        poster_path = ''
     vote_average = movie_info['vote_average']
     overview = movie_info['overview']
     if not Movie.objects.filter(tmdb_movie_id=tmdb_movie_id).exists():
