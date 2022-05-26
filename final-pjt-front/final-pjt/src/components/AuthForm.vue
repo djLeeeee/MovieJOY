@@ -4,7 +4,9 @@
       <div v-if="isAuth" class="phone-box">
         <div class="phonenum-box">
           <input type="text" name="phonenum" v-model="inputPhoneNumber">
-          <label for="phonenum">Phone Number (비밀번호 변경은 추가 인증이 필요합니다.)</label>
+          <label for="phonenum">
+            <p>Phone Number (비밀번호 변경을 위해 추가 인증 필요)</p>
+          </label>
           <button @click="submitPhoneNumber()" class="btn btn-link auth-box-btn">Send</button>
         </div>
       </div>
@@ -20,11 +22,11 @@
       </div>
       <div v-if="activePasswordChangeForm" class="phone-box">
         <input type="password" v-model="password1">
-        <label>Password</label>
+        <label>New Password</label>
       </div>
       <div v-if="activePasswordChangeForm" class="phone-box">
         <input type="password" v-model="password2">
-        <label>Password Confirm</label>
+        <label>New Password Confirm</label>
         <button @click="submitChangedPassword(password1, password2)" class="btn btn-link auth-box-btn">Submit</button>
       </div>
     </div>
@@ -128,10 +130,11 @@ export default {
 <style>
 #all-auth-box {
   width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   margin-top: 3rem;
+  overflow: auto;
+  transition: 0.3s;
 }
 
 #auth-box::-webkit-scrollbar {
@@ -193,5 +196,23 @@ export default {
   color: white;
   font-size: 1.3rem;
   border: none;
+  transition: .3s;
+}
+
+.auth-box-btn:hover,
+.auth-box-btn:focus {
+  color: #01a8b1;
+  transform: scale(1.1);
+}
+
+@media ( max-width: 830px ) {
+  #all-auth-box {
+    height: 400px;
+    padding-bottom: 30px;
+  }
+
+  .auth-box-btn {
+    font-size: 1.3rem;
+  }
 }
 </style>
