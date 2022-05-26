@@ -39,7 +39,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = (
-            'id', 'username', 'nickname', 'like_genres', 'like_movies', 'dislike_movies', 'reviews', 'profile_image'
+            'id', 'username', 'nickname', 'like_genres', 'like_movies', 'dislike_movies', 'reviews', 'profile_image', 'phone_number',
         )
 
 

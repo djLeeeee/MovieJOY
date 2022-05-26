@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework import status
 
 from random import randint
 import hashlib
@@ -63,11 +64,17 @@ def is_auth(request):
 @api_view(['POST'])
 def sms_send(request, phone_number):
     auth_number = randint(100000, 999999)
+    user = request.user
+    time_stamp = int(time.time() * 1000) // 1000
     if SMS_auth.objects.filter(phone_number=phone_number).exists():
         auth_model = get_object_or_404(SMS_auth, phone_number=phone_number)
-        auth_model.auth_number = auth_number
+        if user == auth_model.user:
+            auth_model.auth_number = auth_number
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
     else:
-        auth_model = SMS_auth(phone_number=phone_number, auth_number=auth_number)
+        auth_model = SMS_auth(phone_number=phone_number, auth_number=auth_number, user=user)
+    auth_model.time_stamp = time_stamp
     auth_model.is_auth = False
     auth_model.save()
     sms_send_by_naver_cloud(auth_model.phone_number, auth_model.auth_number)
@@ -75,12 +82,38 @@ def sms_send(request, phone_number):
     return Response(serializer.data)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'PUT'])
 def sms_auth(request, phone_number, auth_number):
     auth_model = get_object_or_404(SMS_auth, phone_number=phone_number)
-    auth_model.is_auth = bool(int(auth_model.auth_number) == int(auth_number))
-    serializer = AuthSerializer(auth_model)
-    return Response(serializer.data)
+    result = bool(int(auth_model.auth_number) == int(auth_number))
+    user = request.user
+    now = int(time.time() * 1000) // 1000
+    if request.method == 'POST':
+        if result:
+            if now - auth_model.time_stamp < 301: 
+                user.phone_number = phone_number
+                user.save()
+                auth_model.is_auth = True
+                auth_model.save()
+                serializer = AuthSerializer(auth_model)
+                return Response(serializer.data)
+            else:
+                auth_model.delete()
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            auth_model.delete()
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+    elif request.method == 'PUT':
+        if result:
+            if now - auth_model.time_stamp < 301:
+                auth_model.is_auth = True
+                auth_model.save()
+                serializer = AuthSerializer(auth_model)
+                return Response(serializer.data)
+            else:
+                return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 def make_signature(timestamp):
