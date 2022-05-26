@@ -58,7 +58,7 @@
 
 **1. Login **
 
-![img](README.assets/스크린샷 2022-05-27 오전 5.19.27.png)
+![img](README.assets/login.png)
 
 > * 카카오톡 로그인 서비스 구현
 
