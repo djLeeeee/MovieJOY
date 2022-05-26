@@ -7,7 +7,7 @@
 				<div>
 					<input @focus="onSearch" @blur="onSearch" @keypress.enter="submitKeyword" class="input-bar" v-model="inputKeyword" type="text" placeholder="Search . . ." required>
         </div>  
-        <button @mouseenter="onVoice" v-if="isSearch" class="btn btn-link voice-btn">
+        <button @mouseenter="onVoice" v-if="isSearch" class="btn btn-link on-voice-btn">
           <i class="fa-solid fa-microphone"></i>
         </button>
 			</div>
@@ -54,9 +54,7 @@ export default {
       const recognition = new window.SpeechRecognition();
       recognition.interimResults = false;
       recognition.lang = 'ko-KR'; 
-      const btn = document.querySelector('.voice-btn')
 
-      btn.classList.add('on-voice')
       let p = ''
     
       recognition.addEventListener('result', e => {
@@ -71,7 +69,6 @@ export default {
         if (e.results[0].isFinal) {
           p = ' '
           this.inputKeyword += p
-          btn.classList.remove('on-voice')
         }
       });    
 
@@ -188,20 +185,16 @@ export default {
 	margin-bottom: 2rem;
 }
 
-.voice-btn {
+.on-voice-btn {
   color: white;
   position: relative;
   top: 3px;
   transition: .3s;
 }
 
-.voice-btn:hover,
-.voice-btn:focus {
-  color: #01a8b1,
-}
-
-.on-voice {
-  transform: scale(1.2);
+.on-voice-btn:hover,
+.on-voice-btn:focus {
   color: #01a8b1;
+  transform: scale(1.2);
 }
 </style>

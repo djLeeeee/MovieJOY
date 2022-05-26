@@ -21,7 +21,12 @@
     </div>
     <div v-if="!reviewed" class="review-content-input-box">
       <textarea @keypress.enter="submitReview()" v-model="myreview.content" type="text" name="" class="review-content-input" placeholder="Write the review..." required />
-      <button @click="submitReview()" class="btn btn-link">Submit</button>
+      <div class="input-submit-buttons">
+        <button @mouseenter="onVoice" class="btn btn-link input-voice-btn">
+          <i class="fa-solid fa-microphone"></i>
+        </button>
+        <button @click="submitReview()" class="btn btn-link input-submit-bnt">Submit</button>
+      </div>
     </div>
     <div style="margin-top: 2rem;">
       <ReviewList v-if="othersreviewed" :reviews="reviews" />
@@ -56,6 +61,31 @@ export default {
     }
   },
   methods: {
+    onVoice: function () {
+      window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+      const recognition = new window.SpeechRecognition();
+      recognition.interimResults = false;
+      recognition.lang = 'ko-KR'; 
+
+      let p = ''
+    
+      recognition.addEventListener('result', e => {
+      const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+
+        p = transcript;
+        this.myreview.content += p
+
+        if (e.results[0].isFinal) {
+          p = ' '
+          this.myreview.content += p
+        }
+      });    
+
+      recognition.start();
+    },
     deleteReview () {
       axios({
         url: drf.movies.review_ud(this.movieId, this.myreview.id),
@@ -201,6 +231,7 @@ export default {
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 0px;
 }
 
 .review-content-input {
@@ -227,12 +258,11 @@ export default {
   box-shadow: 3px 3px 7px #01a8b1a4;
 }
 
-.review-content-input-box button {
+.review-content-input-box .input-submit-bnt {
   background: none;
   color:#00595e;
   text-decoration: none;
   position: relative;
-  bottom: 35px;
   align-self: flex-end;
   transition: .3s;
 }
@@ -255,11 +285,19 @@ export default {
   text-align: start;
 }
 
+.input-submit-buttons {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+  bottom: 35px;
+}
+
 .submit-buttons {
   display: flex;
   justify-content: flex-end;
 }
 
+.input-submit-buttons button,
 .submit-buttons button {
   background: none;
   color: #00595e;

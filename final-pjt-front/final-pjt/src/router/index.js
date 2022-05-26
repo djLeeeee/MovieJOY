@@ -6,7 +6,6 @@ import SearchView from '../views/SearchView.vue'
 import MyPageView from '../views/MyPageView.vue'
 import GenreRecommendView from '../views/GenreRecommendView.vue'
 import ReleaseView from '../views/ReleaseView.vue'
-import TestView from '../views/TestView.vue'
 
 Vue.use(VueRouter)
 
@@ -41,11 +40,6 @@ const routes = [
     name: 'release',
     component: ReleaseView,
   },
-  {
-    path: '/test',
-    name: 'test',
-    component: TestView,
-  }
 ]
 
 const router = new VueRouter({
