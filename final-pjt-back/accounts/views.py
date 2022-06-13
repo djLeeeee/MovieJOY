@@ -12,13 +12,20 @@ import base64
 import requests
 import time
 import json
+import os
 
 from .serializers import ProfileSerializer, AuthSerializer
 from .models import SMS_auth
 
+scriptpath = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+filename = os.path.join(scriptpath, 'secrets.json')
+with open(filename) as f:
+    secret_data = json.load(f)
+
 User = get_user_model()
-access_key = "XVMuf9Nx8OkCQ3ApDCAI"
-secret_key = bytes("BjEzWWEpBAhaK51BKq8c8786LAUcK1KeTE9517NQ", 'UTF-8')
+access_key = secret_data['ACCESS_KEY']
+secret_key_in_json = secret_data['SECRET_KEY']
+secret_key = bytes(secret_key_in_json, 'UTF-8')
 serviceId = 'ncp:sms:kr:284676110745:sms_auth'
 mainURL = 'https://sens.apigw.ntruss.com'
 subURL = f"/sms/v2/services/{serviceId}/messages"

@@ -12,8 +12,15 @@ from .serializers.genre import GenreSerializer
 import requests
 from random import sample
 
+import os
+import json
+
+scriptpath = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+filename = os.path.join(scriptpath, 'secrets.json')
+with open(filename) as f:
+    secret_data = json.load(f)
 BASE_URL = 'https://api.themoviedb.org/3'
-API_KEY = '52962731aacacff3f5f9da655947bff6'
+API_KEY = secret_data["API_KEY"]
 minimum_movie_nums = 12
 
 # Create your views here.
