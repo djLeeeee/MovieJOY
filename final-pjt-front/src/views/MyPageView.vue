@@ -3,8 +3,9 @@
 		<div id="mypage-box">
 			<div id="mypage-nav">
 				<button @click="nowOpen" id="my-profile" class="my-profile page-open">My Profile</button>
-				<button @click="nowOpen" id="like-movies">Like Movies</button>
-				<button @click="nowOpen" id="sms-auth">Auth</button>
+				<button @click="nowOpen" id="like-movies">Like Movies</button>        
+				<button v-if="isKAKAOUser" @click="kakaoAuth" id="sms-auth">Auth</button>
+        <button v-else @click="nowOpen" id="sms-auth">Auth</button>
         <button @click="onSettingsOpen">Settings</button>
 			</div>
 			<div v-if="nowOpenPage === 'my-profile'" id="profile-box">
@@ -91,6 +92,7 @@
         user: {profile_image: 1},
 				userProfileImage: 0,
         likeGenres: [],
+        isKAKAOUser: window.Kakao.Auth.getAccessToken(),
 			}
 		},
 		created () {
@@ -106,6 +108,9 @@
       })
 		},
 		methods: {
+      kakaoAuth: function () {
+        alert('카카오 소셜 로그인 유저는 이용할 수 없는 기능입니다.')
+      },
 			nowOpen: function (event) {
 				const onClickPage = event.target.id
 				this.nowOpenPage = onClickPage
