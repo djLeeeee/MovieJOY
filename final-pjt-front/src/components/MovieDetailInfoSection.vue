@@ -24,6 +24,7 @@
 import axios from 'axios'
 import drf from '@/api/drf'
 import { mapGetters } from 'vuex'
+import secret_data from "@/assets/secrets.json"
 
 export default {
   name: "MovieDetailInfoSection",
@@ -53,11 +54,13 @@ export default {
     ...mapGetters(['authHeader'])
   },
   created () {
+    const tmdbAPI = secret_data.TMDB_API_KEY
+    const youtubeAPI = secret_data.YOUTUBE_API_KEY
     axios({
       url: `https://api.themoviedb.org/3/movie/${this.movieId}/videos`,
       method: 'get',
       params: {
-        'api_key': '52962731aacacff3f5f9da655947bff6',
+        'api_key': tmdbAPI,
         'region': 'KR',
         'language': 'ko',
       }
@@ -67,7 +70,7 @@ export default {
         this.trailerURL = 'https://www.youtube.com/embed/' + res.data.results[0]['key']
       }
       else {
-        const API_KEY = 'AIzaSyCh1FVbptpkcaXC1TKsO3l8TTuRGYnr9pQ'
+        const API_KEY = youtubeAPI
         const API_URL = 'https://www.googleapis.com/youtube/v3/search'
         const params = {
           key: API_KEY,
