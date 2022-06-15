@@ -20,6 +20,10 @@
                   <img src="@/assets/kakao-icon.png" class="kakao-icon" alt="kakao-icon">
                 </button>                
               </div>
+              <div class="find-buttons">
+                  <button class="btn" @click="onFindIdOpen">Find ID</button>
+                  <button class="btn">Find PW</button>
+                </div>
               <div class="login-error-box" v-if="loginAuthError">
                 <div v-for="(errors, field) in loginAuthError" :key="field">
                   <p v-for="(error, idx) in errors" :key="idx">
@@ -30,7 +34,19 @@
             </div>
           </transition>
           <transition name="fade">
-              <div v-if="!isLoginOpen" class="not-login-Box">
+            <div v-if="isFindIdOpen" class="login-box">
+              <h3>Find ID</h3>
+              <div class="user-box">
+                <input v-model="credentials.username" type="text" name="" required />
+                <label>User Phone Number</label>
+              </div>
+              <div>
+                <button @click="onFindIdOpen" class="btn authenticate-btn">Back</button>
+              </div>
+            </div>
+          </transition>
+          <transition name="fade">
+              <div v-if="isMainOpen" class="not-login-Box">
                 <div class="wrapper">
                   <h1 class="typing-message">Find the movie U want.</h1>
                 </div>
@@ -66,8 +82,10 @@
     },
     data: function () {
       return {
+        isMainOpen: true,
         isLoginOpen: false,
         isSignupOpen: false,
+        isFindIdOpen: false,
         credentials: {
           username: '',
           password: '',
@@ -87,12 +105,18 @@
 
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
+        this.isMainOpen = !this.isMainOpen
         this.credentials.username = ''
         this.credentials.password = ''
       },
 
       onSignupOpen: function () {
         this.isSignupOpen = !this.isSignupOpen
+      },
+
+      onFindIdOpen: function () {
+        this.isLoginOpen = !this.isLoginOpen
+        this.isFindIdOpen = !this.isFindIdOpen
       },
 
       kakaoLogin: function () {
@@ -243,6 +267,9 @@
 
   .login-box {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .login-box .user-box {
@@ -284,9 +311,28 @@
   .login-buttons {
     display: flex;
     justify-content: flex-start;
-    margin-left: 1rem;
     margin-top: 2rem;
     font-size: 1.5rem;
+    margin-left: 1rem;
+  }
+
+  .find-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1rem;
+  }
+
+  .find-buttons button {
+    border: none;
+    color: rgba(255, 255, 255, 0.678);
+    font-size: .9rem;
+    transition: .3s;
+  }
+
+  .find-buttons button:hover,
+  .find-buttons button:focus {
+    color: #00d8e4;
+    transform: scale(1.1);
   }
 
   .fade-enter-active {
