@@ -22,7 +22,7 @@
               </div>
               <div class="find-buttons">
                   <button class="btn" @click="onFindIdOpen">Find ID</button>
-                  <button class="btn">Find PW</button>
+                  <button class="btn" @click="onFindPwOpen">Find PW</button>
                 </div>
               <div class="login-error-box" v-if="loginAuthError">
                 <div v-for="(errors, field) in loginAuthError" :key="field">
@@ -34,14 +34,38 @@
             </div>
           </transition>
           <transition name="fade">
-            <div v-if="isFindIdOpen" class="login-box">
-              <h3>Find ID</h3>
+            <div v-if="isFindIdOpen" class="find-box">
               <div class="user-box">
-                <input v-model="credentials.username" type="text" name="" required />
+                <input type="text" name="" required />
                 <label>User Phone Number</label>
+              </div>  
+              <p style="margin-left: 2rem; font-size: .9rem;">인증한 핸드폰 번호를 "-" 없이 입력해주세요</p>
+              <div class="user-box">
+                <input type="text" name="" required />
+                <label>Vertification Code</label>
               </div>
               <div>
-                <button @click="onFindIdOpen" class="btn authenticate-btn">Back</button>
+                <button style="margin-left: 1.2rem;" @click="onFindIdOpen" class="btn authenticate-btn">Back</button>
+              </div>
+            </div>
+          </transition>
+          <transition name="fade">
+            <div v-if="isFindPwOpen" class="find-box">
+              <div class="user-box">
+                <input type="text" name="" required />
+                <label>Username</label>
+              </div>  
+              <div class="user-box">
+                <input type="text" name="" required />
+                <label>User Phone Number</label>
+              </div>  
+              <p style="margin-left: 2rem; font-size: .9rem;">인증한 등록한 핸드폰 번호를 "-" 없이 입력해주세요</p>
+              <div class="user-box">
+                <input type="text" name="" required />
+                <label>Vertification Code</label>
+              </div>
+              <div>
+                <button style="margin-left: 1.2rem;" @click="onFindPwOpen" class="btn authenticate-btn">Back</button>
               </div>
             </div>
           </transition>
@@ -86,6 +110,7 @@
         isLoginOpen: false,
         isSignupOpen: false,
         isFindIdOpen: false,
+        isFindPwOpen: false,
         credentials: {
           username: '',
           password: '',
@@ -117,6 +142,11 @@
       onFindIdOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
         this.isFindIdOpen = !this.isFindIdOpen
+      },
+
+      onFindPwOpen: function () {
+        this.isLoginOpen = !this.isLoginOpen
+        this.isFindPwOpen = !this.isFindPwOpen
       },
 
       kakaoLogin: function () {
@@ -265,14 +295,16 @@
     }
   }
 
-  .login-box {
+  .login-box,
+  .find-box {
     position: absolute;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .login-box .user-box {
+  .login-box .user-box,
+  .find-box .user-box {
     position: relative;
     margin-left: 2rem;
   }
@@ -282,7 +314,19 @@
     padding: 10px 0;
     font-size: 1.5rem;
     color: #fff;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    outline: none;
+    background: transparent;
+  }
+
+  .find-box .user-box input {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 20px;
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
@@ -300,12 +344,31 @@
     transition: .5s;
   }
 
+  .find-box .user-box label {
+    position: absolute;
+    top:0;
+    left: 0;
+    padding: 15px 0;
+    font-size: 1.2rem;
+    color: #fff;
+    pointer-events: none;
+    transition: .5s;
+  }
+
   .login-box .user-box input:focus ~ label,
   .login-box .user-box input:valid ~ label {
     top: -20px;
     left: 0;
     color: #00d8e4;
     font-size: 1rem;
+  }
+
+  .find-box .user-box input:focus ~ label,
+  .find-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #00d8e4;
+    font-size: .7rem;
   }
 
   .login-buttons {
