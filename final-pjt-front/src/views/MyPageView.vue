@@ -92,7 +92,7 @@
         user: {profile_image: 1},
 				userProfileImage: 0,
         likeGenres: [],
-        isKAKAOUser: window.Kakao.Auth.getAccessToken(),
+        isKAKAOUser: '',
 			}
 		},
 		created () {
@@ -105,6 +105,7 @@
         this.user = res.data
         this.likeGenres = res.data.like_genres
         this.userProfileImage = this.user.profile_image
+        this.isKAKAOUser = window.Kakao.Auth.getAccessToken()
       })
 		},
 		methods: {
