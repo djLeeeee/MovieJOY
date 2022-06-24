@@ -1,5 +1,6 @@
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.contrib.auth.hashers import check_password
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -72,15 +73,28 @@ def is_auth(request):
 def sms_send(request, phone_number):
     auth_number = randint(100000, 999999)
     user = request.user
+    flag = False
+    if user.is_anonymous and request.data['username']:
+        user = get_object_or_404(User, username=request.data['username'])
+        flag = True
     time_stamp = int(time.time() * 1000) // 1000
-    if SMS_auth.objects.filter(phone_number=phone_number).exists():
-        auth_model = get_object_or_404(SMS_auth, phone_number=phone_number)
-        if user == auth_model.user:
-            auth_model.auth_number = auth_number
+    if user.is_anonymous:
+        if SMS_auth.objects.filter(phone_number=phone_number).exists():
+            auth_model = get_object_or_404(SMS_auth, phone_number=phone_number)
+            auth_model.auth_number = auth_number 
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_404_NOT_FOUND)
     else:
-        auth_model = SMS_auth(phone_number=phone_number, auth_number=auth_number, user=user)
+        if SMS_auth.objects.filter(phone_number=phone_number).exists():
+            auth_model = get_object_or_404(SMS_auth, phone_number=phone_number)
+            if user == auth_model.user:
+                auth_model.auth_number = auth_number 
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if flag:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            auth_model = SMS_auth(phone_number=phone_number, auth_number=auth_number, user=user)
     auth_model.time_stamp = time_stamp
     auth_model.is_auth = False
     auth_model.save()
@@ -97,20 +111,28 @@ def sms_auth(request, phone_number, auth_number):
     now = int(time.time() * 1000) // 1000
     if request.method == 'POST':
         if result:
-            if now - auth_model.time_stamp < 301: 
-                user.phone_number = phone_number
-                user.save()
-                auth_model.is_auth = True
-                auth_model.save()
-                serializer = AuthSerializer(auth_model)
-                return Response(serializer.data)
+            if now - auth_model.time_stamp < 301:
+                if user.is_anonymous:
+                    user = get_object_or_404(User, phone_number=phone_number)
+                    serializer = ProfileSerializer(user)
+                    return Response(serializer.data)
+                else:
+                    user.phone_number = phone_number
+                    user.save()
+                    auth_model.is_auth = True
+                    auth_model.save()
+                    serializer = AuthSerializer(auth_model)
+                    return Response(serializer.data)
             else:
                 auth_model.delete()
                 return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
         else:
-            auth_model.delete()
+            if user.is_authenticated and now - auth_model.time_stamp > 300:
+                auth_model.delete()
             return Response(status=status.HTTP_400_BAD_REQUEST)
     elif request.method == 'PUT':
+        if user.is_anonymous:
+            user = get_object_or_404(User, username=request.data.get('username', ' '))
         if result:
             if now - auth_model.time_stamp < 301:
                 auth_model.is_auth = True
@@ -151,3 +173,18 @@ def sms_send_by_naver_cloud(phone_number, auth_number):
     }
     response = requests.post(mainURL + subURL, data=json.dumps(params), headers=headers)
     return response.json()
+
+
+@api_view(['PUT'])
+def change_password(request):
+    user = get_object_or_404(User, username=request.data.get('username', ' '))
+    password = request.data.get('password', ' ')
+    if check_password(user.password, password):
+        return Response(status=status.HTTP_406_NOT_ACCEPTABLE)
+    try:
+        user.set_password(password)
+        user.save()
+    except:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    serializer = ProfileSerializer(user)
+    return Response(serializer.data) 

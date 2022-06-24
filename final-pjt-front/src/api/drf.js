@@ -15,6 +15,7 @@ export default {
     smsauth: phoneNum => HOST + ACCOUNTS + 'sms_auth/' + `${phoneNum}/`,
     smsdoauth: (phoneNum, authNum) => HOST + ACCOUNTS + 'sms_auth/' + `${phoneNum}/` + `${authNum}/`,
     changePassword: () => HOST + ACCOUNTS + 'password/change/',
+    newPassword: () => HOST + ACCOUNTS + 'sms_auth/' + 'password/update/',
   },
   movies: {
     movie: TMDBMovieId => HOST + MOVIES + `${TMDBMovieId}/`,

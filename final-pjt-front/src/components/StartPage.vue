@@ -35,37 +35,55 @@
           </transition>
           <transition name="fade">
             <div v-if="isFindIdOpen" class="find-box">
-              <div class="user-box">
-                <input type="text" name="" required />
+              <div class="user-id-auth-box">
+                <input v-model="inputPhoneNumber" @keypress.enter="submitPhoneNumber" type="text" name="" required />
                 <label>User Phone Number</label>
               </div>  
               <p style="margin-left: 2rem; font-size: .9rem;">인증한 핸드폰 번호를 "-" 없이 입력해주세요</p>
-              <div class="user-box">
-                <input type="text" name="" required />
+              <div class="user-id-auth-box" style="margin-top: 1rem; margin-bottom: 1rem;">
+                <input v-model="vertificationCode" @keypress.enter="submitAuthNumber" type="text" name="" required />
                 <label>Vertification Code</label>
               </div>
               <div>
-                <button style="margin-left: 1.2rem;" @click="onFindIdOpen" class="btn authenticate-btn">Back</button>
+                <button style="margin-left: 1.2rem;" class="btn authenticate-btn">Submit</button>
+                <button @click="onFindIdOpen" class="btn authenticate-btn">Back</button>
               </div>
             </div>
           </transition>
           <transition name="fade">
             <div v-if="isFindPwOpen" class="find-box">
               <div class="user-box">
-                <input type="text" name="" required />
+                <input v-model="credentials.username" type="text" name="" required />
                 <label>Username</label>
               </div>  
               <div class="user-box">
-                <input type="text" name="" required />
+                <input v-model="inputPhoneNumber" @keypress.enter="submitPhoneNumber" type="text" name="" required />
                 <label>User Phone Number</label>
               </div>  
               <p style="margin-left: 2rem; font-size: .9rem;">인증한 등록한 핸드폰 번호를 "-" 없이 입력해주세요</p>
               <div class="user-box">
-                <input type="text" name="" required />
+                <input v-model="vertificationCode" @keypress.enter="submitAuthNumberPW" type="text" name="" required />
                 <label>Vertification Code</label>
               </div>
               <div>
-                <button style="margin-left: 1.2rem;" @click="onFindPwOpen" class="btn authenticate-btn">Back</button>
+                <button style="margin-left: 1.2rem;" class="btn authenticate-btn">Submit</button>
+                <button @click="onFindPwOpen" class="btn authenticate-btn">Back</button>
+              </div>
+            </div>
+          </transition>
+          <transition name="fade">
+            <div v-if="isChangePwOpen" class="find-box">
+              <div class="user-id-auth-box">
+                <input v-model="newPW" type="text" name="" required />
+                <label>New Password</label>
+              </div>
+              <div class="user-id-auth-box" style="margin-top: 1rem; margin-bottom: 1rem;">
+                <input v-model="newPWConfirm" @keypress.enter="submitNewPW" type="text" name="" required />
+                <label>Password Confirm</label>
+              </div>
+              <div>
+                <button @click="submitNewPW" style="margin-left: 1.2rem;" class="btn authenticate-btn">Submit</button>
+                <button @click="onChangePwOpen" class="btn authenticate-btn">Back</button>
               </div>
             </div>
           </transition>
@@ -111,9 +129,15 @@
         isSignupOpen: false,
         isFindIdOpen: false,
         isFindPwOpen: false,
+        isChangePwOpen: false,
+        inputPhoneNumber: '',
+        phoneNumber: '',
+        vertificationCode: '',
+        newPW: '',
+        newPWConfirm: '',
         credentials: {
-          username: '',
-          password: '',
+          'username': '',
+          'password': '',
         },
       }
     },
@@ -127,6 +151,99 @@
     },
     methods: {
       ...mapActions(['login', 'signup', 'clearErrorList', 'logout']),
+  
+      submitPhoneNumber: function () {
+        axios({
+          url: drf.accounts.smsauth(this.inputPhoneNumber),
+          method: "post",
+          data: this.credentials,
+        })
+        .then(res => {
+          console.log(res)
+          this.phoneNumber = this.inputPhoneNumber
+          this.inputPhoneNumber = "인증번호 발송 완료"
+        })
+        .catch(err => {
+          console.log(err)
+          alert("해당 전화번호 정보를 찾을 수 없습니다.")
+        })
+      },
+
+      submitAuthNumber: function () {
+        axios({
+          url: drf.accounts.smsdoauth(this.phoneNumber, this.vertificationCode),
+          method: "post",
+          data: this.credentials,
+        })
+        .then(res => {
+          console.log(res)
+          alert(`아이디는 ${res.data.username} 입니다.`)
+          this.inputPhoneNumber = this.phoneNumber
+          this.vertificationCode = ''
+          this.isLoginOpen = true
+          this.isFindIdOpen = false
+          this.credentials.username = res.data.username
+        })
+        .catch(err => {
+          console.log(err)
+          alert("5분 안에 알맞은 인증 번호를 입력하세요.")
+        })
+      },
+
+      submitAuthNumberPW: function () {
+        axios({
+          url: drf.accounts.smsdoauth(this.phoneNumber, this.vertificationCode),
+          method: "put",
+          data: this.credentials,
+        })
+        .then(res => {
+          console.log(res)
+          this.inputPhoneNumber = this.phoneNumber
+          this.vertificationCode = ''
+          this.isChangePwOpen = true
+          this.isFindPwOpen = false
+        })
+        .catch(err => {
+          if (err.response['status'] === 404) {
+            alert("존재하지 않는 유저 정보입니다.")
+          } else if (err.response['status'] === 400) {
+            alert("올바르지 않은 인증 번호입니다.")
+          } else if (err.response['status'] === 406) {
+            alert("시간 초과입니다. 새로 인증 번호를 발급 받으세요")
+          } else {
+            alert("예기치 못한 에러가 발생했습니다. 페이지를 새로 고침하세요.")
+          }
+        })
+      },
+
+      submitNewPW: function () {
+        if (this.newPW === this.newPWConfirm) {
+          axios({
+            url: drf.accounts.newPassword(),
+            method: 'put',
+            data: {
+              'username': this.credentials.username,
+              'password': this.newPW,
+            }
+          })
+          .then(res => {
+            console.log(res)
+            alert("변경 성공! 변경된 정보로 로그인을 진행하세요.")
+            this.onChangePwOpen()
+          })
+          .catch(err => {
+            if (err.response['status'] === 404) {
+              alert("인증 정보가 만료되었습니다. 전화번호 인증을 다시 진행해주세요.")
+            } else if (err.response['status'] === 406) {
+              alert("이전 비밀번호로는 변경 불가합니다.")
+            } else {
+              alert("사용할 수 없는 비밀번호입니다. 다시 입력하세요.")
+            }
+          })
+        } else {
+          alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.")
+        }
+      },
 
       onLoginOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
@@ -147,6 +264,11 @@
       onFindPwOpen: function () {
         this.isLoginOpen = !this.isLoginOpen
         this.isFindPwOpen = !this.isFindPwOpen
+      },
+
+      onChangePwOpen: function () {
+        this.isChangePwOpen = false
+        this.isLoginOpen = true
       },
 
       kakaoLogin: function () {
@@ -309,6 +431,11 @@
     margin-left: 2rem;
   }
 
+  .find-box .user-id-auth-box {
+    position: relative;
+    margin-left: 2rem;
+  }
+
   .login-box .user-box input {
     width: 100%;
     padding: 10px 0;
@@ -321,6 +448,7 @@
     background: transparent;
   }
 
+  .find-box .user-id-auth-box input,
   .find-box .user-box input {
     width: 100%;
     padding: 10px 0;
@@ -344,6 +472,7 @@
     transition: .5s;
   }
 
+  .find-box .user-id-auth-box label,
   .find-box .user-box label {
     position: absolute;
     top:0;
@@ -365,6 +494,14 @@
 
   .find-box .user-box input:focus ~ label,
   .find-box .user-box input:valid ~ label {
+    top: -20px;
+    left: 0;
+    color: #00d8e4;
+    font-size: .7rem;
+  }
+
+  .find-box .user-id-auth-box input:focus ~ label,
+  .find-box .user-id-auth-box input:valid ~ label {
     top: -20px;
     left: 0;
     color: #00d8e4;
